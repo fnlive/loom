@@ -1,9 +1,9 @@
-fnlive website
+Loom website
 ==================
 
 A website Built with the Loom framework. The Loom framework is based on the Anax framework.
 
-Built by Fredrik Nilsson
+Website and Loom framework built by Fredrik Nilsson
 
 License
 ------------------
