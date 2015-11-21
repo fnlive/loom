@@ -48,7 +48,7 @@ $loom = array();
  *
  */
 $loom['lang']         = 'sv';
-$loom['title_append'] = ' | Loom en webbtemplate';
+$loom['title_append'] = ' | Loom';
 
 
 /**

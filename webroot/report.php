@@ -17,7 +17,7 @@ $loom['main'] = <<<EOD
 <p>Min utvecklingsmiljö består av XAMPP, Firefox med FireBug, cygwin kommandotolk och Atom texteditor. Jag kör på olika Windows 7 datorer och har kursrepot lagrat på Dropbox för att kunna växla smidigt mellan datorerna. Kör även Chrome och Internet Explorer 9 för extra test. Jag ska även börja använda git och github för revisionshantering av kursprojekten framöver.
 </p>
 <!-- Berätta hur det gick att jobba igenom guiden “20 steg för att komma igång PHP”, var något nytt eller kan du det? -->
-<p>Jag kände igen det mesta från föregående kurs, htmlphp. Lite repetition samt plockade upp några nya bitar.
+<p>Det mesta i guiden “20 steg för att komma igång PHP” kändes igen från föregående kurs, htmlphp. Lite repetition samt plockade upp några nya bitar.
 </p>
 <!-- Vad döpte du din webbmall Anax till? -->
 <p>Jag döpte min webbmall till "Loom". Loom är det engelska ordet för vävstol som används för att väva olika textila strukturer. Med Loom kan man skapa flexibla webbplatser med en bra struktur.
@@ -29,14 +29,13 @@ $loom['main'] = <<<EOD
 <p>Det gick relativt smidigt att inkludera source.php. Jag lade in den som en modul i "Loom". Jag började med att använda @import i stylesheet source.css för att få med style.css. Kändes klumpigt så jag läste på lite mer och hittade ett bättre sätt.
 </p>
 <!-- Gjorde du extrauppgiften med GitHub? -->
-<p>
-</p>
-<p>
+<p>Jag har lagt upp en första version av "Loom" på <a href="https://github.com/fnlive/loom">github</a>. Jag fick inte ordning "git push" från bash/cygwin utan gjorde detta från Windows power shell (posh) som jag hade fungerande sedan tidigare. Skall göra försök att få igång det även från cygwin.
 </p>
 
 <h2>kmom02</h2>
 <p>
 </p>
+<p></p>
 <h2>kmom03</h2>
 <p>
 </p>
