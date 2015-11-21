@@ -1,0 +1,122 @@
+/**
+ * General elements
+ */
+body {
+  background-image: url("../img/checked_pattern.jpg");
+  color: #333;
+  font-family: arial, sans-serif;
+}
+
+/**
+ * Layout of the main page elements
+ */
+#wrapper {
+  /*background-color: white;*/
+  margin: 0 auto;
+  max-width: 780px;
+  padding: 10px;
+}
+
+
+/**
+ * Layout for header
+ */
+#header {
+  border-radius: 1em;
+  /*box-shadow: 10px -10px 5px #888888;*/
+  border: 5px solid #333;
+  background-color: white;
+  position: relative;
+  padding-bottom: 20px;
+  margin-bottom: 40px;
+}
+
+.sitetitle {
+  position: absolute;
+  top: 6px;
+  left: 150px;
+  font-size: 48px;
+  /*display: none;*/
+}
+
+.siteslogan {
+  position: absolute;
+  top: 65px;
+  left: 150px;
+  font-style: italic;
+  color: #666;
+}
+
+.navbar {
+  display: block;
+  background-color:#333;
+  font-family:Verdana;
+  padding:0.5em;
+}
+.navbar a {
+  border-radius: 0.2em 0.2em 0 0;
+  background-color:#999;
+  color:#fff;
+  padding:0.2em;
+  text-decoration:none;
+}
+.navbar a:hover {
+  background-color:#666;
+  padding:0.5em 0.2em 0.5em 0.2em;
+}
+.navbar a.selected {
+  background-color:#fff;
+  padding:0.3em 0.2em 0.5em 0.2em;
+  color:#333;
+}
+
+/**
+ * Layout for main
+ */
+#main {
+  border-radius: 1em;
+  border: 5px solid #333;
+  /*box-shadow: 10px -10px 5px #888888;*/
+  background-color: white;
+  padding: 2em;
+  min-height: 20em;
+  overflow: auto;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.image-300 {
+    width: 300px;
+}
+
+.image-200 {
+    width: 200px;
+}
+
+.caption {
+  font-size: 12px;
+}
+
+/**
+ * Layout for footer
+ */
+#footer {
+  border: 5px solid #333;
+  border-radius: 1em;
+  /*box-shadow: 10px -10px 5px #888888;*/
+  background-color: white;
+  padding: 2em;
+  margin-top: 40px;
+  /*border-top: 1px solid #ccc;*/
+  padding-top: 15px;
+}
+
+.sitefooter {
+  color: #666;
+}

@@ -1,0 +1,1 @@
+This is a website built by Fredrik Nilsson with the Loom framework. The Loom framework is a clone and adaption of the Anax PHP-boilerplate/framework built by Mikael Roos and published at GitHub: https://github.com/mosbth/Anax-base.
