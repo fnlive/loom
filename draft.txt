@@ -1,0 +1,20 @@
+Draft
+-----------
+CGame
+Init stuff
+Offer a round
+
+CRound
+Offer to roll dice or end round.
+    Press button, query: action = roll, end round
+Roll dice
+Check if 1
+  sum = 0
+else
+  Accumulate dice sum
+if sum > 100 you win
+Display score: dice Result and acc sum.
+Display action buttons
+
+CDice
+Roll dice and return result

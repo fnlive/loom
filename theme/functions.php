@@ -39,8 +39,7 @@ EOD;
  * @return html string for the webpage footer.
  */
 function generate_footer() {
-  // dump($_SERVER);
-  $liveReload = ($_SERVER['HTTP_HOST']=='localhost') ? '<script src="http://localhost:35729/livereload.js"></script>' : '';
+  $liveReload = ($_SERVER['SERVER_NAME']=='localhost') ? '<script src="http://localhost:35729/livereload.js"></script>' : '';
   return <<<EOD
   <footer><span class='sitefooter'>Copyright (c) Fredrik Nilsson (fn@live.se) | <a href='https://github.com/fnlive/loom'><img src="img/GitHub-Mark-32px.png" alt="GitHub Octocat" />GitHub</a> | <a href='http://validator.w3.org/unicorn/check?ucn_uri=referer&amp;ucn_task=conformance'>Unicorn</a> | <a href='http://validator.w3.org/check/referer'>Nu</a></span>
   </footer>
