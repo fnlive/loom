@@ -22,6 +22,8 @@ if(isset($_SESSION['c100game'])) {
 $html = $game->play($action);
 // Store game back to session
 $_SESSION['c100game'] = serialize($game);
+
+//Check if user wants to end game. If so, destroy session.
 if ('endgame'==$action) {
     if (session_destroy()) {
         // echo "Session destroyed. ";

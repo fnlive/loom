@@ -36,7 +36,6 @@ class C100Game
         switch ($action) {
           case 'roll':
               $html .= $this->gameRound->playRound();
-              // $html .= "<p>Du har $this->gameSum säkra poäng.</p>";
               break;
 
           case 'endround':
@@ -46,7 +45,7 @@ class C100Game
               break;
           case 'endgame':
             // Caller might also want to session_destroy() if object is stored in $_SESSION.
-            // However this should suffice.
+            // However below reset of game should suffice.
             $this->gameSum = 0;
             $this->gameRound = new C100Round();
             break;
@@ -64,7 +63,7 @@ class C100Game
         return <<<EOD
         <p><a href="?action=roll">Slå tärning</a></p>
         <p><a href="?action=endround">Avsluta rundan</a></p>
-        <p><a href="?action=endgame">Avsluta spelet</a></p>
+        <p><a href="?action=endgame">Starta om spelet</a></p>
         $html
 EOD;
     }
