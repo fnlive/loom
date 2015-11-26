@@ -1,0 +1,76 @@
+@font-face {
+    font-family: mydigital;
+    src: url(digital-7.ttf);
+}
+
+.scoreboard {
+  display: inline-block;
+  float: right;
+}
+.score {
+  display: inline;
+  float: left;
+  margin: 1em;
+  border: 5px solid white;
+  border-radius: 10px;
+  min-width: 8em;
+}
+.score-point, .score-cap {
+  text-align: center;
+}
+.score-cap {
+  font-size: 1.2em;
+  border-bottom: 5px solid white;
+}
+.score-point {
+  color: orange;
+  font-family: mydigital;
+  font-size: 4em;
+}
+.game-control {
+  display: inline-block;
+}
+.game-button {
+  font-size: 1.2em;
+  position:relative;
+	width:100px;
+	color:#FFF;
+	display:block;
+	text-decoration:none;
+	margin:0 auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
+	border-radius:5px;
+	border:solid 1px #ddd;
+	background:#aaa;
+	text-align:center;
+	padding:20px 30px;
+  box-shadow: 0 9px 0 #777;
+}
+.game-button:active{
+    box-shadow: 0 2px 0 #84261a;
+    position:relative;
+    top:7px;
+}
+.game-button:hover {
+  background: #999;
+}
+.game-message {
+  overflow: auto;
+  margin: 1em;
+  border: 5px solid white;
+  border-radius: 10px;
+  min-width: 8em;
+  font-size: 1.2em;
+  text-align: center;
+}
+.game-message:empty {
+  border: 0 solid red;
+}
+#main {
+  background-color: #333;
+  color: #eee;
+}
+.clearfix {
+  clear: both;
+}

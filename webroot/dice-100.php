@@ -6,6 +6,8 @@
 // Include the essential config-file which also creates the $loom variable with its defaults.
 include(__DIR__.'/config.php');
 
+// Add style for csource
+$loom['stylesheets'][] = 'css/dice-100.css';
 
 // Do it and store it all in variables in the Loom container.
 $loom['title'] = "100";
@@ -20,15 +22,14 @@ if(isset($_SESSION['c100game'])) {
     $game = new C100Game();
 }
 
-$html = "";
-$htmlWin = "";
+$htmlMsg = "";
 switch ($action) {
   case 'roll':
     $game->roll();
     break;
   case 'endround':
     $game->endround();
-    $html .= "<p>Du avslutade rundan och säkrade dina poäng. </p>";
+    $htmlMsg .= "<p>Du avslutade rundan och säkrade dina poäng. </p>";
     break;
   case 'restartgame':
     $game->restart();
@@ -41,29 +42,36 @@ switch ($action) {
 $scoreboard = $game->scoreBoard();
 //Check om spelaren har kommmit över vinstgräns.
 if ($game->win()) {
-  $htmlWin = "Du vann spelet!";
+  $htmlMsg = "Du vann spelet!";
 }
 // dump($scoreboard);
 $htmlScore = <<<EOD
 <div class="scoreboard">
   <div class="score">
-    <p>
-      Senaste slag: {$scoreboard['lastRoll']}
-    </p>
+      <div class="score-cap">Slag</div>
+      <div class="score-point">{$scoreboard['lastRoll']}</div>
   </div>
   <div class="score">
-    <p>
-      Säkra poäng: {$scoreboard['gameScore']}
-    </p>
+    <div class="score-cap">Potten</div>
+    <div class="score-point">{$scoreboard['roundScore']}</div>
   </div>
   <div class="score">
-    Poäng i rundan:  {$scoreboard['roundScore']}
+      <div class="score-cap">Säkrade</div>
+      <div class="score-point">{$scoreboard['gameScore']}</div>
   </div>
+  <div class="game-message">$htmlMsg</div>
 </div>
 EOD;
- ?>
+// <div class="clearfix"></div>
 
-<?php
+$htmlControls = <<<EOD
+<div class="game-control">
+<a class="game-button" href="?action=roll">Slå tärning</a>
+<a class="game-button" href="?action=endround">Säkra potten</a>
+<a class="game-button" href="?action=restartgame">Starta om spelet</a>
+</div>
+EOD;
+
 // Store game back to session
 $_SESSION['c100game'] = serialize($game);
 
@@ -81,12 +89,9 @@ if ('endgame'==$action) {
 $loom['main'] = <<<EOD
 <h1>Tärningsspelet 100</h1>
 <p>Samla ihop poäng för att komma först till 100. I varje omgång kastar du  tärning tills du väljer att stanna och spara poängen eller tills det dyker upp en 1:a och du förlorar alla poäng som samlats in i rundan. Slå tärningen för att starta spelet.</p>
-$htmlWin
-$html
+$htmlControls
 $htmlScore
-<p><a href="?action=roll">Slå tärning</a></p>
-<p><a href="?action=endround">Avsluta rundan</a></p>
-<p><a href="?action=restartgame">Starta om spelet</a></p>
+
 EOD;
 
 ?>

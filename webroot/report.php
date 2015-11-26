@@ -33,9 +33,17 @@ $loom['main'] = <<<EOD
 </p>
 
 <h2>kmom02</h2>
+<!-- Hur väl känner du till objektorienterade koncept och programmeringssätt? -->
+<p>
+</p>
+<!-- Jobbade du igenom oophp20-guiden eller skumläste du den? -->
+<p>
+</p>
+<!-- Berätta om hur du löste uppgiften med tärningsspelet 100, hur tänkte du och hur gjorde du, hur organiserade du din kod? -->
 <p>
 </p>
 <p></p>
+
 <h2>kmom03</h2>
 <p>
 </p>

@@ -12,7 +12,7 @@ class C100Game
     private $gameScore = 0;
     private $gameRound;
     private $lastRoll = 0;
-    private static $winScore = 50;
+    private static $winScore = 100;
 
     /**
      * Constructor
