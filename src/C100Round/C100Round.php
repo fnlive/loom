@@ -16,6 +16,7 @@ class C100Round
     {
         # code...
     }
+
     /**
      * Start round. Reset score in round.
      *
@@ -30,24 +31,24 @@ class C100Round
      * If you roll a "1" you lose your current round score.
      *
      */
-    public function playRound()
+    public function roll()
     {
-        $html = "";
+        // $html = "";
         $roll = CDice::Roll();
-        $html .= "<p>Du slog en $roll'a. </p><p></p>";
+        // $html .= "<p>Du slog en $roll'a. </p><p></p>";
         if (1==$roll) {
             $this->score = 0;
         } else {
             $this->score += $roll;
         }
-        return $html;
+        return $roll;
     }
 
     /**
      * Get current score in round.
      *
      */
-    public function getScore()
+    public function score()
     {
         return $this->score;
     }
