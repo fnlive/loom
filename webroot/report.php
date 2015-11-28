@@ -34,15 +34,20 @@ $loom['main'] = <<<EOD
 
 <h2>kmom02</h2>
 <!-- Hur väl känner du till objektorienterade koncept och programmeringssätt? -->
-<p>
+<p>Jag känner till OO koncept och programmeringssätt hyggligt väl, men har inte någon större erfarenhet av användning av det i arbetslivet. Jag har gjort några mindre projekt i C++ och java för många år sedan, så lite av det tankesättet finns kvar.
 </p>
 <!-- Jobbade du igenom oophp20-guiden eller skumläste du den? -->
-<p>
+<p>Jag läste igenom oophp20-guiden först men gjorde inte övningarna själv. Gick på strategin att gå direkt på uppgiften och sedan gå tillbaks till guiden för att plocka upp bra saker. Jag tyckte annars guiden gav ett bra koncentrat av OO i PHP.
 </p>
 <!-- Berätta om hur du löste uppgiften med tärningsspelet 100, hur tänkte du och hur gjorde du, hur organiserade du din kod? -->
-<p>
+<p>För att lösa uppgiften med tärningsspelet började jag med att skissa ner någon slags textuell kombinerad variant av Class diagram, Interaction diagram, och <a href="http://www.extremeprogramming.org/rules/crccards.html">CRC-kort</a>. Jag utgick från förslaget i uppgiften med de tre klasserna CDice, C100Round, C100Game. Sedan satte jag igång att koda.
 </p>
-<p></p>
+<p>Jag fick igång en fungerande prototyp med enkel rudimentär utskrift och spelkontroll. Insåg då att väldigt mycket kod hade hamnat i en metod i C100Game och nästan ingen kod i controller-sidan dice-100.php. Jag ville då renodla CGame och och bara ha kvar spel-logiken där och flytta ut "presentationen" av spelet till controller-sidan. CDice-klassen är väldigt enkel och har inget minne. Senaste slaget lagras istället i klassen C100Game. C100Round kommer ihåg antalet poäng i rundan. Klassen kollar också av om man slår en etta och då nollställer ackumelerade slag i omgången. C100Game ackumulerar säkrade poäng från avslutade omgångar och kollar om spelaren har vunnit.
+</p>
+<p>Jag blev ganska nöjd med den nya fördelningen. Man hade kunnat flytta tillbaks generering av html för "spelkontroll" och "poängställning" från controller-sida till klassen C100Game till en ny metod. Eventuell framtida ändring av "speltavlan" kanske man då kan lösa genom arv och överlagring med ny klass-metod.
+</p>
+<p>Sist skapade jag en unik css-fil för tärningsspelet för att få rätt utseende på speltavlan.
+</p>
 
 <h2>kmom03</h2>
 <p>

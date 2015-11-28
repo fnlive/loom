@@ -3,6 +3,7 @@
  */
 body {
   /*background-image: url("../img/checked_pattern.jpg");*/
+  background-color: #c9d7e8;
   color: #333;
   font-family: arial, sans-serif;
 }
@@ -109,11 +110,9 @@ body {
 #footer {
   border: 5px solid #333;
   border-radius: 1em;
-  /*box-shadow: 10px -10px 5px #888888;*/
   background-color: white;
   padding: 2em;
   margin-top: 40px;
-  /*border-top: 1px solid #ccc;*/
   padding-top: 15px;
 }
 

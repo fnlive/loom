@@ -23,18 +23,29 @@ class C100Game
       $this->gameRound = new C100Round();
     }
 
+    /**
+     * Play one turn by rolling the dice
+     *
+     */
     public function roll()
     {
       $this->lastRoll = $this->gameRound->roll();
     }
+    /**
+     * End round and secure score from round
+     *
+     */
     public function endRound()
     {
       // Secure the score in in Round and add them to game score.
       $this->gameScore += $this->gameRound->score();
       $this->gameRound->startRound();
-          // $html .= "<p>Du avslutade rundan och säkrade dina poäng. </p>";
     }
 
+    /**
+     * Restart the game and reset all scores.
+     *
+     */
     public function restart()
     {
       $this->gameScore = 0;
@@ -42,6 +53,11 @@ class C100Game
       $this->gameRound = new C100Round();
     }
 
+    /**
+     * Check if player has won the game.
+     * Return true if win, atherwise false.
+     *
+     */
     public function win()
     {
       $totScore = $this->gameScore + $this->gameRound->score();
@@ -54,6 +70,10 @@ class C100Game
       return $win;
     }
 
+    /**
+     * Return game score board
+     *
+     */
     public function scoreBoard()
     {
       $theArray =   array(
@@ -61,51 +81,7 @@ class C100Game
         'roundScore' => $this->gameRound->score(),
         'gameScore' => $this->gameScore,
       );
-      // dump($theArray);
       return $theArray;
     }
-
-    /*
-    * Play one turn of the game.
-    * One turn can be
-    * - roll dice,
-    * - end round,
-    * - end game.
-    * Todo move action switch to caller
-    */
-    public function play_obs($action)
-    {
-      $html = "";
-        switch ($action) {
-          case 'roll':
-              $html .= $this->gameRound->playRound();
-              break;
-
-          case 'endround':
-              $this->gameScore += $this->gameRound->getScore();
-              $this->gameRound->startRound();
-                  $html .= "<p>Du avslutade rundan och säkrade dina poäng. </p>";
-              break;
-          case 'endgame':
-            // Caller might also want to session_destroy() if object is stored in $_SESSION.
-            // However below reset of game should suffice.
-            $this->gameScore = 0;
-            $this->gameRound = new C100Round();
-            break;
-          default:
-            echo "Did not expect to go here... ";
-            break;
-        }
-        $roundScore = $this->gameRound->getScore();
-        $totScore = $this->gameScore + $roundScore;
-        if (self::$winScore <= $totScore) {
-          $html .= "<p>Du vann med $totScore poäng!</p>";
-        } else {
-          $html .= "<p>Du har $totScore poäng. $this->gameScore säkra, $roundScore i potten.</p>";
-        }
-        return <<<EOD
-
-        $html
-EOD;
-    }
+    
 }

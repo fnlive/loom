@@ -5,17 +5,12 @@
  */
 class C100Round
 {
+  /**
+   * Properties
+   *
+   */
     // Keep score of current round
     private $score = 0;
-
-    /**
-     * Constructor
-     *
-     */
-    function __construct()
-    {
-        # code...
-    }
 
     /**
      * Start round. Reset score in round.
@@ -33,21 +28,19 @@ class C100Round
      */
     public function roll()
     {
-        // $html = "";
-        $roll = CDice::Roll();
-        // $html .= "<p>Du slog en $roll'a. </p><p></p>";
-        if (1==$roll) {
-            $this->score = 0;
-        } else {
-            $this->score += $roll;
-        }
-        return $roll;
+      $roll = CDice::Roll();
+      if (1==$roll) {
+          $this->score = 0;
+      } else {
+          $this->score += $roll;
+      }
+      return $roll;
     }
 
-    /**
-     * Get current score in round.
-     *
-     */
+  /**
+   * Get current score in round.
+   *
+   */
     public function score()
     {
         return $this->score;
