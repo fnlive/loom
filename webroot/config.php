@@ -59,7 +59,8 @@ $loom['stylesheets'] = array('css/style.css');
 $loom['favicon']    = 'favicon.ico';
 // echo CNavBar::GenerateMenu();
 $loom['mainnavbar'] = array(
-  'me' => array('text'=>'Me', 'url'=>'me.php'),
-  'report'  => array('text'=>'Redovisning',  'url'=>'report.php'),
-  'source' => array('text'=>'Källkod', 'url'=>'source.php'),
+    'me' => array('text'=>'Me', 'url'=>'me.php'),
+    '100' => array('text'=>'100', 'url'=>'dice-100.php'),
+    'report'  => array('text'=>'Redovisning',  'url'=>'report.php'),
+    'source' => array('text'=>'Källkod', 'url'=>'source.php'),
 );
