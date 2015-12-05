@@ -12,7 +12,8 @@ class C100Game
     private $gameScore = 0;
     private $gameRound;
     private $lastRoll = 0;
-    private static $winScore = 100;
+    private $htmlMsg = "";
+    private static $winScore = 20;
 
     /**
      * Constructor
@@ -40,6 +41,8 @@ class C100Game
       // Secure the score in in Round and add them to game score.
       $this->gameScore += $this->gameRound->score();
       $this->gameRound->startRound();
+      $this->htmlMsg = "<p>Du avslutade rundan och säkrade dina poäng. </p>";
+
     }
 
     /**
@@ -80,8 +83,65 @@ class C100Game
         'lastRoll' => $this->lastRoll,
         'roundScore' => $this->gameRound->score(),
         'gameScore' => $this->gameScore,
+        'gameWon' => $game->win(),
       );
       return $theArray;
     }
-    
+
+    public function controlsHtml()
+    {
+        $htmlControls = <<<EOD
+        <div class="game-control">
+          <a class="game-button" href="?action=roll">Slå tärning</a>
+          <a class="game-button" href="?action=endround">Säkra potten</a>
+          <a class="game-button" href="?action=restartgame">Starta om spelet</a>
+        </div>
+EOD;
+        return $htmlControls;
+    }
+
+    public function scoreBoardHtml()
+    {
+        // $htmlMsg = "";
+        //Check if player won the game.
+        if ($this->win()) {
+          $this->htmlMsg .= "Du vann spelet!";
+        }
+        // $scoreboard = $this->scoreBoard();
+        $roundScore = $this->gameRound->score();
+        // Gather html output for the scoreboard
+        $htmlScore = <<<EOD
+        <div class="scoreboard">
+          <div class="score">
+              <div class="score-cap">Slag</div>
+              <div class="score-point">$this->lastRoll</div>
+          </div>
+          <div class="score">
+            <div class="score-cap">Potten</div>
+            <div class="score-point">$roundScore</div>
+          </div>
+          <div class="score">
+              <div class="score-cap">Säkrade</div>
+              <div class="score-point">$this->gameScore</div>
+          </div>
+          <div class="game-message">$this->htmlMsg</div>
+        </div>
+EOD;
+        $this->htmlMsg = "";    // Reset Message since it has been outputted.
+        return $htmlScore;
+    }
+
+    public function gameHtml()
+    {
+        // Gather the complete html output for game.
+        $htmlControls = $this->controlsHtml();
+        $htmlScore = $this->scoreBoardHtml();
+        return <<<EOD
+        <h1 id="hundred">Tärningsspelet 100</h1>
+        <p>Samla ihop poäng för att komma först till 100. I varje omgång kastar du  tärning tills du väljer att stanna och säkra potten eller tills det dyker upp en 1:a och du förlorar alla poäng som samlats in i rundan. Slå tärningen för att starta spelet.</p>
+        $htmlControls
+        $htmlScore
+EOD;
+    }
+
 }
