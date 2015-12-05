@@ -48,6 +48,8 @@ $loom['main'] = <<<EOD
 </p>
 <p>Sist skapade jag en unik css-fil för tärningsspelet för att få rätt utseende på speltavlan.
 </p>
+<p>Efter feedback har jag flyttat ut i princip all kod fron controller-sidan till C100Game-klassen. Det fungarade ganska smärtfritt. Det blev en del små funktioner som bara används lokalt inuti C100Game, men det känns OK. Det var lite krångligt med hur jag skulle återställa C100Game-objektet från session-variabeln. Efter lite klurande läste jag in objektet i ett temporärt C100Game-objekt och kopierade över lämpliga egenskaper i konstruktorn. 
+</p>
 
 <h2>kmom03</h2>
 <p>
