@@ -14,9 +14,7 @@ $loom['stylesheets'][] = 'css/dice-100.css';
 $loom['title'] = "100";
 
 // Play to 100 game
-//Create the game or restore it from session
 $game = new C100Game();
-// $game->play();
 
 // Gather the complete html output for page.
 $loom['main'] = $game->play();
