@@ -21,7 +21,17 @@ class C100Game
      */
     function __construct()
     {
-      $this->gameRound = new C100Round();
+        $this->lastRoll = 0;
+        $this->htmlMsg = "";
+        if(isset($_SESSION['c100game'])) {
+            //Restore game from session
+          $tempGame = unserialize($_SESSION['c100game']);
+          $this->gameScore = $tempGame->gameScore;
+          $this->gameRound = $tempGame->gameRound;
+      } else {
+          $this->gameScore = 0;
+          $this->gameRound = new C100Round();
+      }
     }
 
     /**
@@ -32,17 +42,17 @@ class C100Game
     {
       $this->lastRoll = $this->gameRound->roll();
     }
+
     /**
      * End round and secure score from round
      *
      */
     public function endRound()
     {
-      // Secure the score in in Round and add them to game score.
+      // Secure the score in Round and add them to game score.
       $this->gameScore += $this->gameRound->score();
       $this->gameRound->startRound();
       $this->htmlMsg = "<p>Du avslutade rundan och säkrade dina poäng. </p>";
-
     }
 
     /**
@@ -88,6 +98,10 @@ class C100Game
       return $theArray;
     }
 
+    /**
+     * Return html to display game control buttons
+     *
+     */
     public function controlsHtml()
     {
         $htmlControls = <<<EOD
@@ -100,6 +114,10 @@ EOD;
         return $htmlControls;
     }
 
+    /**
+     * Return html to display game score board
+     *
+     */
     public function scoreBoardHtml()
     {
         // $htmlMsg = "";
@@ -131,6 +149,10 @@ EOD;
         return $htmlScore;
     }
 
+    /**
+     * Return complete html for game to display on page
+     *
+     */
     public function gameHtml()
     {
         // Gather the complete html output for game.

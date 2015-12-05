@@ -14,14 +14,12 @@ $loom['stylesheets'][] = 'css/dice-100.css';
 $loom['title'] = "100";
 
 // Play to 100 game
+
 // Check first what user wants to do
 $action = isset($_GET['action']) ? htmlentities($_GET['action']) : "";
 //Create the game or restore it from session
-if(isset($_SESSION['c100game'])) {
-    $game = unserialize($_SESSION['c100game']);
-} else {
-    $game = new C100Game();
-}
+$game = new C100Game();
+
 switch ($action) {
   case 'roll':
     $game->roll();
