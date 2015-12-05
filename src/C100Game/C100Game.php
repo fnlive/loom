@@ -13,7 +13,7 @@ class C100Game
     private $gameRound;
     private $lastRoll = 0;
     private $htmlMsg = "";
-    private static $winScore = 20;
+    private static $winScore = 100;
 
     /**
      * Constructor
@@ -25,12 +25,12 @@ class C100Game
         $this->htmlMsg = "";
         if(isset($_SESSION['c100game'])) {
             //Restore game from session
-          $tempGame = unserialize($_SESSION['c100game']);
-          $this->gameScore = $tempGame->gameScore;
-          $this->gameRound = $tempGame->gameRound;
+            $tempGame = unserialize($_SESSION['c100game']);
+            $this->gameScore = $tempGame->gameScore;
+            $this->gameRound = $tempGame->gameRound;
       } else {
-          $this->gameScore = 0;
-          $this->gameRound = new C100Round();
+            $this->gameScore = 0;
+            $this->gameRound = new C100Round();
       }
     }
 
@@ -120,7 +120,6 @@ EOD;
      */
     public function scoreBoardHtml()
     {
-        // $htmlMsg = "";
         //Check if player won the game.
         if ($this->win()) {
           $this->htmlMsg .= "Du vann spelet!";
@@ -145,7 +144,6 @@ EOD;
           <div class="game-message">$this->htmlMsg</div>
         </div>
 EOD;
-        $this->htmlMsg = "";    // Reset Message since it has been outputted.
         return $htmlScore;
     }
 
@@ -164,6 +162,29 @@ EOD;
         $htmlControls
         $htmlScore
 EOD;
+    }
+
+    public function play()
+    {
+        // Check first what user wants to do
+        $action = isset($_GET['action']) ? htmlentities($_GET['action']) : "";
+        switch ($action) {
+          case 'roll':
+            $this->roll();
+            break;
+          case 'endround':
+            $this->endround();
+            break;
+          case 'restartgame':
+            $this->restart();
+            break;
+          default:
+            // No action, just proceed and display page
+            break;
+        }
+        // Store game back to session
+        $_SESSION['c100game'] = serialize($this);
+        return $this->gameHtml();
     }
 
 }
