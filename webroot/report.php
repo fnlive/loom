@@ -48,11 +48,18 @@ $loom['main'] = <<<EOD
 </p>
 <p>Sist skapade jag en unik css-fil för tärningsspelet för att få rätt utseende på speltavlan.
 </p>
-<p>Efter feedback har jag flyttat ut i princip all kod fron controller-sidan till C100Game-klassen. Det fungarade ganska smärtfritt. Det blev en del små funktioner som bara används lokalt inuti C100Game, men det känns OK. Det var lite krångligt med hur jag skulle återställa C100Game-objektet från session-variabeln. Efter lite klurande läste jag in objektet i ett temporärt C100Game-objekt och kopierade över lämpliga egenskaper i konstruktorn. 
+<p>Efter feedback har jag flyttat ut i princip all kod fron controller-sidan till C100Game-klassen. Det fungarade ganska smärtfritt. Det blev en del små funktioner som bara används lokalt inuti C100Game, men det känns OK. Det var lite krångligt med hur jag skulle återställa C100Game-objektet från session-variabeln. Efter lite klurande läste jag in objektet i ett temporärt C100Game-objekt och kopierade över lämpliga egenskaper i konstruktorn.
 </p>
 
 <h2>kmom03</h2>
-<p>
+<!-- Är du bekant med databaser sedan tidigare? Vilka? -->
+<p>Jag har använt SQLite i kursen htmlphp. Har även ytligt kommit i kontakt med MySQL som används av WordPress. Men har bara gjort lite mindre handgrepp via phpMyAdmin, såsom exportera/importera databas samt sätta password.
+</p>
+<!-- Hur känns det att jobba med MySQL och dess olika klienter, utvecklingsmiljö och BTH driftsmiljö? -->
+<p>Det fungerar hyggligt bra att jobba med alla olika klienter. Vid SQL-övningarna jobbade jag bara i min lokala miljö med XAMP. Allra mest med MySQL Workbench som jag tyckte var smidig. Enkelt att klippa, klistra och editera i querys samt att köra enstaka rader eller flera. Jag provade också mySQL i BTH-miljön. Här testade jag phpMyAdmin och MySQL CLU. CLU körde jag från cygwin med ssh. phpMyAdmin kändes smidigast då det är lättare att klippa/klistra samt exekvera querys.
+</p>
+<!-- Hur gick SQL-övningen, något som var lite svårare i övningen, kändes den lagom? -->
+<p>SQL-övningen kändes som en lång maraton-djupdykning i SQL. Det var skönt att komma upp till ytan igen efter övningen. SQL är ett större och mer komplext språk än vad jag trott tidigare. Övningarna gick rätt bra. Lite knepigt när man fastnade på något syntax-fel där felutskrift var svår att tolka. Övningarna mot slutet med inner/outer join kändes rätt kluriga. Här behövs mer för att få det att sitta. Men det känns som om jag kommit in i SQL's grunder ganska bra genom övningen. 
 </p>
 <h2>kmom04</h2>
 <p>
