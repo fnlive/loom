@@ -149,7 +149,7 @@ is_numeric($year1) || !isset($year1)  or die('Check: Year must be numeric or not
 is_numeric($year2) || !isset($year2)  or die('Check: Year must be numeric or not set.');
 in_array($orderby, array('id', 'title', 'year')) or die('Check: Not valid column.');
 in_array($order, array('asc', 'desc')) or die('Check: Not valid sort order.');
-// Not necessary to validate title and genre. Only if they are to be output to screen.
+// Not necessary to validate title and genre. Only if they are to be output to screen run through htmlentities().
 
 // debug database
 // $sql = 'select * from Movie WHERE title LIKE "%Kopps%";';
@@ -157,26 +157,8 @@ in_array($order, array('asc', 'desc')) or die('Check: Not valid sort order.');
 // echo "Dump movie table: </br>";
 // dump($res);
 
-// Get all genres that are active
-$sql = '
-  SELECT DISTINCT G.name
-  FROM Genre AS G
-    INNER JOIN Movie2Genre AS M2G
-      ON G.id = M2G.idGenre
-';
-$res = $db->ExecuteSelectQueryAndFetchAll($sql);
-// dump($res);
 
-$genres = null;
-foreach($res as $val) {
-  if($val->name == $genre) {
-    $genres .= "$val->name ";
-  }
-  else {
-    $genres .= "<a href='" . getQueryString(array('genre' => $val->name)) . "'>{$val->name}</a> ";
-  }
-}
-
+$movieSearch = new CMovieSearch($db);
 
 // Prepare the query based on incoming arguments
 $sqlOrig = '
@@ -250,7 +232,6 @@ $rows = $res[0]->rows;
 $max = ceil($rows / $hits);
 
 
-
 // Do it and store it all in variables in the Anax container.
 $loom['title'] = "Visa filmer med sökalternativ kombinerade";
 
@@ -261,24 +242,7 @@ $sqlDebug = $db->Dump();
 $loom['main'] = <<<EOD
 <h1>{$loom['title']}</h1>
 
-<form>
-  <fieldset>
-  <legend>Sök</legend>
-  <input type=hidden name=genre value='{$genre}'/>
-  <input type=hidden name=hits value='{$hits}'/>
-  <input type=hidden name=page value='1'/>
-  <p><label>Titel (delsträng, använd % som *): <input type='search' name='title' value='{$title}'/></label></p>
-  <p><label>Välj genre:</label> {$genres}</p>
-  <p><label>Skapad mellan åren:
-      <input type='text' name='year1' value='{$year1}'/></label>
-      -
-      <label><input type='text' name='year2' value='{$year2}'/></label>
-
-  </p>
-  <p><input type='submit' name='submit' value='Sök'/></p>
-  <p><a href='?'>Visa alla</a></p>
-  </fieldset>
-</form>
+{$movieSearch->outputForm($title, $year1, $year2, $hits, $genre)}
 
 <div class='dbtable'>
   <div class='rows'>{$rows} träffar. {$hitsPerPage}</div>
