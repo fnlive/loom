@@ -61,6 +61,27 @@ $loom['favicon']    = 'favicon.ico';
 $loom['mainnavbar'] = array(
     'me' => array('text'=>'Me', 'url'=>'me.php'),
     '100' => array('text'=>'100', 'url'=>'dice-100.php'),
+    'movieDb' => array('text'=>'movieDb', 'url'=>'movie-db.php'),
     'report'  => array('text'=>'Redovisning',  'url'=>'report.php'),
     'source' => array('text'=>'Källkod', 'url'=>'source.php'),
 );
+
+/**
+* Settings for the database.
+*
+*/
+if('localhost' == $_SERVER['SERVER_NAME']) {
+// if (0) {
+    // echo 'We are localhost...';
+    define('DB_PASSWORD', '');
+    $loom['database']['dsn']            = 'mysql:host=localhost;dbname=MovieDb;';
+    $loom['database']['username']       = 'root';
+} else {
+    echo 'We are on a remote location...';
+    define('DB_PASSWORD', 'D39EIl6,');
+    $loom['database']['dsn']            = 'mysql:host=blu-ray.student.bth.se;dbname=frnf15;';
+    $loom['database']['username']       = 'frnf15';
+}
+$loom['database']['password']       = DB_PASSWORD;
+$loom['database']['driver_options'] = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'");
+// dump($loom['database']);
