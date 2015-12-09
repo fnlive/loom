@@ -77,7 +77,7 @@ if('localhost' == $_SERVER['SERVER_NAME']) {
     $loom['database']['dsn']            = 'mysql:host=localhost;dbname=MovieDb;';
     $loom['database']['username']       = 'root';
 } else {
-    echo 'We are on a remote location...';
+    echo 'We are on a remote location far, far away...';
     define('DB_PASSWORD', 'D39EIl6,');
     $loom['database']['dsn']            = 'mysql:host=blu-ray.student.bth.se;dbname=frnf15;';
     $loom['database']['username']       = 'frnf15';

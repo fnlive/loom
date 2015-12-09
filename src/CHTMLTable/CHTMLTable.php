@@ -13,7 +13,7 @@ class CHTMLTable
     $this->res = $result;
   }
 
-  function output()
+  function output($rows, $hitsPerPage, $navigatePage)
   {
     // dump($this->res);
     // Put results into a HTML-table
@@ -23,9 +23,13 @@ class CHTMLTable
     }
 
     $table = <<<EOD
+  <div class='dbtable'>
+    <div class='rows'>{$rows} träffar. {$hitsPerPage}</div>
       <table>
       {$tr}
       </table>
+    <div class='pages'>{$navigatePage}</div>
+  </div>
 EOD;
     return $table;
   }

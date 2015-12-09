@@ -237,13 +237,7 @@ $sqlDebug = $db->Dump();
 $loom['main'] = <<<EOD
 <h1>{$loom['title']}</h1>
 {$movieSearch->outputForm($title, $year1, $year2, $hits, $genre)}
-<div class='dbtable'>
-  <div class='rows'>{$rows} träffar. {$hitsPerPage}</div>
-{$searchResultTable->output()}
-  <div class='pages'>{$navigatePage}</div>
-</div>
-
-
+{$searchResultTable->output($rows, $hitsPerPage, $navigatePage)}
 EOD;
 // <div class=debug>{$sqlDebug}</div>
 
