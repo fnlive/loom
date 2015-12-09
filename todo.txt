@@ -4,7 +4,7 @@ Följande uppgifter skall utföras och resultatet skall redovisas via me-sidan.
 x    Gör uppgiften “Skapa en klass för din databashantering, CDatabase”.
 x    Börja med att skapa din egna klass CDatabase och inkludera den i ditt Anax. Du får tag i koden och lär dig använda klassen genom att göra övningen “Övningar med CDatabase”.
 
-    Gör uppgiften “Generera en HTML-tabell från en databastabell, använd sökning, sortering och paginering”.
+x    Gör uppgiften “Generera en HTML-tabell från en databastabell, använd sökning, sortering och paginering”.
 
     Gör uppgiften “Skapa en klass för användarhantering, CUser”.
 

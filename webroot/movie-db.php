@@ -151,7 +151,7 @@ in_array($orderby, array('id', 'title', 'year')) or die('Check: Not valid column
 in_array($order, array('asc', 'desc')) or die('Check: Not valid sort order.');
 // Not necessary to validate title and genre. Only if they are to be output to screen run through htmlentities().
 
-// debug database
+// Is database working. Simple example to debug
 // $sql = 'select * from Movie WHERE title LIKE "%Kopps%";';
 // $res = $db->ExecuteSelectQueryAndFetchAll($sql);
 // echo "Dump movie table: </br>";
@@ -225,7 +225,6 @@ $sql = "
 $res = $db->ExecuteSelectQueryAndFetchAll($sql, $params);
 $rows = $res[0]->rows;
 $max = ceil($rows / $hits);
-
 
 // Do it and store it all in variables in the Anax container.
 $loom['title'] = "Visa filmer med sökalternativ kombinerade";

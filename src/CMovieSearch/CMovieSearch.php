@@ -52,7 +52,7 @@ class CMovieSearch
         $out = <<<EOD
     <form>
       <fieldset>
-      <legend>Sök (CMovieSearch)</legend>
+      <legend>Sök</legend>
       <input type=hidden name=genre value='{$genre}'/>
       <input type=hidden name=hits value='{$hits}'/>
       <input type=hidden name=page value='1'/>
