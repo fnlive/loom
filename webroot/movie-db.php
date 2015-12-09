@@ -209,13 +209,8 @@ $where = $where ? " WHERE 1 {$where}" : null;
 $sql = $sqlOrig . $where . $groupby . $sort . $limit;
 $res = $db->ExecuteSelectQueryAndFetchAll($sql, $params);
 
-
-// Put results into a HTML-table
-$tr = "<tr><th>Rad</th><th>Id " . orderby('id') . "</th><th>Bild</th><th>Titel " . orderby('title') . "</th><th>År " . orderby('year') . "</th><th>Genre</th></tr>";
-foreach($res AS $key => $val) {
-    $tr .= "<tr><td>{$key}</td><td>{$val->id}</td><td><img width='32' height='44' src='{$val->image}' alt='{$val->title}' /></td><td>{$val->title}</td><td>{$val->YEAR}</td><td>{$val->genre}</td></tr>";
-}
-
+// Prepare to put results into rows for a HTML-table.
+$searchResultTable = new CHTMLTable($res);
 
 
 // Get max pages for current query, for navigation
@@ -241,14 +236,10 @@ $sqlDebug = $db->Dump();
 
 $loom['main'] = <<<EOD
 <h1>{$loom['title']}</h1>
-
 {$movieSearch->outputForm($title, $year1, $year2, $hits, $genre)}
-
 <div class='dbtable'>
   <div class='rows'>{$rows} träffar. {$hitsPerPage}</div>
-  <table>
-  {$tr}
-  </table>
+{$searchResultTable->output()}
   <div class='pages'>{$navigatePage}</div>
 </div>
 
