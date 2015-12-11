@@ -84,11 +84,11 @@ EOD;
    */
   public function LogoutAndOutputHTML()
   {
-    if($this->authenticated) {
-      $output = "{$this->name}, du är nu utloggad.";
+    if ($this->authenticated) {
+      $output = "<p>{$this->name}, du är nu utloggad.</p>";
     }
     else {
-      $output = "Du är INTE inloggad.";
+      $output = "<p>Du är INTE inloggad.</p>";
     }
     $this->Logout();
     return $output;
@@ -100,8 +100,10 @@ EOD;
    */
   public function Logout()
   {
-    $_SESSION['user']->name = null;
-    $_SESSION['user']->acronym = null;
+    if (isset($_SESSION['user']->acronym)) {
+      $_SESSION['user']->name = null;
+      $_SESSION['user']->acronym = null;
+    }
     $this->authenticated = false;
     $this->acronym = null;
     $this->name = null;
