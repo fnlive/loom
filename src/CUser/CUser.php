@@ -36,7 +36,8 @@ class CUser
   public function Login($user, $password, $db)
   {
     // Check if user and password is okey
-    $sql = "SELECT acronym, name FROM User WHERE acronym = ? AND password = md5(concat(?, salt))";
+    $sql = "SELECT acronym, name FROM USER WHERE acronym = ? AND password = md5(concat(?, salt))";
+    // $sql = "SELECT * FROM USER";
     $res = $db->ExecuteSelectQueryAndFetchAll($sql, array($user, $password));
     // If user in database and password matches, set user as authenticated by adding acronym and name to session variable.
     if (isset($res[0])) {
@@ -45,7 +46,7 @@ class CUser
       $this->acronym = $res[0]->acronym;
       $this->name = $res[0]->name;
     }
-    header('Location: status.php');
+    header('Location: login.php');
   }
 
   /**
