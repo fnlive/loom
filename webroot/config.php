@@ -64,6 +64,7 @@ $loom['mainnavbar'] = array(
     'movieDb' => array('text'=>'movieDb', 'url'=>'movie-db.php'),
     'report'  => array('text'=>'Redovisning',  'url'=>'report.php'),
     'source' => array('text'=>'Källkod', 'url'=>'source.php'),
+    'login' => array('text'=>'Login', 'url'=>'login.php'),
 );
 
 /**
