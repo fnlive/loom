@@ -12,36 +12,87 @@
    {
      ;
    }
-/**
- * GenerateMenu
- *
- * @param array $menu with menu content, example:
- * array(
- *  'home'  => array('text'=>'Hem',  'url'=>'home.php'),
- *  'about' => array('text'=>'Om', 'url'=>'about.php'),
- *  )
- *
- */
-public static function GenerateMenu($menu, $class="") {
-     // Get URI with query string removed to see what page we are on.
-    // If on same page as menu item, mark it with class=selected.
-    $pos = strpos($_SERVER['REQUEST_URI'], "?");
-    if (false != $pos) {
-        // Remove query string, i.e. all characters efter first ?
-        $currentPage = Basename(substr($_SERVER['REQUEST_URI'], 0, $pos));
-    } else {
-        // URI do not contain a query string
-        $currentPage = basename($_SERVER['REQUEST_URI']);
-    }
 
-    // Return menu item with link. Set style if on current page
-     $html = "<nav class=\"$class\">\n";
-     foreach($menu as $item) {
-       $selected = ($currentPage == $item['url']) ? "selected" : "";
-       $html .= "<a href='{$item['url']}' class='$selected'>{$item['text']}</a>\n";
-     }
-     $html .= "</nav>\n";
-     return $html;
+   /**
+    * Create a navigation bar / menu, with submenu.
+    *
+    * @param string $menu for the navigation bar.
+    * @return string as the html for the menu.
+    */
+   public static function Get($menu)
+   {
+       // Keep default options in an array and merge with incoming options that can override the defaults.
+       $default = array(
+         'id'          => null,
+         'class'       => null,
+         'wrapper'     => 'nav',
+         'create_url'  => function ($url) {
+           return $url;
+         },
+       );
+       $menu = array_replace_recursive($default, $menu);
+
+       // Function to create urls
+       $createUrl = $menu['create_url'];
+
+       // Create the ul li menu from the array, use an anonomous recursive function that returns an array of values.
+       $createMenu = function ($items, $callback) use (&$createMenu, $createUrl) {
+
+           $html = null;
+           $hasItemIsSelected = false;
+
+           foreach ($items as $item) {
+
+               // has submenu, call recursivly and keep track on if the submenu has a selected item in it.
+               $submenu        = null;
+               $selectedParent = null;
+
+               if (isset($item['submenu'])) {
+                   list($submenu, $selectedParent) = $createMenu($item['submenu']['items'], $callback);
+                   $selectedParent = $selectedParent
+                       ? "selected-parent "
+                       : null;
+               }
+
+               // Check if the current menuitem is selected
+               $selected = $callback($item['url'])
+                   ? "selected "
+                   : null;
+
+               // Is there a class set for this item, then use it
+               $class = isset($item['class']) && ! is_null($item['class'])
+                   ? $item['class']
+                   : null;
+
+               // Prepare the class-attribute, if used
+               $class = ($selected || $selectedParent || $class)
+                   ? " class='{$selected}{$selectedParent}{$class}' "
+                   : null;
+
+               // Add the menu item
+               $url = $createUrl($item['url']);
+               $html .= "\n<li{$class}><a href='{$url}' title='{$item['title']}'>{$item['text']}</a>{$submenu}</li>\n";
+
+               // To remember there is selected children when going up the menu hierarchy
+               if ($selected) {
+                   $hasItemIsSelected = true;
+               }
+           }
+
+           // Return the menu
+           return array("\n<ul>$html</ul>\n", $hasItemIsSelected);
+       };
+
+       // Call the anonomous function to create the menu, and submenues if any.
+       list($html, $ignore) = $createMenu($menu['items'], $menu['callback']);
+
+
+       // Set the id & class element, only if it exists in the menu-array
+       $id      = isset($menu['id'])    ? " id='{$menu['id']}'"       : null;
+       $class   = isset($menu['class']) ? " class='{$menu['class']}'" : null;
+       $wrapper = $menu['wrapper'];
+
+       return "\n<{$wrapper}{$id}{$class}>{$html}</{$wrapper}>\n";
    }
 
  }
