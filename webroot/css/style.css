@@ -48,11 +48,17 @@ body {
   color: #666;
 }
 
-.navbar {
-  display: block;
-  background-color:#333;
-  font-family:Verdana;
+.navbar {}
+
+.navbar ul {
+  list-style: none;
+  margin: 0;
   padding:0.5em;
+  background-color:#333;
+}
+.navbar li {
+  display: inline;
+  position: relative; /* New - to place the drop-down menu correctly */
 }
 .navbar a {
   border-radius: 0.2em 0.2em 0 0;
@@ -60,15 +66,50 @@ body {
   color:#fff;
   padding:0.2em;
   text-decoration:none;
+  white-space: nowrap; /* New - to make the drop-down menu items stay on one row */
+}
+.navbar li ul li a {
+    /*Keep spacing between sub-menu items.*/
+    line-height: 1.6em;
+  /*background-color: red;*/
 }
 .navbar a:hover {
-  background-color:#666;
-  padding:0.5em 0.2em 0.5em 0.2em;
+  color: #fff;
+  border-color: #666 transparent;
 }
-.navbar a.selected {
-  background-color:#fff;
-  padding:0.3em 0.2em 0.5em 0.2em;
-  color:#333;
+ /* New - to style the selected parent */
+.navbar li.selected-parent > a,
+.navbar li.selected > a {
+  padding:0.3em 0.2em 0.6em 0.2em;
+  color: #333;
+  background-color: #fff;
+}
+.navbar li li.selected > a {
+    padding:0.2em;
+    border-radius: 0.2em;
+}
+/* New - to style the submenu, start by hiding it using absolute positioning */
+.navbar ul ul {
+  background-color: #fff;
+  padding: 8px;
+  position: absolute;
+  left: -9999px;
+  z-index: 2;
+}
+/* Display the submenu when hovering the list element, absolute positioning */
+.navbar li:hover ul {
+  left: 0;
+  background-color: transparent;
+  background-color:#999;
+  border-radius: 0.2em;
+}
+.navbar li a:hover {
+  background-color:#666;
+}
+/* New - style items of the submenu when hovering and selected */
+.navbar li li a:hover {
+  border-color: transparent;
+  background-color:#666;
 }
 
 /**

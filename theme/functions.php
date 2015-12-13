@@ -23,7 +23,7 @@ function get_title($title) {
  */
 function generate_header() {
   global $loom;
-  $navBar = CNavBar::GenerateMenu($loom['mainnavbar'], 'navbar');
+  $navBar = CNavBar::Get($loom['mainnavbar']);
   return <<<EOD
   <img class='sitelogo' src='img/Loom-icon-transp-x130.png' alt='fnlive Logo'/>
   <span class='sitetitle'>Loom</span>

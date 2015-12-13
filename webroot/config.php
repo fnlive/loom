@@ -58,14 +58,79 @@ $loom['title_append'] = ' | Loom';
 $loom['stylesheets'] = array('css/style.css');
 $loom['favicon']    = 'favicon.ico';
 // echo CNavBar::GenerateMenu();
-$loom['mainnavbar'] = array(
-    'me' => array('text'=>'Me', 'url'=>'me.php'),
-    '100' => array('text'=>'100', 'url'=>'dice-100.php'),
-    'movieDb' => array('text'=>'movieDb', 'url'=>'movie-db.php'),
-    'report'  => array('text'=>'Redovisning',  'url'=>'report.php'),
-    'source' => array('text'=>'Källkod', 'url'=>'source.php'),
-    'login' => array('text'=>'Login', 'url'=>'login.php'),
+// $loom['mainnavbar'] = array(
+//     'me' => array('text'=>'Me', 'url'=>'me.php'),
+//     '100' => array('text'=>'100', 'url'=>'dice-100.php'),
+//     'movieDb' => array('text'=>'movieDb', 'url'=>'movie-db.php'),
+//     'report'  => array('text'=>'Redovisning',  'url'=>'report.php'),
+//     'source' => array('text'=>'Källkod', 'url'=>'source.php'),
+//     'login' => array('text'=>'Login', 'url'=>'login.php'),
+// );
+/**
+ * Define the menu as an array
+ */
+$loom['mainnavbar']  = array(
+  // Use for styling the menu
+  'class' => 'navbar',
+
+  // Here comes the menu strcture
+  'items' => array(
+    // This is a menu item
+    'home'  => array(
+      'text'  =>'Me',
+      'url'   =>'me.php',
+      'title' => 'Me'
+    ),
+        '100' => array('text'=>'100', 'url'=>'dice-100.php',
+        'title' => '100'),
+        'movieDb' => array('text'=>'movieDb', 'url'=>'movie-db.php',
+        'title' => 'movieDb'),
+        'report'  => array('text'=>'Redovisning',  'url'=>'report.php',
+        'title' => 'Redovisning'),
+        'source' => array('text'=>'Källkod', 'url'=>'source.php',
+        'title' => 'Källkod'),
+    // This is a menu item
+    'test'  => array(
+      'text'  =>'User',
+      'url'   =>'login.php',
+      'title' => 'Login',
+
+      // Here we add the submenu, with some menu items, as part of a existing menu item
+      'submenu' => array(
+
+        'items' => array(
+          // This is a menu item of the submenu
+          'item 1'  => array(
+            'text'  => 'Login',
+            'url'   => 'login.php',
+            'title' => 'Login',
+          ),
+          // This is a menu item of the submenu
+          'item 2'  => array(
+            'text'  => 'Logout',
+            'url'   => 'logout.php',
+            'title' => 'Logout',
+            'class' => 'italic'
+          ),
+          'status'  => array(
+            'text'  => 'Status',
+            'url'   => 'status.php',
+            'title' => 'Logout',
+          ),
+        ),
+      ),
+    ),
+
+  ),
+
+  // This is the callback tracing the current selected menu item base on scriptname
+  'callback' => function($url) {
+    if(basename($_SERVER['SCRIPT_FILENAME']) == $url) {
+      return true;
+    }
+  }
 );
+
 
 /**
 * Settings for the database.
