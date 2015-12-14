@@ -62,7 +62,19 @@ $loom['main'] = <<<EOD
 <p>SQL-övningen kändes som en lång maraton-djupdykning i SQL. Det var skönt att komma upp till ytan igen efter övningen. SQL är ett större och mer komplext språk än vad jag trott tidigare. Övningarna gick rätt bra. Lite knepigt när man fastnade på något syntax-fel där felutskrift var svår att tolka. Övningarna mot slutet med inner/outer join kändes rätt kluriga. Här behövs mer för att få det att sitta. Men det känns som om jag kommit in i SQL's grunder ganska bra genom övningen.
 </p>
 <h2>kmom04</h2>
-<p>
+<!-- Hur kändes det att jobba med PHP PDO? -->
+<p>Jag tycker det fungerar smidigt att arbeta med PHP PDO. Det som känns svårast är att förstå och skriva rätt SQL-syntax med queries som är lite mer komplexa. Speciellt när flera tabeller länkas ihop med join samt vid användning av skapade vyer.
+</p>
+<!-- Gjorde du guiden med filmdatabasen, hur gick det? -->
+<p>Jag arbetade igenom guiden med filmdatabasen genom att läsa guiden och göra delar av övningarna. Jag använde sedan guiden som referens när jag löste uppgifterna.
+<p>Vid lösning av uppgifterna blev det ganska mycket copy/paste/refactoring av kod in i Anax-ramverket. Uppgifterna var nyttiga gennom att utöver förståelsen för databashantering genom php och sql, så gav det övning på att läsa och felsöka i annans kod vid reaktorering/integrering av koden i ramverket.
+</p>
+<!-- todo: htmlentities på html output. -->
+</p>
+<!-- Du har nu byggt ut ditt Anax med ett par moduler i form av klasser, hur tycker du det konceptet fungerar så här långt, fördelar, nackdelar? -->
+<p>Konceptet med Anax ramverk börjar kännas bra. Det börjar kännas lättare att navigera runt i källkoden och förstå var olika saker finns definierade. Ramverket uppmuntrar till att bryta upp funktionalitet i mindre beständsdelar i form av klass-metoder och controller-sidor. Det är fortfarande klart för mig hur mycket kod som bör läggas in i klasser (dvs. kod/klass som bör vara återanvändbar direkt eller vid senare tillfälle) respektive hur mycket kod som bör gå in i controller-sidan. Detta kanske kommer med erfarenhet samt växer fram allt eftersom remverket växer fram och används mer. Allt eftersom nya krav tillkommer dyker det upp behov på refaktorering av klasser och controller-sidor.
+</p>
+<p>Jag gav mig också på uppgiften med dynamisk navbar. Kan erkänna att jag inte riktigt trängt igenom kodkonstruktionerna med anonyma funktioner, funktionspekare och rekursion. Detta behöver lite mer tid för att sjunka in. Större delen av tiden ägnade jag åt att få till liknande style på navbaren som jag hade innan. Detta tog en del omskrivning av css-regler och felsökning med firebug som jag lärde mig en hel del på.
 </p>
 <h2>kmom05</h2>
 <p>
