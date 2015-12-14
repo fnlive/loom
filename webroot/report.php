@@ -67,7 +67,7 @@ $loom['main'] = <<<EOD
 </p>
 <!-- Gjorde du guiden med filmdatabasen, hur gick det? -->
 <p>Jag arbetade igenom guiden med filmdatabasen genom att läsa guiden och göra delar av övningarna. Jag använde sedan guiden som referens när jag löste uppgifterna.
-<p>Vid lösning av uppgifterna blev det ganska mycket copy/paste/refactoring av kod in i Anax-ramverket. Uppgifterna var nyttiga gennom att utöver förståelsen för databashantering genom php och sql, så gav det övning på att läsa och felsöka i annans kod vid reaktorering/integrering av koden i ramverket.
+<p>Vid lösning av uppgifterna blev det ganska mycket copy/paste/refactoring av kod in i Anax-ramverket. Uppgifterna var nyttiga gennom att utöver förståelsen för databashantering med php och sql, så gav det övning på att läsa och felsöka i annans kod vid integrering av koden i ramverket. Funktionen dump() fick jag bra användning för.
 </p>
 <!-- todo: htmlentities på html output. -->
 </p>

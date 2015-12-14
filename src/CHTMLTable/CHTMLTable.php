@@ -19,6 +19,13 @@ class CHTMLTable
     // Put results into a HTML-table
     $tr = "<tr><th>Rad</th><th>Id " . orderby('id') . "</th><th>Bild</th><th>Titel " . orderby('title') . "</th><th>År " . orderby('year') . "</th><th>Genre</th></tr>";
     foreach($this->res AS $key => $val) {
+        // Sanitize content from database before outputting in html.
+        $key = htmlentities($key);
+        $val->id = htmlentities($val->id);
+        $val->image = htmlentities($val->image);
+        $val->title = htmlentities($val->title);
+        $val->YEAR = htmlentities($val->YEAR);
+        $val->genre = htmlentities($val->genre);
         $tr .= "<tr><td>{$key}</td><td>{$val->id}</td><td><img width='32' height='44' src='{$val->image}' alt='{$val->title}' /></td><td>{$val->title}</td><td>{$val->YEAR}</td><td>{$val->genre}</td></tr>";
     }
 
