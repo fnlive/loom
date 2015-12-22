@@ -8,6 +8,7 @@ datumformat utskrift
 återställa Raderade
 status kolumn publ, raderad, utkast, på view.php
 formulär med dropdown, radion bottons etc.
+xredirect till 404
 Skriv rapport
 
 Extra uppgifter:

@@ -312,8 +312,8 @@ EOD;
         ';
         $res = $this->contentDb->ExecuteSelectQueryAndFetchAll($sql, array($url));
         if (empty($res)) {
-            die("This is not the page you are looking for...");
-            // Todo: redirect with header to 404 page
+            header("Location: 404.php");
+            // die("This is not the page you are looking for...");
         }
         return $res[0];
     }

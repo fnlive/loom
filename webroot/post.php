@@ -16,7 +16,7 @@ $loom['stylesheets'][] = 'css/loom-cms.css';
 
 // Get posts from CContent
 // If $slug is not set show all posts
-// IF $slug is non-existent, user will be redirected to 404
+// IF $slug is non-existent, user will be shown a empty blog page.
 $slug = isset($_GET['slug']) ? $_GET['slug'] : null;
 
 $loom['title'] = "Blogg";
