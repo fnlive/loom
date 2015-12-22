@@ -1,0 +1,17 @@
+/**
+ * Style for loom cms pages
+ */
+.content-table tr:nth-child(even){
+    background-color: #ddd;
+}
+.content-table td {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.page-meta, .post-meta {
+    border-top: 2px solid #999;
+    padding-top: 0.5em;
+    margin-top: 1em;
+    font-size: 0.8em;
+}

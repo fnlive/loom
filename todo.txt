@@ -1,50 +1,15 @@
 Uppgifter
 
-Följande uppgifter skall utföras och resultatet skall redovisas via me-sidan.
-x    Gör uppgiften “Skapa en klass för din databashantering, CDatabase”.
-x    Börja med att skapa din egna klass CDatabase och inkludera den i ditt Anax. Du får tag i koden och lär dig använda klassen genom att göra övningen “Övningar med CDatabase”.
+Loom CMS
+Todo:
+x Antal poster på view.php
+x stylesheet för CMS
+datumformat utskrift
+återställa Raderade
+status kolumn publ, raderad, utkast, på view.php
+formulär med dropdown, radion bottons etc.
+Skriv rapport
 
-x    Gör uppgiften “Generera en HTML-tabell från en databastabell, använd sökning, sortering och paginering”.
-
-    Gör uppgiften “Skapa en klass för användarhantering, CUser”.
-
-Extra
-
-    Läs igenom hur du kan skapa en “En navbar med drop-down meny i ren HTML och CSS”.
-
-    Läs tipset “Skapa en dynamisk navbar / meny, med undermeny, via PHP” och uppgradera din PHP funktion som genererar navbaren till att hantera drop-down menyer.
-
-
-“Generera en HTML-tabell från en databastabell, använd sökning, sortering och paginering”
-===========================================================================================
-Krav
-
-x    Utgå från sidkontrollern “Filmdatabasen: Kombinera alla sökalternativ på en sida”.
-x    Låt sidkontrollern hantera inkommande GET-variabler samt validera dem.
-
-x    Skapa en klass CMovieSearch som döljer koden för att skapa sök-formuläret och för att förbereda den SQL-fråga som ställs mot databasen.
-
-x    Skapa en klass CHTMLTable som tar resultatet från en databasfråga och placerar ut i en HTML tabell, inklusive länkar och hantering av paginering och sortering.
-
-    Du kan använda klassen CDatabase i sidkontrollern, eller låta CDatabase vara en del av CMovieSearch. Välj väg.
-
-    Du behöver inte hantera kategorier eller genrer. Det räcker om din kod jobbar mot en tabell i databasen.
-
-    Kan jag strukturera min kod lite annorlunda? Läs tips från coachen.
-
-Extrauppgift
-
-Det finns ingen extrauppgift.
-Tips från coachen
-
-Poängen med övningen är att dela upp koden i delar som är oberoende av varandra och därmed lättare att återanvända (till exempel i projektet). Mindre oberoende moduler är också - i allmänhet - enklare att testa, underhålla och vidareutveckla.
-
-En lösning med CMovieSearch, CHTMLTable och att hantera databasen och inkommande GET från sidkontrollern är en lösning som visar hur man kan göra. Har du ett annat förslag?
-
-Borde någon av klasserna CMovieSearch eller CHTMLTable vara direkt kopplade till CDatabase? Som ett alternativ till att hantera den kopplingen via sidkontrollern?
-
-Borde GET-variablerna hanteras av respektive klass istället?
-
-Är koden så beroende av sin helhet att det är bättre att samla allt i en enda klass istället?
-
-Eller, skapa samtliga klasser och gör ytterligare en klass som knyter ihop det. Som ett alternativ till att knyta ihop koden i sidkontrollern.
+Extra uppgifter:
+Koppla till användare
+Använd slugify

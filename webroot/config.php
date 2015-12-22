@@ -120,7 +120,8 @@ $loom['mainnavbar']  = array(
         ),
       ),
     ),
-
+    'cmsAdmin' => array('text'=>'Admin', 'url'=>'view.php', 'title' => 'CmsAdmin'),
+    'Blogg' => array('text'=>'Blogg', 'url'=>'post.php', 'title' => 'Bloggen'),
   ),
 
   // This is the callback tracing the current selected menu item base on scriptname
@@ -140,7 +141,7 @@ if('localhost' == $_SERVER['SERVER_NAME']) {
 // if (0) {
     // echo 'We are localhost...';
     define('DB_PASSWORD', '');
-    $loom['database']['dsn']            = 'mysql:host=localhost;dbname=MovieDb;';
+    $loom['database']['dsn']            = 'mysql:host=localhost;dbname=LoomCms;';
     $loom['database']['username']       = 'root';
 } else {
     // echo 'We are on a remote location far, far away...';
