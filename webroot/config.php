@@ -120,7 +120,26 @@ $loom['mainnavbar']  = array(
         ),
       ),
     ),
-    'cmsAdmin' => array('text'=>'Admin', 'url'=>'view.php', 'title' => 'CmsAdmin'),
+    'cmsAdmin' => array('text'=>'Admin', 'url'=>'view.php', 'title' => 'CmsAdmin',
+    // Here we add the submenu, with some menu items, as part of a existing menu item
+    'submenu' => array(
+
+      'items' => array(
+        // This is a menu item of the submenu
+        'item 1'  => array(
+          'text'  => 'Skapa ny',
+          'url'   => 'create.php',
+          'title' => 'Skapa ny',
+        ),
+        // This is a menu item of the submenu
+        'item 2'  => array(
+          'text'  => 'Visa alla',
+          'url'   => 'view.php',
+          'title' => 'Visa alla',
+        ),
+      ),
+    ),
+  ),
     'Blogg' => array('text'=>'Blogg', 'url'=>'post.php', 'title' => 'Bloggen'),
   ),
 
