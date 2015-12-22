@@ -18,25 +18,9 @@ $content = new CContent($db);
 // User has pressed save button in create-form, save item to database.
 if (isset($_POST['save'])) {
     //Save content and then redirect with header... in CCreate:method todo
-    $title = isset($_POST['title']) ? strip_tags($_POST['title']) : "NULL";
-    $slug = isset($_POST['slug']) ? strip_tags($_POST['slug']) : "NULL";
-    $slug = empty($slug) ? null : $slug;
-    $url = isset($_POST['url']) ? strip_tags($_POST['url']) : "NULL";
-    $url = empty($url) ? null : $url;
-    $data = isset($_POST['data']) ? strip_tags($_POST['data']) : "NULL";
-    $type = isset($_POST['type']) ? strip_tags($_POST['type']) : "NULL";
-    $filter = isset($_POST['filter']) ? strip_tags($_POST['filter']) : "NULL";
-    $published = isset($_POST['published']) ? strip_tags($_POST['published']) : "NULL";
-    $post2Save = array(
-        $slug,
-        $url,
-        $type,
-        $title,
-        $data,
-        $filter,
-        $published,
-    );
-    $content->Save($post2Save);
+    dump($_POST);
+    $content->Save($_POST);
+    // Check status av save to db Todo
 }
 
 $out .= $content->getCreateContentForm();

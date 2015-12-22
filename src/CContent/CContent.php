@@ -191,10 +191,27 @@ EOD;
         return $out;
     }
 
-    public function Save($content)
+    private function Sanitize($post)
     {
+        $id = isset($_POST['id']) ? strip_tags($_POST['id']) : "NULL";
+        is_numeric($id) or die('Check: Id must be numeric.');
+        $title = isset($post['title']) ? strip_tags($post['title']) : "NULL";
+        $slug = isset($post['slug']) ? strip_tags($post['slug']) : "NULL";
+        $slug = empty($slug) ? null : $slug;
+        $url = isset($post['url']) ? strip_tags($post['url']) : "NULL";
+        $url = empty($url) ? null : $url;
+        $data = isset($post['data']) ? strip_tags($post['data']) : "NULL";
+        $type = isset($post['type']) ? strip_tags($post['type']) : "NULL";
+        $filter = isset($post['filter']) ? strip_tags($post['filter']) : "NULL";
+        $published = isset($post['published']) ? strip_tags($post['published']) : "NULL";
+        return array($slug, $url, $type, $title, $data, $filter, $published, );
+    }
+
+    public function Save($post)
+    {
+        //First sanitize data
+        $content = $this->Sanitize($post);
         //Save content to db
-        // echo "Saving post... ";
         $query = <<<EOD
         INSERT INTO Content (slug, url, TYPE, title, DATA, FILTER, published, created) VALUES
           (?, ?, ?, ?, ?, ?, ?, NOW())
@@ -203,8 +220,15 @@ EOD;
         // header('Location: create.php');
     }
 
-    public function Update($id, $content)
+    public function Update($content)
     {
+        // Sanitize $id first.
+        $id = isset($_POST['id']) ? strip_tags($_POST['id']) : "NULL";
+        is_numeric($id) or die('Check: Id must be numeric.');
+        // Sanitize $content
+        $content = $this->Sanitize($content);
+        // Add $id to end of $content
+        $content[] = $id;
         $query = <<<EOD
         UPDATE Content SET
             slug = ?,
@@ -219,8 +243,8 @@ EOD;
             id = ?
 EOD;
         $this->contentDb->ExecuteQuery($query, $content, false);
+        // Add error handling?
         // header('Location: create.php');
-
     }
 
     public function Delete($id)
