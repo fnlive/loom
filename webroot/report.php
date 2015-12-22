@@ -77,8 +77,24 @@ $loom['main'] = <<<EOD
 <p>Jag gav mig också på uppgiften med dynamisk navbar. Kan erkänna att jag inte riktigt trängt igenom kodkonstruktionerna med anonyma funktioner, funktionspekare och rekursion. Detta behöver lite mer tid för att sjunka in. Större delen av tiden ägnade jag åt att få till liknande style på navbaren som jag hade innan. Detta tog en del omskrivning av css-regler och felsökning med firebug som jag lärde mig en hel del på.
 </p>
 <h2>kmom05</h2>
+<!-- Det blir en del moduler till ditt Anax nu, hur känns det? -->
+<p>Den här uppgiften med att bygga ett CMS har varit väldigt nyttig. Jag har försökt börja med att programmera utan att snegla för mycket på övningarna. När jag gjort färdigt ett steg eller fastnat på något har jag gått tillbaks och läst igenom övningarna för att fånga upp det jag eventuellt missat. Jag är inte helt säker på att jag konstruerar modulerna på ett bra objektorienterat vis. Det känns som vissa moduler blir mer av funktionsbibliotek än objekt. Kanske är det mer träning och erfarenhet för att få det att kännas bätre.
+</p>
+<!-- Berätta hur du tänkte när du löste uppgifterna, hur tänkte du när du strukturerade klasserna och sidkontrollerna? -->
+<p>När jag strukturerade koden försökte jag förstå vilka medlemsvariabler som borde finnas i modulerna. För CContent kändes det enbart vettigt att ha en instans av databasobjektet lagrat. För de övriga modulerna blev det inga medlemsvariabler så metoderna i CBlog och CPage fick bli statiska. När jag började lägga ut koden så hamnade den ganska likafördelat i controller-sidorna och modulerna. Efter att jag fått upp rätt funktionalitet gick jag vidare och refaktorerade genom att flytta ut så mycket kod som möjligt till modulerna för att sedan samla ihop likartade kodblock, t.ex. sanering av data. Jag valde att ha 4 olika controller-sidor för administration av CMS'et, view, create, edit och delete.php. Halvvägs igenom tänkte jag att de borde slås ihop till en controller-sida byggd som en multi-sida styrd med en $_GET variabel. Baksidan hade dock blivit en betydligt mer komplex controller-sida, så jag valde att behålla det första upplägget.
+</p>
+<!-- Börjar du få en känsla för hur du kan strukturera din kod i klasser och moduler, eller kanske inte? -->
+<p>Huruvida jag förstår hur jag kan strukturera kod i klasser och moduler så är nog svaret att jag inte vet. Eller jag förstår nog bättre nu att det är svårt och att det behövs mer erfarenhet. Kanske en bra start.
+</p>
+<!-- Snart har du grunderna klara i ditt Anax, grunderna som kan skapa många webbplatser, är det något du saknar så här långt, kanske några moduler som du känner som viktiga i ditt Anax? -->
+<p>Just nu känner jag inte att det saknas något speciellt i mitt Anax, eller Loom. Ramverket känns väldigt enkelt och avskalat, men flexibelt och möjliggör att skapa väldigt många olika slags webb-applikationer, genom att lägga till controller-sidor och moduler. Det kändes kul att på relativt kort tid kunna skapa ett enkelt CMS med ramverket.
+</p>
+<h2>kmom06</h2>
 <p>
 </p>
+<p>
+</p>
+
 EOD;
 
 // Finally, leave it all to the rendering phase of Loom.

@@ -17,7 +17,7 @@ $db = new CDatabase($loom['database']);
 $content = new CContent($db);
 
 // Get all posts and pages from CContent
-// or test if user wants to see specific post with _GET
+// or test if user wants to see specific items with _GET
 if (isset($_GET['show'])) {
     $out .= $content->ShowItems($_GET['show']);
 } else {
