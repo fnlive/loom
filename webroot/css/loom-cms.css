@@ -4,6 +4,9 @@
 .content-table tr:nth-child(even){
     background-color: #ddd;
 }
+.content-table tr:nth-child(odd){
+    background-color: #f8f8f8;
+}
 .content-table td {
     padding-left: 1em;
     padding-right: 1em;

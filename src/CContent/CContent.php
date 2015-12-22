@@ -333,6 +333,9 @@ EOD;
         ;
         ";
         $res = $this->contentDb->ExecuteSelectQueryAndFetchAll($sql, array($slug));
+        if (empty($res)) {
+            header("Location: 404.php");
+        }
         return $res;
     }
 
@@ -343,6 +346,9 @@ EOD;
           FROM Content WHERE id = ?;
         ';
         $res = $this->contentDb->ExecuteSelectQueryAndFetchAll($sql, array($id));
+        if (empty($res)) {
+            header("Location: 404.php");
+        }
         return $res;
     }
 
