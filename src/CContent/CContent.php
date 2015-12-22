@@ -128,7 +128,11 @@ EOD;
     <p><label>Titel:<br/><input type='text' name='title' value='' required/></label></p>
     <p><label>Slug:<br/><input type='text' name='slug' value=''/></label></p>
     <p><label>Url:<br/><input type='text' name='url' value=''/></label></p>
-    <p><label>Text:<br/><textarea name='data'>{$data}</textarea></label></p>        <p><label>Type:<br/><input type='text' name='type' value='{$type}'/></label></p>
+    <p><label>Text:<br/><textarea name='data'>{$data}</textarea></label></p>
+    <p><label>Type:<br/>
+        <input type="radio" name="type" value="page"> Page<br>
+        <input type="radio" name="type" value="post" checked="checked"> Post<br>
+    </label></p>
     <p><label>Filter:<br/><input type='text' name='filter' value='{$filter}'/></label></p>
     <p><label>Publiseringsdatum:<br/><input type='date' name='published' value='{$published}'/></label></p>
     <p class=buttons>
@@ -143,16 +147,11 @@ EOD;
 
     public function getEditContentForm($id)
     {
-
         $sql = '
           SELECT *
           FROM Content WHERE id = ?;
         ';
         $res = $this->contentDb->ExecuteSelectQueryAndFetchAll($sql, array($id));
-        // echo "File: " . __FILE__ . "<br>";
-        // echo "Line: " . __LINE__ . "<br>";
-        // dump($res);
-
         $type = $res[0]->TYPE;
         $slug = $res[0]->slug;
         $url = $res[0]->url;
@@ -160,8 +159,13 @@ EOD;
         $data = $res[0]->DATA;
         $filter = $res[0]->FILTER;
         $published = $res[0]->published;
-
-        // Todo Fixa input fält date etc. validering?
+        if ("page"==$type) {
+            $pageChecked = 'checked="checked"';
+            $postChecked = '';
+        } else {
+            $postChecked = 'checked="checked"';
+            $pageChecked = '';
+        }
         $out = <<<EOD
 <form method=post>
     <fieldset>
@@ -170,7 +174,11 @@ EOD;
     <p><label>Titel:<br/><input type='text' name='title' value=$title required/></label></p>
     <p><label>Slug:<br/><input type='text' name='slug' value='$slug'/></label></p>
     <p><label>Url:<br/><input type='text' name='url' value='$url'/></label></p>
-    <p><label>Text:<br/><textarea name='data'>{$data}</textarea></label></p>        <p><label>Type:<br/><input type='text' name='type' value='{$type}'/></label></p>
+    <p><label>Text:<br/><textarea name='data'>{$data}</textarea></label></p>
+    <p><label>Type:<br/>
+        <input type="radio" name="type" value="page" $pageChecked> Page<br>
+        <input type="radio" name="type" value="post" $postChecked> Post<br>
+    </label></p>
     <p><label>Filter:<br/><input type='text' name='filter' value='{$filter}'/></label></p>
     <p><label>Publiseringsdatum:<br/><input type='text' name='published' value='{$published}'/></label></p>
     <p class=buttons>

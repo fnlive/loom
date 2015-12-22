@@ -25,6 +25,7 @@ $posts = $content->GetPosts($slug);
 $loom['title'] = "Blogg";
 
 $postHtml = "";
+$postHtml .= "<h1>Min Blogg</h1>";
 if (0==count($posts)) {
     $postHtml .= "<p>Vi hittar inga inlägg.</p>";
 }
@@ -34,8 +35,6 @@ foreach ($posts as $post) {
     $data = $filter->doFilter(htmlentities($post->DATA, null, 'UTF-8'), $post->FILTER);
     $editLink = "<a href=\"edit.php?id={$post->id}\">Redigera</a>";
     $meta = "Publicerat: {$post->published} | " . $editLink;
-    $postHtml .= "<h1>Min Blogg</h1>";
-
     $postHtml .= <<<EOD
     <section>
       <article>
