@@ -296,11 +296,11 @@ EOD;
         $out .= <<<EOD
         <table class="content-table">
             <tr>
-                <th>Title</th>
+                <th>Titel</th>
                 <th>Typ</th>
                 <th>Slug</th>
                 <th>Status</th>
-                <th>Publish date</th>
+                <th>Publicerad</th>
             </tr>
 EOD;
         // List details for all pages and posts each in a row.
@@ -308,21 +308,32 @@ EOD;
         foreach($res as $val) {
             $url = $this->getUrl($val);
             $title = htmlentities($val->title);
+            $pubTime = strtotime($val->published);
+            $pubDate = date("y-m-d", strtotime($val->published));
+            $delTime = strtotime($val->deleted);
+            $delDate = date("y-m-d H:i", strtotime($val->deleted));
+            $time = time();
             // Calculate status: published, draft, deleted
-            // Todo: not working yeat
-            // if ($val->deleted < time()) {
-            //     $time = time();
-            //     $date = date("y-m-d H:i");
-            //     echo "Deleted: {$val->deleted}, Time; $time, Date: $date<br>";
-            //     // $status =
-            // }
+            if ((!empty($delTime)) && ($delTime < $time) ) {
+                $status = "Raderad";
+                // echo "Raderad";
+            } elseif ($pubTime > $time) {
+                $status = "Utkast";
+                // echo "Utkast";
+            } elseif ($pubTime < $time) {
+                $status = "Publ";
+                // echo "Publ";
+            } else {
+                $status = "Okänd";
+            }
+            // Todo: create recovery link for deleted items.
             $out .= <<<EOD
             <tr>
                 <td>{$title}<br><a href="edit.php?id={$val->id}">Redigera</a> | <a href="{$url}">Visa</a> | <a href="delete.php?id={$val->id}">Radera</a></td>
                 <td>{$val->TYPE}</td>
                 <td>{$val->slug}</td>
-                <td></td>
-                <td>{$val->published}</td>
+                <td>$status</td>
+                <td>{$pubDate}</td>
             </tr>
 EOD;
         }

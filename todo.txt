@@ -4,11 +4,11 @@ Loom CMS
 Todo:
 x Antal poster på view.php
 x stylesheet för CMS
-datumformat utskrift
+ xdatumformat utskrift
 återställa Raderade
-status kolumn publ, raderad, utkast, på view.php
-formulär med dropdown, radion bottons etc.
-xredirect till 404
+ xstatus kolumn publ, raderad, utkast, på view.php
+formulär med dropdown, x radion bottons etc.
+x redirect till 404
 Skriv rapport
 
 Extra uppgifter:
