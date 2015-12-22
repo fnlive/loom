@@ -13,6 +13,7 @@ class CPage
 
         $page = $content->GetPage($url);
         $title = htmlentities($page->title, null, 'UTF-8');
+        //Todo: move title to page.php
         $loom['title'] = $title;
         $data = htmlentities($page->DATA, null, 'UTF-8');
         $data = $filter->doFilter($data, $page->FILTER);
