@@ -3,37 +3,6 @@
  * Manage web content in database..
  *
  */
-/**
-* Tabellstrukturen i databasen skall ha minst samma funktionalitet som i den nämnda guiden.
-
-* Klassen skall själv initiera tabellstrukturen i databasen. Låt alltså klassen ha en metod som kan skapa tabellerna.
-
-* Det skall gå att lägga till, redigera och ta bort innehåll.
-
-* Bygg de sidkontroller som behövs för att exemplet skall fungera.
-
-*Draft:
-* Konstruktor för att skapa/lagra CDataBase objekt.
-* Metod för att skapa databasstruktur och ev lägga in dummy-innehåll.
-*    Om tabbeller inte finns, skapa dem.
-* Metod för att generera html för formulär för att skapa content.
-* Metod för att spara innehållet från formuläret i databasen.
-* Metod för att editera befintligt innehåll
-* Metod för att radera innehåll
-
-* Properties:
-* contentDb CDataBase
-*
-
-* Flöde från page-controller create.php
-***************************************
-* ????Kontrollera om databas-tabeller finns, om inte, skapa dem. lägg i CCONTENT::constructor.
-* Skriv ut formulär, posta det.
-* Fånga upp om formulärt postats.
-*   Om så, validera vissa fält, te.x. datum, skriv in dem i tabellen.
-*
- *
- */
 class CContent
 {
     private $contentDb;
@@ -44,21 +13,23 @@ class CContent
         $this->InitDb();
     }
 
+    /**
+     * Example
+     *
+     * @param string
+     * @return array
+     */
+     /**
+      * Initialize database if table Content is not present. Add default data.
+      *
+      */
     public function InitDb()
     {
-        // Check if Db holds correct tables, else crete htem
+        // Check if Db holds correct tables, else crete them
         $params = array( );
-        $query = <<<EOD
-SELECT * FROM Content
-EOD;
-        // Debug test to see if we find table content.
-        // $res = $this->contentDb->ExecuteSelectQueryAndFetchAll($query);
-        // dump($res);
-        // echo "Testing if Content table exists... ";
+        $query = "SELECT * FROM Content";
         $tableExists = $this->contentDb->ExecuteQuery($query, $params, false);
         if (!$tableExists) {
-            echo "Creating Content table... ";
-            $params = array( );
             // Alternative syntax that could work instead of SELECT * ...?
             // CREATE TABLE IF NOT EXISTS Content
             // But how then when to create default content.
@@ -81,11 +52,9 @@ EOD;
 
     ) ENGINE INNODB CHARACTER SET utf8
 EOD;
-            echo "Close to create... ";
-            $res = $this->contentDb->ExecuteQuery($query, $params, false);
+            $res = $this->contentDb->ExecuteQuery($query, array(), false);
 
             // Add default content after creation of table
-            $params = array( );
             $query = <<<EOD
             INSERT INTO Content (slug, url, TYPE, title, DATA, FILTER, published, created) VALUES
               ('hem', 'hem', 'page', 'Hem', "Detta är min hemsida. Den är skriven i [url=http://en.wikipedia.org/wiki/BBCode]bbcode[/url] vilket innebär att man kan formattera texten till [b]bold[/b] och [i]kursiv stil[/i] samt hantera länkar.\n\nDessutom finns ett filter 'nl2br' som lägger in <br>-element istället för \\n, det är smidigt, man kan skriva texten precis som man tänker sig att den skall visas, med radbrytningar.", 'bbcode,nl2br', NOW(), NOW()),
@@ -94,7 +63,7 @@ EOD;
               ('blogpost-2', NULL, 'post', 'Nu har sommaren kommit', "Detta är en bloggpost som berättar att sommaren har kommit, ett budskap som kräver en bloggpost.", 'nl2br', NOW(), NOW()),
               ('blogpost-3', NULL, 'post', 'Nu har hösten kommit', "Detta är en bloggpost som berättar att sommaren har kommit, ett budskap som kräver en bloggpost", 'nl2br', NOW(), NOW())
 EOD;
-            $this->contentDb->ExecuteQuery($query, $params, false);
+            $this->contentDb->ExecuteQuery($query, array(), false);
         }
     }
 
@@ -112,6 +81,11 @@ EOD;
         }
     }
 
+    /**
+     * Return html form to create content.
+     *
+     * @return string  with html form
+     */
     public function getCreateContentForm()
     {
         $type = "";
@@ -145,6 +119,11 @@ EOD;
         return $out;
     }
 
+    /**
+     * Return html form to edit content.
+     *
+     * @return string  with html form
+     */
     public function getEditContentForm($id)
     {
         $sql = '
@@ -191,6 +170,12 @@ EOD;
         return $out;
     }
 
+    /**
+     * Return html form to create content.
+     *
+     * @param array $post containing content to be saved
+     * @return array sanitized content
+     */
     private function Sanitize($post)
     {
         $id = isset($_POST['id']) ? strip_tags($_POST['id']) : "NULL";
@@ -207,6 +192,12 @@ EOD;
         return array($slug, $url, $type, $title, $data, $filter, $published, );
     }
 
+    /**
+     * Save new created content to database
+     *
+     * @param array $post containing content to be saved
+     * @return void
+     */
     public function Save($post)
     {
         //First sanitize data
@@ -220,6 +211,12 @@ EOD;
         // header('Location: create.php');
     }
 
+    /**
+     * Update content in database
+     *
+     * @param array $post containing content to be saved
+     * @return void
+     */
     public function Update($content)
     {
         // Sanitize $id first.
@@ -247,6 +244,12 @@ EOD;
         // header('Location: create.php');
     }
 
+    /**
+     * Update content in database
+     *
+     * @param integer $id for content to be deleted
+     * @return void
+     */
     public function Delete($id)
     {
         $query = <<<EOD
@@ -261,7 +264,12 @@ EOD;
 
     }
 
-
+    /**
+     * Generate html for page to administrate content
+     *
+     * @param string $show what content to display
+     * @return string generated html
+     */
     public function ShowItems($show='all')
     {
         $out = "";
@@ -301,6 +309,7 @@ EOD;
             $url = $this->getUrl($val);
             $title = htmlentities($val->title);
             // Calculate status: published, draft, deleted
+            // Todo: not working yeat
             // if ($val->deleted < time()) {
             //     $time = time();
             //     $date = date("y-m-d H:i");
@@ -324,6 +333,12 @@ EOD;
         return $out;
     }
 
+    /**
+     * Get Page content
+     *
+     * @param string $url of page
+     * @return array content of page
+     */
     public function GetPage($url)
     {
         $sql = '
@@ -342,6 +357,12 @@ EOD;
         return $res[0];
     }
 
+    /**
+     * Get Post content
+     *
+     * @param string $url of page
+     * @return array of arrays with content of posts
+     */
     public function GetPosts($slug='')
     {
         $slugSql = $slug ? 'slug = ?' : '1';
@@ -363,6 +384,12 @@ EOD;
         return $res;
     }
 
+    /**
+     * Get content item
+     *
+     * @param string $id of item
+     * @return array content of item
+     */
     public function GetItem($id='')
     {
         $sql = '

@@ -10,7 +10,7 @@ $loom['stylesheets'][] = 'css/loom-cms.css';
 // Do it and store it all in variables in the Loom container.
 
 $loom['title'] = "Visa innehåll";
-$out = "";
+$out = "<h1>Innehåll</h1>";
 
 // Connect to a MySQL database using PHP PDO
 $db = new CDatabase($loom['database']);
