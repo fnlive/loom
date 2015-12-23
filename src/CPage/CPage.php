@@ -6,7 +6,7 @@
 class CPage
 {
 
-    public static function Get($url, $db)
+    public static function Get($url, &$title, $db)
     {
         $content = new CContent($db);
         $filter = new CTextFilter();
@@ -14,7 +14,6 @@ class CPage
         $page = $content->GetPage($url);
         $title = htmlentities($page->title, null, 'UTF-8');
         //Todo: move title to page.php
-        $loom['title'] = $title;
         $data = htmlentities($page->DATA, null, 'UTF-8');
         $data = $filter->doFilter($data, $page->FILTER);
         $editLink = "<a href=\"edit.php?id={$page->id}\">Redigera</a>";

@@ -17,7 +17,7 @@ $db = new CDatabase($loom['database']);
 $url = isset($_GET['url']) ? $_GET['url'] : null;
 
 // Gather the complete html output for page.
-$loom['main'] = CPage::Get($url, $db);
+$loom['main'] = CPage::Get($url, $loom['title'], $db);
 
 // Finally, leave it all to the rendering phase of Loom.
 include(LOOM_THEME_PATH);

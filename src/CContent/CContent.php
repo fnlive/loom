@@ -103,12 +103,12 @@ EOD;
     <p><label>Slug:<br/><input type='text' name='slug' value=''/></label></p>
     <p><label>Url:<br/><input type='text' name='url' value=''/></label></p>
     <p><label>Text:<br/><textarea name='data'>{$data}</textarea></label></p>
-    <p><label>Type:<br/>
+    <p><label>Type:<br/></label>
         <input type="radio" name="type" value="page"> Page<br>
         <input type="radio" name="type" value="post" checked="checked"> Post<br>
-    </label></p>
+    </p>
     <p><label>Filter:<br/><input type='text' name='filter' value='{$filter}'/></label></p>
-    <p><label>Publiseringsdatum:<br/><input type='date' name='published' value='{$published}'/></label></p>
+    <p><label>Publiseringsdatum:<br/><input type='text' name='published' value='{$published}'/></label></p>
     <p class=buttons>
         <input type='submit' name='save' value='Spara'/>
         <input type='reset' value='Återställ'/>
@@ -150,14 +150,14 @@ EOD;
     <fieldset>
     <legend>Uppdatera innehåll</legend>
     <input type=hidden name=id value='{$id}'/>
-    <p><label>Titel:<br/><input type='text' name='title' value=$title required/></label></p>
+    <p><label>Titel:<br/><input type='text' name='title' value='$title' required/></label></p>
     <p><label>Slug:<br/><input type='text' name='slug' value='$slug'/></label></p>
     <p><label>Url:<br/><input type='text' name='url' value='$url'/></label></p>
     <p><label>Text:<br/><textarea name='data'>{$data}</textarea></label></p>
-    <p><label>Type:<br/>
+    <p><label>Type:<br/></label>
         <input type="radio" name="type" value="page" $pageChecked> Page<br>
         <input type="radio" name="type" value="post" $postChecked> Post<br>
-    </label></p>
+    </p>
     <p><label>Filter:<br/><input type='text' name='filter' value='{$filter}'/></label></p>
     <p><label>Publiseringsdatum:<br/><input type='text' name='published' value='{$published}'/></label></p>
     <p class=buttons>

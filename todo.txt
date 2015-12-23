@@ -4,12 +4,13 @@ Loom CMS
 Todo:
 x Antal poster på view.php
 x stylesheet för CMS
- xdatumformat utskrift
+x datumformat utskrift
 återställa Raderade
- xstatus kolumn publ, raderad, utkast, på view.php
+x status kolumn publ, raderad, utkast, på view.php
 formulär med dropdown, x radion bottons etc.
 x redirect till 404
 x Skriv rapport
+x Fixa title på page
 
 Extra uppgifter:
 Koppla till användare
