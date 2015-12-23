@@ -116,7 +116,6 @@ class CDatabase {
    * @return boolean returns TRUE on success or FALSE on failure.
    */
   public function ExecuteQuery($query, $params = array(), $debug=false) {
-    // Make the query
     $this->stmt = $this->db->prepare($query);
     $res = $this->stmt->execute($params);
     // Log details on the query
