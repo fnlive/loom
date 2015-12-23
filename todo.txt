@@ -14,7 +14,7 @@ x Fixa title på page
 
 Extra uppgifter:
 Koppla till användare
-Använd slugify
+x Använd slugify
 
 Extrauppgift page
     Utveckla din navbar så att den kan länka och visa aktuell sida som hanteras av page.php.

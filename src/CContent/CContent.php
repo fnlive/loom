@@ -178,8 +178,6 @@ EOD;
      */
     private function Sanitize($post)
     {
-        $id = isset($_POST['id']) ? strip_tags($_POST['id']) : "NULL";
-        is_numeric($id) or die('Check: Id must be numeric.');
         $title = isset($post['title']) ? strip_tags($post['title']) : "NULL";
         $slug = isset($post['slug']) ? strip_tags($post['slug']) : "NULL";
         $slug = empty($slug) ? null : $slug;
@@ -193,6 +191,20 @@ EOD;
     }
 
     /**
+     * Create a slug of a string, to be used as url.
+     *
+     * @param string $str the string to format as slug.
+     * @return str the formatted slug.
+     */
+    private function slugify($str) {
+      $str = mb_strtolower(trim($str));
+      $str = str_replace(array('å','ä','ö'), array('a','a','o'), $str);
+      $str = preg_replace('/[^a-z0-9-]/', '-', $str);
+      $str = trim(preg_replace('/-+/', '-', $str), '-');
+      return $str;
+    }
+
+    /**
      * Save new created content to database
      *
      * @param array $post containing content to be saved
@@ -200,7 +212,14 @@ EOD;
      */
     public function Save($post)
     {
-        //First sanitize data
+        // Slugify title if slug or url is empty
+        if(empty($post['slug'])) {
+            $post['slug'] = $this->slugify($post['title']);
+        }
+        if(empty($post['url'])) {
+            $post['url'] = $this->slugify($post['title']);
+        }
+        // Sanitize data
         $content = $this->Sanitize($post);
         //Save content to db
         $query = <<<EOD
@@ -208,7 +227,10 @@ EOD;
           (?, ?, ?, ?, ?, ?, ?, NOW())
 EOD;
         $this->contentDb->ExecuteQuery($query, $content, false);
-        // header('Location: create.php');
+
+        // Send user to edit page if user wants to update item
+        $id = $this->contentDb->LastInsertId();
+        header("Location: edit.php?id=$id");
     }
 
     /**
@@ -241,7 +263,7 @@ EOD;
 EOD;
         $this->contentDb->ExecuteQuery($query, $content, false);
         // Add error handling?
-        // header('Location: create.php');
+        //header("Location: edit.php?id=$id");
     }
 
     /**
