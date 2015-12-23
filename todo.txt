@@ -9,7 +9,7 @@ x stylesheet för CMS
  xstatus kolumn publ, raderad, utkast, på view.php
 formulär med dropdown, x radion bottons etc.
 x redirect till 404
-Skriv rapport
+x Skriv rapport
 
 Extra uppgifter:
 Koppla till användare

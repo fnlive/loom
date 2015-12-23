@@ -3,11 +3,11 @@
 # Markdown Extra  -  A text-to-HTML conversion tool for web writers
 #
 # PHP Markdown Extra
-# Copyright (c) 2004-2014 Michel Fortin  
+# Copyright (c) 2004-2014 Michel Fortin
 # <http://michelf.com/projects/php-markdown/>
 #
 # Original Markdown
-# Copyright (c) 2004-2006 John Gruber  
+# Copyright (c) 2004-2006 John Gruber
 # <http://daringfireball.net/projects/markdown/>
 #
 namespace Michelf;
@@ -35,4 +35,3 @@ class MarkdownExtra extends \Michelf\_MarkdownExtra_TmpImpl {
 	# See note above.
 
 }
-
