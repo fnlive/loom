@@ -93,8 +93,6 @@ EOD;
         $filter = "";
         $published = date("y-m-d H:i");
 
-        // Todo Fixa input fält date etc. validering?
-        // dropdown, radio buttons, ...
         $out = <<<EOD
 <form method=post>
     <fieldset>
@@ -263,11 +261,11 @@ EOD;
 EOD;
         $this->contentDb->ExecuteQuery($query, $content, false);
         // Add error handling?
-        //header("Location: edit.php?id=$id");
+        header("Location: edit.php?id=$id");
     }
 
     /**
-     * Update content in database
+     * Delete content in database
      *
      * @param integer $id for content to be deleted
      * @return void
@@ -282,8 +280,7 @@ EOD;
             id = ?
 EOD;
         $this->contentDb->ExecuteQuery($query, array($id), false);
-        // header('Location: create.php');
-
+        // Todo: Add error handling?
     }
 
     /**
