@@ -90,7 +90,7 @@ $loom['mainnavbar']  = array(
         'source' => array('text'=>'Källkod', 'url'=>'source.php',
         'title' => 'Källkod'),
     // This is a menu item
-    'test'  => array(
+    'user'  => array(
       'text'  =>'User',
       'url'   =>'login.php',
       'title' => 'Login',
@@ -100,13 +100,13 @@ $loom['mainnavbar']  = array(
 
         'items' => array(
           // This is a menu item of the submenu
-          'item 1'  => array(
+          'login'  => array(
             'text'  => 'Login',
             'url'   => 'login.php',
             'title' => 'Login',
           ),
           // This is a menu item of the submenu
-          'item 2'  => array(
+          'logout'  => array(
             'text'  => 'Logout',
             'url'   => 'logout.php',
             'title' => 'Logout',
@@ -126,21 +126,27 @@ $loom['mainnavbar']  = array(
 
       'items' => array(
         // This is a menu item of the submenu
-        'item 1'  => array(
+        'create'  => array(
           'text'  => 'Skapa ny',
           'url'   => 'create.php',
           'title' => 'Skapa ny',
         ),
         // This is a menu item of the submenu
-        'item 2'  => array(
+        'view'  => array(
           'text'  => 'Visa alla',
           'url'   => 'view.php',
           'title' => 'Visa alla',
         ),
+        // This is a menu item of the submenu
+        'reset'  => array(
+          'text'  => 'Återställ innehåll',
+          'url'   => 'view.php?reset-content',
+          'title' => 'Återställ innehåll',
+        ),
       ),
     ),
   ),
-    'Blogg' => array('text'=>'Blogg', 'url'=>'post.php', 'title' => 'Bloggen'),
+  'blogg' => array('text'=>'Blogg', 'url'=>'post.php', 'title' => 'Bloggen'),
   ),
 
   // This is the callback tracing the current selected menu item base on scriptname

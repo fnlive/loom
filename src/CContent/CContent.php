@@ -48,7 +48,8 @@ class CContent
       published DATETIME,
       created DATETIME,
       updated DATETIME,
-      deleted DATETIME
+      deleted DATETIME,
+      author TEXT
 
     ) ENGINE INNODB CHARACTER SET utf8
 EOD;
@@ -56,15 +57,22 @@ EOD;
 
             // Add default content after creation of table
             $query = <<<EOD
-            INSERT INTO Content (slug, url, TYPE, title, DATA, FILTER, published, created) VALUES
-              ('hem', 'hem', 'page', 'Hem', "Detta är min hemsida. Den är skriven i [url=http://en.wikipedia.org/wiki/BBCode]bbcode[/url] vilket innebär att man kan formattera texten till [b]bold[/b] och [i]kursiv stil[/i] samt hantera länkar.\n\nDessutom finns ett filter 'nl2br' som lägger in <br>-element istället för \\n, det är smidigt, man kan skriva texten precis som man tänker sig att den skall visas, med radbrytningar.", 'bbcode,nl2br', NOW(), NOW()),
-              ('om', 'om', 'page', 'Om', "Detta är en sida om mig och min webbplats. Den är skriven i [Markdown](http://en.wikipedia.org/wiki/Markdown). Markdown innebär att du får bra kontroll över innehållet i din sida, du kan formattera och sätta rubriker, men du behöver inte bry dig om HTML.\n\nRubrik nivå 2\n-------------\n\nDu skriver enkla styrtecken för att formattera texten som **fetstil** och *kursiv*. Det finns ett speciellt sätt att länka, skapa tabeller och så vidare.\n\n###Rubrik nivå 3\n\nNär man skriver i markdown så blir det läsbart även som textfil och det är lite av tanken med markdown.", 'markdown', NOW(), NOW()),
-              ('blogpost-1', NULL, 'post', 'Välkommen till min blogg!', "Detta är en bloggpost.\n\nNär det finns länkar till andra webbplatser så kommer de länkarna att bli klickbara.\n\nhttp://dbwebb.se är ett exempel på en länk som blir klickbar.", 'link,nl2br', NOW(), NOW()),
-              ('blogpost-2', NULL, 'post', 'Nu har sommaren kommit', "Detta är en bloggpost som berättar att sommaren har kommit, ett budskap som kräver en bloggpost.", 'nl2br', NOW(), NOW()),
-              ('blogpost-3', NULL, 'post', 'Nu har hösten kommit', "Detta är en bloggpost som berättar att sommaren har kommit, ett budskap som kräver en bloggpost", 'nl2br', NOW(), NOW())
+            INSERT INTO Content (slug, url, TYPE, title, DATA, FILTER, published, created, author) VALUES
+              ('hem', 'hem', 'page', 'Hem', "Detta är min hemsida. Den är skriven i [url=http://en.wikipedia.org/wiki/BBCode]bbcode[/url] vilket innebär att man kan formattera texten till [b]bold[/b] och [i]kursiv stil[/i] samt hantera länkar.\n\nDessutom finns ett filter 'nl2br' som lägger in <br>-element istället för \\n, det är smidigt, man kan skriva texten precis som man tänker sig att den skall visas, med radbrytningar.", 'bbcode,nl2br', NOW(), NOW(), 'admin'),
+              ('om', 'om', 'page', 'Om', "Detta är en sida om mig och min webbplats. Den är skriven i [Markdown](http://en.wikipedia.org/wiki/Markdown). Markdown innebär att du får bra kontroll över innehållet i din sida, du kan formattera och sätta rubriker, men du behöver inte bry dig om HTML.\n\nRubrik nivå 2\n-------------\n\nDu skriver enkla styrtecken för att formattera texten som **fetstil** och *kursiv*. Det finns ett speciellt sätt att länka, skapa tabeller och så vidare.\n\n###Rubrik nivå 3\n\nNär man skriver i markdown så blir det läsbart även som textfil och det är lite av tanken med markdown.", 'markdown', NOW(), NOW(), 'admin'),
+              ('blogpost-1', NULL, 'post', 'Välkommen till min blogg!', "Detta är en bloggpost.\n\nNär det finns länkar till andra webbplatser så kommer de länkarna att bli klickbara.\n\nhttp://dbwebb.se är ett exempel på en länk som blir klickbar.", 'link,nl2br', NOW(), NOW(), 'doe'),
+              ('blogpost-2', NULL, 'post', 'Nu har sommaren kommit', "Detta är en bloggpost som berättar att sommaren har kommit, ett budskap som kräver en bloggpost.", 'nl2br', NOW(), NOW(), 'admin'),
+              ('blogpost-3', NULL, 'post', 'Nu har hösten kommit', "Detta är en bloggpost som berättar att sommaren har kommit, ett budskap som kräver en bloggpost", 'nl2br', NOW(), NOW(), 'doe')
 EOD;
             $this->contentDb->ExecuteQuery($query, array(), false);
         }
+    }
+
+    public function Reset()
+    {
+        $query = "DROP TABLE Content";
+        $res = $this->contentDb->ExecuteQuery($query, array(), false);
+        $this->InitDb();
     }
 
     /**
@@ -88,13 +96,17 @@ EOD;
      */
     public function getCreateContentForm()
     {
-        $type = "";
+        $user = new CUser();
+        if (!$user->IsAuthenticated()) {
+            $out = "Du måste logga in för att skapa innehåll";
+            $out .= $user->LoginForm();
+            return $out;
+        }
         $data = "";
-        $filter = "";
+        // Set markdown as default filter
+        $filter = "markdown";
         $published = date("y-m-d H:i");
-
-        // Todo Fixa input fält date etc. validering?
-        // dropdown, radio buttons, ...
+        $author = $user->GetAcronym();
         $out = <<<EOD
 <form method=post>
     <fieldset>
@@ -108,6 +120,7 @@ EOD;
         <input type="radio" name="type" value="post" checked="checked"> Post<br>
     </p>
     <p><label>Filter:<br/><input type='text' name='filter' value='{$filter}'/></label></p>
+    <p><label>Författare:<br/><input type='text' name='author' value='{$author}'/></label></p>
     <p><label>Publiseringsdatum:<br/><input type='text' name='published' value='{$published}'/></label></p>
     <p class=buttons>
         <input type='submit' name='save' value='Spara'/>
@@ -126,17 +139,24 @@ EOD;
      */
     public function getEditContentForm($id)
     {
+        $user = new CUser();
+        if (!$user->IsAuthenticated()) {
+            $out = "Du måste logga in för att redigera innehåll";
+            $out .= $user->LoginForm();
+            return $out;
+        }
         $sql = '
           SELECT *
           FROM Content WHERE id = ?;
         ';
-        $res = $this->contentDb->ExecuteSelectQueryAndFetchAll($sql, array($id));
+        $res = $this->contentDb->ExecuteSelectQueryAndFetchAll($sql, array($id), false);
         $type = $res[0]->TYPE;
         $slug = $res[0]->slug;
         $url = $res[0]->url;
         $title = $res[0]->title;
         $data = $res[0]->DATA;
         $filter = $res[0]->FILTER;
+        $author = $res[0]->author;
         $published = $res[0]->published;
         if ("page"==$type) {
             $pageChecked = 'checked="checked"';
@@ -159,6 +179,7 @@ EOD;
         <input type="radio" name="type" value="post" $postChecked> Post<br>
     </p>
     <p><label>Filter:<br/><input type='text' name='filter' value='{$filter}'/></label></p>
+    <p><label>Författare:<br/><input type='text' name='author' value='{$author}'/></label></p>
     <p><label>Publiseringsdatum:<br/><input type='text' name='published' value='{$published}'/></label></p>
     <p class=buttons>
         <input type='submit' name='update' value='Uppdatera'/>
@@ -178,18 +199,32 @@ EOD;
      */
     private function Sanitize($post)
     {
-        $id = isset($_POST['id']) ? strip_tags($_POST['id']) : "NULL";
-        is_numeric($id) or die('Check: Id must be numeric.');
-        $title = isset($post['title']) ? strip_tags($post['title']) : "NULL";
-        $slug = isset($post['slug']) ? strip_tags($post['slug']) : "NULL";
-        $slug = empty($slug) ? null : $slug;
-        $url = isset($post['url']) ? strip_tags($post['url']) : "NULL";
-        $url = empty($url) ? null : $url;
-        $data = isset($post['data']) ? strip_tags($post['data']) : "NULL";
-        $type = isset($post['type']) ? strip_tags($post['type']) : "NULL";
-        $filter = isset($post['filter']) ? strip_tags($post['filter']) : "NULL";
-        $published = isset($post['published']) ? strip_tags($post['published']) : "NULL";
-        return array($slug, $url, $type, $title, $data, $filter, $published, );
+        $post['title'] = isset($post['title']) ? strip_tags($post['title']) : "NULL";
+        $post['slug'] = isset($post['slug']) ? strip_tags($post['slug']) : "NULL";
+        $post['slug'] = empty($post['slug']) ? null : $post['slug'];
+        $post['url'] = isset($post['url']) ? strip_tags($post['url']) : "NULL";
+        $post['url'] = empty($post['url']) ? null : $post['url'];
+        $post['data'] = isset($post['data']) ? strip_tags($post['data']) : "NULL";
+        $post['type'] = isset($post['type']) ? strip_tags($post['type']) : "NULL";
+        $post['filter'] = isset($post['filter']) ? strip_tags($post['filter']) : "NULL";
+        $post['published'] = isset($post['published']) ? strip_tags($post['published']) : "NULL";
+        $post['author'] = isset($post['author']) ? strip_tags($post['author']) : "NULL";
+        return $post;
+        // return array($slug, $url, $type, $title, $data, $filter, $published, $author);
+    }
+
+    /**
+     * Create a slug of a string, to be used as url.
+     *
+     * @param string $str the string to format as slug.
+     * @return str the formatted slug.
+     */
+    private function slugify($str) {
+      $str = mb_strtolower(trim($str));
+      $str = str_replace(array('å','ä','ö'), array('a','a','o'), $str);
+      $str = preg_replace('/[^a-z0-9-]/', '-', $str);
+      $str = trim(preg_replace('/-+/', '-', $str), '-');
+      return $str;
     }
 
     /**
@@ -200,15 +235,26 @@ EOD;
      */
     public function Save($post)
     {
-        //First sanitize data
-        $content = $this->Sanitize($post);
+        // Slugify title if slug or url is empty
+        if(empty($post['slug'])) {
+            $post['slug'] = $this->slugify($post['title']);
+        }
+        if(empty($post['url'])) {
+            $post['url'] = $this->slugify($post['title']);
+        }
+        // Sanitize data
+        $post = $this->Sanitize($post);
+        $content = array($post['slug'], $post['url'], $post['type'], $post['title'], $post['data'], $post['filter'], $post['published'], $post['author']);
         //Save content to db
         $query = <<<EOD
-        INSERT INTO Content (slug, url, TYPE, title, DATA, FILTER, published, created) VALUES
-          (?, ?, ?, ?, ?, ?, ?, NOW())
+        INSERT INTO Content (slug, url, TYPE, title, DATA, FILTER, published, author, created) VALUES
+          (?, ?, ?, ?, ?, ?, ?, ?, NOW())
 EOD;
         $this->contentDb->ExecuteQuery($query, $content, false);
-        // header('Location: create.php');
+
+        // Send user to edit page if user wants to update item
+        $id = $this->contentDb->LastInsertId();
+        header("Location: edit.php?id=$id");
     }
 
     /**
@@ -224,7 +270,7 @@ EOD;
         is_numeric($id) or die('Check: Id must be numeric.');
         // Sanitize $content
         $content = $this->Sanitize($content);
-        // Add $id to end of $content
+        $content = array($content['slug'], $content['url'], $content['type'], $content['title'], $content['data'], $content['filter'], $content['published'], $content['author']);        // Add $id to end of $content
         $content[] = $id;
         $query = <<<EOD
         UPDATE Content SET
@@ -235,23 +281,31 @@ EOD;
             DATA = ?,
             FILTER = ?,
             published = ?,
+            author = ?,
             updated = NOW()
         WHERE
             id = ?
 EOD;
         $this->contentDb->ExecuteQuery($query, $content, false);
         // Add error handling?
-        // header('Location: create.php');
+        header("Location: edit.php?id=$id");
     }
 
     /**
-     * Update content in database
+     * Delete content in database
      *
      * @param integer $id for content to be deleted
      * @return void
      */
     public function Delete($id)
     {
+        $out = "";
+        $user = new CUser();
+        if (!$user->IsAuthenticated()) {
+            $out .= "Du måste logga in för att redigera innehåll";
+            $out .= $user->LoginForm();
+            return $out;
+        }
         $query = <<<EOD
         UPDATE Content SET
             updated = NOW(),
@@ -259,9 +313,15 @@ EOD;
         WHERE
             id = ?
 EOD;
-        $this->contentDb->ExecuteQuery($query, array($id), false);
-        // header('Location: create.php');
-
+        $success = $this->contentDb->ExecuteQuery($query, array($id), false);
+        if ($success) {
+            $res = $this->GetItem($id);
+            $url = $res[0]->url;
+            $out .= "<p>Du har raderat <a href='{$res[0]->url}'>{$res[0]->title}</a>.</p>";
+        } else {
+            $out .= "Det gick inte att radera innehåll med id $id.";
+        }
+        return $out;
     }
 
     /**
@@ -300,6 +360,7 @@ EOD;
                 <th>Typ</th>
                 <th>Slug</th>
                 <th>Status</th>
+                <th>Författare</th>
                 <th>Publicerad</th>
             </tr>
 EOD;
@@ -333,6 +394,7 @@ EOD;
                 <td>{$val->TYPE}</td>
                 <td>{$val->slug}</td>
                 <td>$status</td>
+                <td>$val->author</td>
                 <td>{$pubDate}</td>
             </tr>
 EOD;

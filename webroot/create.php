@@ -15,12 +15,14 @@ $out = "";
 $db = new CDatabase($loom['database']);
 $content = new CContent($db);
 
+// If user pressed login button, try authenticate user.
+CUser::ProcessLogin($db);
+
 // User has pressed save button in create-form, save item to database.
 if (isset($_POST['save'])) {
-    //Save content and then redirect with header... in CCreate:method todo
-    dump($_POST);
+    //Save content and then redirect to edit.php
     $content->Save($_POST);
-    // Check status av save to db Todo
+    // Check status of save to db Todo
 }
 
 $out .= $content->getCreateContentForm();

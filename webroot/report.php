@@ -89,12 +89,13 @@ $loom['main'] = <<<EOD
 <!-- Snart har du grunderna klara i ditt Anax, grunderna som kan skapa många webbplatser, är det något du saknar så här långt, kanske några moduler som du känner som viktiga i ditt Anax? -->
 <p>Just nu känner jag inte att det saknas något speciellt i mitt Anax, eller Loom. Ramverket känns väldigt enkelt och avskalat, men flexibelt och möjliggör att skapa väldigt många olika slags webb-applikationer, genom att lägga till controller-sidor och moduler. Det kändes kul att på relativt kort tid kunna skapa ett enkelt CMS med ramverket.
 </p>
+<p>Jag gjorde också extra-uppgifterna slugify, koppla användare till CMS, samt visa vem som författat ett blogg-inlägg. För att kunna skapa eller redigera innehåll i CMS så måste man vara inloggad.
+</p>
 <h2>kmom06</h2>
 <p>
 </p>
 <p>
 </p>
-
 EOD;
 
 // Finally, leave it all to the rendering phase of Loom.

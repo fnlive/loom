@@ -23,7 +23,8 @@ class CBlog
             $title = htmlentities($post->title, null, 'UTF-8');
             $data = $filter->doFilter(htmlentities($post->DATA, null, 'UTF-8'), $post->FILTER);
             $editLink = "<a href=\"edit.php?id={$post->id}\">Redigera</a>";
-            $meta = "Publicerat: {$post->published} | " . $editLink;
+            $pubDate = date("y-m-d H:i", strtotime($post->published));
+            $meta = "Publicerat: {$pubDate} | " . "Författare: {$post->author} | " . $editLink;
             $out .= <<<EOD
             <section>
               <article>

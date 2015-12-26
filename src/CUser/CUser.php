@@ -56,24 +56,23 @@ class CUser
    */
   public function LoginForm()
   {
-    $out = <<<EOD
-<form method=post>
-  <fieldset>
-  <legend>Logga in</legend>
-  <p>Logga in med doe:doe eller admin:admin</p>
-  <p><label>Användare <input type='text' name='user' value='' placeholder='Ange användarnamn'/></label></p>
-  <p><label>Lösenord <input type='password' name='passwd' value='' placeholder='Ange ditt lösenord'/></label></p>
-  <p><input type='submit' name='submit' value='login'/></p>
-  </fieldset>
-</form>
+      $out = "";
+      // Check if user is authenticated.
+      if($this->IsAuthenticated()) {
+          $out .= "<p>Du är inloggad som: {$this->acronym} ({$this->name})</p>";
+      }  else {
+          $out = <<<EOD
+  <form method=post>
+    <fieldset>
+    <legend>Logga in</legend>
+    <p>Logga in med doe:doe eller admin:admin</p>
+    <p><label>Användare <input type='text' name='user' value='' placeholder='Ange användarnamn'/></label></p>
+    <p><label>Lösenord <input type='password' name='passwd' value='' placeholder='Ange ditt lösenord'/></label></p>
+    <p><input type='submit' name='submit' value='login'/></p>
+    </fieldset>
+  </form>
 EOD;
-
-  // Check if user is authenticated.
-  if($this->authenticated) {
-    $out .= "<p>Du är inloggad som: {$this->acronym} ({$this->name})</p>";
-  }
-  else {
-    $out .= "<p>Du är INTE inloggad.</p>";
+        $out .= "<p>Du är INTE inloggad.</p>";
     }
     return $out;
   }
@@ -92,6 +91,19 @@ EOD;
     }
     $this->Logout();
     return $output;
+  }
+
+  /**
+   * Login user. Call from controller page for self-submitting login-page.
+   *
+   */
+  static public function ProcessLogin($db)
+  {
+      // If user pressed login button, try authenticate user.
+      if (isset($_POST['submit']) && "login"==$_POST['submit']) {
+          $user = new CUser();
+          $user->Login($_POST['user'], $_POST['passwd'], $db);
+      }
   }
 
   /**

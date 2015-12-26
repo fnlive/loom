@@ -20,6 +20,9 @@ $content = new CContent($db);
 // or test if user wants to see specific items with _GET
 if (isset($_GET['show'])) {
     $out .= $content->ShowItems($_GET['show']);
+} elseif (isset($_GET['reset-content'])) {
+    $content->Reset();
+    $out .= "Innehållet är återställt.";
 } else {
     $out .= $content->ShowItems();
 }

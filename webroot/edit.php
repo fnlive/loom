@@ -15,6 +15,9 @@ $out = "";
 $db = new CDatabase($loom['database']);
 $content = new CContent($db);
 
+// If user pressed login button, try authenticate user.
+CUser::ProcessLogin($db);
+
 // User wants to edit an item.
 // Get html for for update of item and pre-fill it with values from database.
 if (isset($_GET['id'])) {

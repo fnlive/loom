@@ -13,11 +13,11 @@ class CPage
 
         $page = $content->GetPage($url);
         $title = htmlentities($page->title, null, 'UTF-8');
-        //Todo: move title to page.php
         $data = htmlentities($page->DATA, null, 'UTF-8');
         $data = $filter->doFilter($data, $page->FILTER);
         $editLink = "<a href=\"edit.php?id={$page->id}\">Redigera</a>";
-        $meta = "Publicerat: {$page->published} " . $editLink;
+        $pubDate = date("y-m-d H:i", strtotime($page->published));
+        $meta = "Publicerat: {$pubDate} | " . "Författare: {$page->author} | " . $editLink;
 
         $out = <<<EOD
         <article class="page">
