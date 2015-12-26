@@ -21,7 +21,6 @@ CUser::ProcessLogin($db);
 // User has pressed save button in create-form, save item to database.
 if (isset($_POST['save'])) {
     //Save content and then redirect to edit.php
-    dump($_POST);
     $content->Save($_POST);
     // Check status of save to db Todo
 }

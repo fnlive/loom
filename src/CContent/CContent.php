@@ -199,17 +199,18 @@ EOD;
      */
     private function Sanitize($post)
     {
-        $title = isset($post['title']) ? strip_tags($post['title']) : "NULL";
-        $slug = isset($post['slug']) ? strip_tags($post['slug']) : "NULL";
-        $slug = empty($slug) ? null : $slug;
-        $url = isset($post['url']) ? strip_tags($post['url']) : "NULL";
-        $url = empty($url) ? null : $url;
-        $data = isset($post['data']) ? strip_tags($post['data']) : "NULL";
-        $type = isset($post['type']) ? strip_tags($post['type']) : "NULL";
-        $filter = isset($post['filter']) ? strip_tags($post['filter']) : "NULL";
-        $published = isset($post['published']) ? strip_tags($post['published']) : "NULL";
-        $author = isset($post['author']) ? strip_tags($post['author']) : "NULL";
-        return array($slug, $url, $type, $title, $data, $filter, $published, $author);
+        $post['title'] = isset($post['title']) ? strip_tags($post['title']) : "NULL";
+        $post['slug'] = isset($post['slug']) ? strip_tags($post['slug']) : "NULL";
+        $post['slug'] = empty($post['slug']) ? null : $post['slug'];
+        $post['url'] = isset($post['url']) ? strip_tags($post['url']) : "NULL";
+        $post['url'] = empty($post['url']) ? null : $post['url'];
+        $post['data'] = isset($post['data']) ? strip_tags($post['data']) : "NULL";
+        $post['type'] = isset($post['type']) ? strip_tags($post['type']) : "NULL";
+        $post['filter'] = isset($post['filter']) ? strip_tags($post['filter']) : "NULL";
+        $post['published'] = isset($post['published']) ? strip_tags($post['published']) : "NULL";
+        $post['author'] = isset($post['author']) ? strip_tags($post['author']) : "NULL";
+        return $post;
+        // return array($slug, $url, $type, $title, $data, $filter, $published, $author);
     }
 
     /**
@@ -242,7 +243,8 @@ EOD;
             $post['url'] = $this->slugify($post['title']);
         }
         // Sanitize data
-        $content = $this->Sanitize($post);
+        $post = $this->Sanitize($post);
+        $content = array($post['slug'], $post['url'], $post['type'], $post['title'], $post['data'], $post['filter'], $post['published'], $post['author']);
         //Save content to db
         $query = <<<EOD
         INSERT INTO Content (slug, url, TYPE, title, DATA, FILTER, published, author, created) VALUES
@@ -267,12 +269,9 @@ EOD;
         $id = isset($_POST['id']) ? strip_tags($_POST['id']) : "NULL";
         is_numeric($id) or die('Check: Id must be numeric.');
         // Sanitize $content
-        dump($content);
         $content = $this->Sanitize($content);
-        dump($content);
-        // Add $id to end of $content
+        $content = array($content['slug'], $content['url'], $content['type'], $content['title'], $content['data'], $content['filter'], $content['published'], $content['author']);        // Add $id to end of $content
         $content[] = $id;
-        dump($content);
         $query = <<<EOD
         UPDATE Content SET
             slug = ?,
@@ -287,9 +286,9 @@ EOD;
         WHERE
             id = ?
 EOD;
-        $this->contentDb->ExecuteQuery($query, $content, true);
+        $this->contentDb->ExecuteQuery($query, $content, false);
         // Add error handling?
-        //header("Location: edit.php?id=$id");
+        header("Location: edit.php?id=$id");
     }
 
     /**
