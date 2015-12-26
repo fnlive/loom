@@ -13,13 +13,13 @@ x Skriv rapport
 x Fixa title på page
 
 Extra uppgifter:
-Koppla till användare
+x Koppla till användare
 x Använd slugify
 
 Extrauppgift page
     Utveckla din navbar så att den kan länka och visa aktuell sida som hanteras av page.php.
 
 Extrauppgift post
-    Visa vem som författade artikeln.
+x    Visa vem som författade artikeln.
     Utveckla din navbar så att den kan länka och visa aktuell sida som hanteras av blog.php.
     Lägg till så att CContent kan hantera kategorier, så att du kan kategorisera dina blogginlägg.

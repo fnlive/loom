@@ -15,15 +15,16 @@ $out = "";
 $db = new CDatabase($loom['database']);
 $content = new CContent($db);
 
+// If user pressed login button, try authenticate user.
+CUser::ProcessLogin($db);
+
 // User wants to delete an item.
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     // Output what will deleted
     // Get content to be deleted. If not exists user is redirected to 404.
     $res = $content->GetItem($id);
-    $url = $content->getUrl($res[0]);
-    $content->Delete($id);
-    $out .= "<p>Du har raderat <a href='$url'>{$res[0]->title}</a>.</p>";
+    $out .= $content->Delete($id);
 } else {
     $out .= "<p>Inget raderades.</p>";
 }
