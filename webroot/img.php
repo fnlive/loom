@@ -16,6 +16,7 @@ ini_set('output_buffering', 0);   // Do not buffer outputs, write directly
 // define('IMG_PATH', __DIR__ . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR);
 define('IMG_PATH', 'D:\Users\Fredrik\Documents\GitHub\cimage\webroot' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR);
 define('CACHE_PATH', __DIR__ . '/cache/');
+$maxWidth = $maxHeight = 2000;
 
 
 /**
@@ -36,7 +37,7 @@ function errorMessage($message) {
  * @param string $message the log message to display.
  */
 function verbose($message) {
-  echo "<p>$message</p>";
+  echo "<p>" . htmlentities($message) . "</p>";
 }
 
 
@@ -63,10 +64,10 @@ function outputImage($file, $verbose) {
 
   if(!$verbose) header('Last-Modified: ' . $gmdate . ' GMT');
   if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModified){
-    if($verbose) { verbose("Would send header 304 Not Modified, but its verbose mode."); var_dump($_SERVER['HTTP_IF_MODIFIED_SINCE']);exit; }
+    if($verbose) { verbose("Would send header 304 Not Modified, but its verbose mode."); exit; }
     header('HTTP/1.0 304 Not Modified');
   } else {
-    if($verbose) { verbose("Would send header to deliver image with modified time: {$gmdate} GMT, but its verbose mode."); var_dump($_SERVER['HTTP_IF_MODIFIED_SINCE']); exit; }
+    if($verbose) { verbose("Would send header to deliver image with modified time: {$gmdate} GMT, but its verbose mode."); exit; }
     header('Content-type: ' . $mime);
     readfile($file);
   }
@@ -77,11 +78,14 @@ function outputImage($file, $verbose) {
 //
 // Get the incoming arguments
 //
-$src      = isset($_GET['src'])      ? $_GET['src']      : null;
-$verbose  = isset($_GET['verbose'])  ? true              : null;
-$saveAs   = isset($_GET['save-as'])  ? $_GET['save-as']  : null;
-$quality  = isset($_GET['quality'])  ? $_GET['quality']  : 60;
+$src        = isset($_GET['src'])     ? $_GET['src']      : null;
+$verbose    = isset($_GET['verbose']) ? true              : null;
+$saveAs     = isset($_GET['save-as']) ? $_GET['save-as']  : null;
+$quality    = isset($_GET['quality']) ? $_GET['quality']  : 60;
 $ignoreCache = isset($_GET['no-cache']) ? true           : null;
+$newWidth   = isset($_GET['width'])   ? $_GET['width']    : null;
+$newHeight  = isset($_GET['height'])  ? $_GET['height']   : null;
+$cropToFit  = isset($_GET['crop-to-fit']) ? true : null;
 
 $pathToImage = realpath(IMG_PATH . $src);
 
@@ -97,6 +101,9 @@ preg_match('#^[a-z0-9A-Z-_\.\/]+$#', $src) or errorMessage('Filename contains in
 substr_compare(IMG_PATH, $pathToImage, 0, strlen(IMG_PATH)) == 0 or errorMessage('Security constraint: Source image is not directly below the directory IMG_PATH.');
 is_null($saveAs) or in_array($saveAs, array('png', 'jpg', 'jpeg')) or errorMessage('Not a valid extension to save image as');
 is_null($quality) or (is_numeric($quality) and $quality > 0 and $quality <= 100) or errorMessage('Quality out of range');
+is_null($newWidth) or (is_numeric($newWidth) and $newWidth > 0 and $newWidth <= $maxWidth) or errorMessage('Width out of range');
+is_null($newHeight) or (is_numeric($newHeight) and $newHeight > 0 and $newHeight <= $maxHeight) or errorMessage('Height out of range');
+is_null($cropToFit) or ($cropToFit and $newWidth and $newHeight) or errorMessage('Crop to fit needs both width and height to work');
 
 
 
@@ -141,14 +148,50 @@ if($verbose) {
 
 
 //
+// Calculate new width and height for the image
+//
+$aspectRatio = $width / $height;
+
+if($cropToFit && $newWidth && $newHeight) {
+  $targetRatio = $newWidth / $newHeight;
+  $cropWidth   = $targetRatio > $aspectRatio ? $width : round($height * $targetRatio);
+  $cropHeight  = $targetRatio > $aspectRatio ? round($width  / $targetRatio) : $height;
+  if($verbose) { verbose("Crop to fit into box of {$newWidth}x{$newHeight}. Cropping dimensions: {$cropWidth}x{$cropHeight}."); }
+}
+else if($newWidth && !$newHeight) {
+  $newHeight = round($newWidth / $aspectRatio);
+  if($verbose) { verbose("New width is known {$newWidth}, height is calculated to {$newHeight}."); }
+}
+else if(!$newWidth && $newHeight) {
+  $newWidth = round($newHeight * $aspectRatio);
+  if($verbose) { verbose("New height is known {$newHeight}, width is calculated to {$newWidth}."); }
+}
+else if($newWidth && $newHeight) {
+  $ratioWidth  = $width  / $newWidth;
+  $ratioHeight = $height / $newHeight;
+  $ratio = ($ratioWidth > $ratioHeight) ? $ratioWidth : $ratioHeight;
+  $newWidth  = round($width  / $ratio);
+  $newHeight = round($height / $ratio);
+  if($verbose) { verbose("New width & height is requested, keeping aspect ratio results in {$newWidth}x{$newHeight}."); }
+}
+else {
+  $newWidth = $width;
+  $newHeight = $height;
+  if($verbose) { verbose("Keeping original width & heigth."); }
+}
+
+
+
+//
 // Creating a filename for the cache
 //
 $parts          = pathinfo($pathToImage);
 $fileExtension  = $parts['extension'];
 $saveAs         = is_null($saveAs) ? $fileExtension : $saveAs;
 $quality_       = is_null($quality) ? null : "_q{$quality}";
+$cropToFit_     = is_null($cropToFit) ? null : "_cf";
 $dirName        = preg_replace('/\//', '-', dirname($src));
-$cacheFileName = CACHE_PATH . "-{$dirName}-{$parts['filename']}_{$width}_{$height}{$quality_}.{$saveAs}";
+$cacheFileName = CACHE_PATH . "-{$dirName}-{$parts['filename']}_{$newWidth}_{$newHeight}{$quality_}{$cropToFit_}.{$saveAs}";
 $cacheFileName = preg_replace('/^a-zA-Z0-9\.-_/', '', $cacheFileName);
 
 if($verbose) { verbose("Cache file is: {$cacheFileName}"); }
@@ -171,7 +214,7 @@ if($verbose) { verbose("Cache is not valid, process image and create a cached ve
 
 
 //
-// Open up the image from file
+// Open up the original image from file
 //
 if($verbose) { verbose("File extension is: {$fileExtension}"); }
 
@@ -190,6 +233,29 @@ switch($fileExtension) {
   default: errorPage('No support for this file extension.');
 }
 
+
+
+//
+// Resize the image if needed
+//
+if($cropToFit) {
+  if($verbose) { verbose("Resizing, crop to fit."); }
+  $cropX = round(($width - $cropWidth) / 2);
+  $cropY = round(($height - $cropHeight) / 2);
+  $imageResized = imagecreatetruecolor($newWidth, $newHeight);
+  imagecopyresampled($imageResized, $image, 0, 0, $cropX, $cropY, $newWidth, $newHeight, $cropWidth, $cropHeight);
+  $image = $imageResized;
+  $width = $newWidth;
+  $height = $newHeight;
+}
+else if(!($newWidth == $width && $newHeight == $height)) {
+  if($verbose) { verbose("Resizing, new height and/or width."); }
+  $imageResized = imagecreatetruecolor($newWidth, $newHeight);
+  imagecopyresampled($imageResized, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+  $image  = $imageResized;
+  $width  = $newWidth;
+  $height = $newHeight;
+}
 
 
 //
