@@ -2,24 +2,16 @@ Uppgifter
 
 Loom CMS
 Todo:
-x Antal poster på view.php
-x stylesheet för CMS
-x datumformat utskrift
-återställa Raderade
-x status kolumn publ, raderad, utkast, på view.php
-formulär med dropdown, x radion bottons etc.
-x redirect till 404
-x Skriv rapport
-x Fixa title på page
 
-Extra uppgifter:
-x Koppla till användare
-x Använd slugify
 
-Extrauppgift page
-    Utveckla din navbar så att den kan länka och visa aktuell sida som hanteras av page.php.
+Gör uppgiften “Skapa img.php och en klass CImage för bildhantering”.
 
-Extrauppgift post
-x    Visa vem som författade artikeln.
-    Utveckla din navbar så att den kan länka och visa aktuell sida som hanteras av blog.php.
-    Lägg till så att CContent kan hantera kategorier, så att du kan kategorisera dina blogginlägg.
+Gör uppgiften “Skapa gallery.php och en klass CGallery för ett bildgalleri”.
+
+Extra
+Uppgradera ditt img.php till att hantera transparenta PNG-bilder: “Uppgradera din img.php till att hantera transparenta bilder med PHP GD”.
+
+Tjuvkika på lite avancerad läsning om cachning med HTTP headers.
+    “Increasing Application Performance with HTTP Cache Headers”
+    “REST Better: HTTP Cache”
+    “Caching Tutorial for Web Authors and Webmasters”
