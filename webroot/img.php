@@ -75,6 +75,28 @@ function outputImage($file, $verbose) {
 }
 
 
+
+/**
+ * Sharpen image as http://php.net/manual/en/ref.image.php#56144
+ * http://loriweb.pair.com/8udf-sharpen.html
+ *
+ * @param resource $image the image to apply this filter on.
+ * @return resource $image as the processed image.
+ */
+function sharpenImage($image) {
+  $matrix = array(
+    array(-1,-1,-1,),
+    array(-1,16,-1,),
+    array(-1,-1,-1,)
+  );
+  $divisor = 8;
+  $offset = 0;
+  imageconvolution($image, $matrix, $divisor, $offset);
+  return $image;
+}
+
+
+
 //
 // Get the incoming arguments
 //
@@ -86,6 +108,7 @@ $ignoreCache = isset($_GET['no-cache']) ? true           : null;
 $newWidth   = isset($_GET['width'])   ? $_GET['width']    : null;
 $newHeight  = isset($_GET['height'])  ? $_GET['height']   : null;
 $cropToFit  = isset($_GET['crop-to-fit']) ? true : null;
+$sharpen    = isset($_GET['sharpen']) ? true : null;
 
 $pathToImage = realpath(IMG_PATH . $src);
 
@@ -190,8 +213,9 @@ $fileExtension  = $parts['extension'];
 $saveAs         = is_null($saveAs) ? $fileExtension : $saveAs;
 $quality_       = is_null($quality) ? null : "_q{$quality}";
 $cropToFit_     = is_null($cropToFit) ? null : "_cf";
+$sharpen_       = is_null($sharpen) ? null : "_s";
 $dirName        = preg_replace('/\//', '-', dirname($src));
-$cacheFileName = CACHE_PATH . "-{$dirName}-{$parts['filename']}_{$newWidth}_{$newHeight}{$quality_}{$cropToFit_}.{$saveAs}";
+$cacheFileName = CACHE_PATH . "-{$dirName}-{$parts['filename']}_{$newWidth}_{$newHeight}{$quality_}{$cropToFit_}{$sharpen_}.{$saveAs}";
 $cacheFileName = preg_replace('/^a-zA-Z0-9\.-_/', '', $cacheFileName);
 
 if($verbose) { verbose("Cache file is: {$cacheFileName}"); }
@@ -256,6 +280,16 @@ else if(!($newWidth == $width && $newHeight == $height)) {
   $width  = $newWidth;
   $height = $newHeight;
 }
+
+
+
+//
+// Apply filters and postprocessing of image
+//
+if($sharpen) {
+  $image = sharpenImage($image);
+}
+
 
 
 //
