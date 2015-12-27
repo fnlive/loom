@@ -147,6 +147,7 @@ $loom['mainnavbar']  = array(
     ),
   ),
   'blogg' => array('text'=>'Blogg', 'url'=>'post.php', 'title' => 'Bloggen'),
+  'galleri' => array('text'=>'Galleri', 'url'=>'gallery.php', 'title' => 'Galleri'),
   ),
 
   // This is the callback tracing the current selected menu item base on scriptname
