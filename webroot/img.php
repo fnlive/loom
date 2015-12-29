@@ -42,60 +42,28 @@ function verbose($message) {
 }
 
 
-
-
-
-
 $myImage = new CImage();
 $myImage->ParseQuery($_GET);
 // TODO: Remove below when CImage ready.
 //
 // Get the incoming arguments
 //
-$src        = isset($_GET['src'])     ? $_GET['src']      : null;
-$verbose    = isset($_GET['verbose']) ? true              : null;
-$saveAs     = isset($_GET['save-as']) ? $_GET['save-as']  : null;
-$quality    = isset($_GET['quality']) ? $_GET['quality']  : 60;
-$ignoreCache = isset($_GET['no-cache']) ? true           : null;
-$newWidth   = isset($_GET['width'])   ? $_GET['width']    : null;
-$newHeight  = isset($_GET['height'])  ? $_GET['height']   : null;
-$cropToFit  = isset($_GET['crop-to-fit']) ? true : null;
-$sharpen    = isset($_GET['sharpen']) ? true : null;
-
-$pathToImage = realpath(IMG_PATH . $src);
-
-
 
 //
 // Validate incoming arguments
 //
-is_dir(IMG_PATH) or errorMessage('The image dir is not a valid directory.');
-is_writable(CACHE_PATH) or errorMessage('The cache dir is not a writable directory.');
-isset($src) or errorMessage('Must set src-attribute.');
-preg_match('#^[a-z0-9A-Z-_\.\/]+$#', $src) or errorMessage('Filename contains invalid characters.');
-substr_compare(IMG_PATH, $pathToImage, 0, strlen(IMG_PATH)) == 0 or errorMessage('Security constraint: Source image is not directly below the directory IMG_PATH.');
-is_null($saveAs) or in_array($saveAs, array('png', 'jpg', 'jpeg')) or errorMessage('Not a valid extension to save image as');
-is_null($quality) or (is_numeric($quality) and $quality > 0 and $quality <= 100) or errorMessage('Quality out of range');
-is_null($newWidth) or (is_numeric($newWidth) and $newWidth > 0 and $newWidth <= $maxWidth) or errorMessage('Width out of range');
-is_null($newHeight) or (is_numeric($newHeight) and $newHeight > 0 and $newHeight <= $maxHeight) or errorMessage('Height out of range');
-is_null($cropToFit) or ($cropToFit and $newWidth and $newHeight) or errorMessage('Crop to fit needs both width and height to work');
-
 
 //
 // Get information on the image
 //
-$imgInfo = list($width, $height, $type, $attr) = $myImage->Information($pathToImage);
-// echo __FILE__ . " : " . __LINE__ . "<br>";var_dump($imgInfo);
 
 //
 // Calculate new width and height for the image
 //
-$dimensions = list($newWidth, $newHeight) = $myImage->CalcWidthHeight();
 
 //
 // Creating a filename for the cache
 //
-$cacheFileName = $myImage->CacheFileName();
 
 // If there is no valid cached file, create one, store in cache, and output this.
 //
@@ -117,4 +85,4 @@ $cacheFileName = $myImage->CacheFileName();
 //
 // Output the resulting image
 //
-$myImage->output($cacheFileName);
+$myImage->output();

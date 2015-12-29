@@ -8,11 +8,11 @@ class CImage
     * Properties
     *
     */
+    // Constants
     static private $maxWidth = 2000;
     static private $maxHeight = 2000;
 
-    private $image; //?? = imagecreatefromjpeg($pathToImage);
-    //private $params = array();
+    // Properties to hold query string parameters
     private $src        = null;
     private $verbose    = true;
     public $saveAs     = null;
@@ -22,6 +22,8 @@ class CImage
     private $newHeight  = null;
     private $cropToFit  = null;
     private $sharpen    = null;
+
+    //Properties for temporary storage
     private $pathToImage    = null;
     public $fileExtension = null;
 
@@ -46,7 +48,6 @@ class CImage
         //
         // Get the incoming arguments
         //
-        // var_dump($query);
         $this->src        = isset($query['src'])     ? $query['src']      : null;
         $this->verbose    = isset($query['verbose']) ? true              : null;
         $this->saveAs     = isset($query['save-as']) ? $query['save-as']  : null;
@@ -97,20 +98,18 @@ EOD;
      * @param string path to image
      * @return
      */
-     // TODO: Chang $pathToImage to property this->
-    public function Information($pathToImage)
+    public function Information()
     {
-        // TODO: make private
         // TODO: is width, height correct here? or fetch from $this->...
-        $this->imgInfo = list($width, $height, $type, $attr) = getimagesize($pathToImage);
+        $this->imgInfo = list($width, $height, $type, $attr) = getimagesize($this->pathToImage);
         // echo "<br>" . __FILE__ . " : " . __LINE__ . "<br>";var_dump($this->imgInfo);
         !empty($this->imgInfo) or errorMessage("The file doesn't seem to be an image.");
         $mime = $this->imgInfo['mime'];
 
         if($this->verbose) {
-          $this->imgInfo['filesize'] = $filesize = filesize($pathToImage);
+          $this->imgInfo['filesize'] = $filesize = filesize($this->pathToImage);
         //   echo "<br>" . __FILE__ . " : " . __LINE__ . "<br>";var_dump($this->imgInfo);
-          verbose("Image file: {$pathToImage}");
+          verbose("Image file: {$this->pathToImage}");
           verbose("Image information: " . print_r($this->imgInfo, true));
           verbose("Image width x height (type): {$width} x {$height} ({$type}).");
           verbose("Image file size: {$filesize} bytes.");
@@ -255,7 +254,7 @@ EOD;
      * @param
      * @return
      */
-      public function CacheSave($image, $file)
+      private function CacheSave($image, $file)
       {
           switch($this->saveAs) {
             case 'jpeg':
@@ -273,7 +272,15 @@ EOD;
               errorMessage('No support to save as this file extension.');
             break;
           }
+          if($this->verbose) {
+              clearstatcache();
+              $cacheFilesize = filesize($file);
+              verbose("File size of cached file: {$cacheFilesize} bytes.");
+              $filesize = $this->imgInfo['filesize'];
+              verbose("Cache file has a file size of " . round($cacheFilesize/$filesize*100) . "% of the original size.");
+          }
       }
+
 
       /**
        * Output an image together with last modified header.
@@ -307,18 +314,39 @@ EOD;
           exit;
       }
 
-      public function output($file) {
+      /**
+       * Output an image either by fetching from cache or
+       * creating a new image which is stored to cache.
+       *
+       * @param string $file as path to the image.
+       * @param boolean $verbose if verbose mode is on or off.
+       */
+      public function output() {
+          //
+          // Get information on the image
+          //
+          $this->Information();
+
+          //
+          // Calculate new width and height for the image
+          //
+          $this->CalcWidthHeight();
+
+          //
+          // Creating a filename for the cache
+          //
+          $cacheFileName = $this->CacheFileName();
+
           //
           // Is there already a valid image in the cache directory, then use it and exit
           //
           $imageModifiedTime = filemtime($this->pathToImage);
-          // TODO: $cacheFileName change to property this-> but first to $file
-          $cacheModifiedTime = is_file($file) ? filemtime($file) : null;
+          $cacheModifiedTime = is_file($cacheFileName) ? filemtime($cacheFileName) : null;
 
           // If cached image is valid, output it.
-          if(!$this->ignoreCache && is_file($file) && $imageModifiedTime < $cacheModifiedTime) {
+          if(!$this->ignoreCache && is_file($cacheFileName) && $imageModifiedTime < $cacheModifiedTime) {
             if($this->verbose) { verbose("Cache file is valid, output it."); }
-            $this->outputFile($file);
+            $this->outputFile($cacheFileName);
           }
 
           if($this->verbose) { verbose("Cache is not valid, process image and create a cached version of it."); }
@@ -347,7 +375,6 @@ EOD;
           // Resize the image if needed
           //
           $image = $this->Resize($image);
-
           //
           // Apply filters and postprocessing of image
           //
@@ -357,23 +384,11 @@ EOD;
           //
           // Save the image
           //
-          $this->CacheSave($image, $file);
-
-
-          if($this->verbose) {
-            clearstatcache();
-            $cacheFilesize = filesize($file);
-            verbose("File size of cached file: {$cacheFilesize} bytes.");
-            $filesize = $this->imgInfo['filesize'];
-            verbose("Cache file has a file size of " . round($cacheFilesize/$filesize*100) . "% of the original size.");
-          }
-
+          $this->CacheSave($image, $cacheFileName);
           //
           // Output the resulting image
           //
-          $this->outputFile($file);
-
-
+          $this->outputFile($cacheFileName);
       }
 
 }
