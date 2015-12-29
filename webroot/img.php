@@ -135,4 +135,4 @@ $cacheFileName = $myImage->CacheFileName();
 //
 // Output the resulting image
 //
-$myImage->output($cacheFileName, $verbose);
+$myImage->output($cacheFileName);

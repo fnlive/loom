@@ -26,7 +26,8 @@ class CImage
     public $fileExtension = null;
 
     private $imgInfo = null;
-
+    public $width = null;
+    public $height = null;
     public $cropWidth = null;
     public $cropHeight  = null;
 
@@ -100,6 +101,7 @@ EOD;
     public function Information($pathToImage)
     {
         // TODO: make private
+        // TODO: is width, height correct here? or fetch from $this->...
         $this->imgInfo = list($width, $height, $type, $attr) = getimagesize($pathToImage);
         // echo "<br>" . __FILE__ . " : " . __LINE__ . "<br>";var_dump($this->imgInfo);
         !empty($this->imgInfo) or errorMessage("The file doesn't seem to be an image.");
@@ -127,15 +129,15 @@ EOD;
         //
         // Calculate new width and height for the image
         //
-        list($width, $height) = $this->imgInfo;
-        // echo "<br>" . __FILE__ . " : " . __LINE__ . "<br>";var_dump($width);
-        // echo "<br>" . __FILE__ . " : " . __LINE__ . "<br>";var_dump($height);
-        $aspectRatio = $width / $height;
+        list($this->width, $this->height) = $this->imgInfo;
+        // echo "<br>" . __FILE__ . " : " . __LINE__ . "<br>";var_dump($this->width);
+        // echo "<br>" . __FILE__ . " : " . __LINE__ . "<br>";var_dump($this->height);
+        $aspectRatio = $this->width / $this->height;
 
         if($this->cropToFit && $this->newWidth && $this->newHeight) {
           $targetRatio = $this->newWidth / $this->newHeight;
-          $this->cropWidth   = $targetRatio > $aspectRatio ? $width : round($height * $targetRatio);
-          $this->cropHeight  = $targetRatio > $aspectRatio ? round($width  / $targetRatio) : $height;
+          $this->cropWidth   = $targetRatio > $aspectRatio ? $this->width : round($this->height * $targetRatio);
+          $this->cropHeight  = $targetRatio > $aspectRatio ? round($this->width  / $targetRatio) : $this->height;
           if($this->verbose) { verbose("Crop to fit into box of {$this->newWidth}x{$this->newHeight}. Cropping dimensions: {$this->cropWidth}x{$this->cropHeight}."); }
         }
         else if($this->newWidth && !$this->newHeight) {
@@ -147,16 +149,16 @@ EOD;
           if($this->verbose) { verbose("New height is known {$this->newHeight}, width is calculated to {$this->newWidth}."); }
         }
         else if($this->newWidth && $this->newHeight) {
-          $ratioWidth  = $width  / $this->newWidth;
-          $ratioHeight = $height / $this->newHeight;
+          $ratioWidth  = $this->width  / $this->newWidth;
+          $ratioHeight = $this->height / $this->newHeight;
           $ratio = ($ratioWidth > $ratioHeight) ? $ratioWidth : $ratioHeight;
-          $this->newWidth  = round($width  / $ratio);
-          $this->newHeight = round($height / $ratio);
+          $this->newWidth  = round($this->width  / $ratio);
+          $this->newHeight = round($this->height / $ratio);
           if($this->verbose) { verbose("New width & height is requested, keeping aspect ratio results in {$this->newWidth}x{$this->newHeight}."); }
         }
         else {
-          $this->newWidth = $width;
-          $this->newHeight = $height;
+          $this->newWidth = $this->width;
+          $this->newHeight = $this->height;
           if($this->verbose) { verbose("Keeping original width & heigth."); }
         }
         return array($this->newWidth, $this->newHeight);
@@ -207,11 +209,71 @@ EOD;
         return $image;
     }
 
+    /**
+     * Blabla
+     * @param
+     * @return
+     */
      /**
-      * Blabla
-      * @param
-      * @return
-      */
+     * Rezize image
+     * @param
+     * @return
+     */
+     public function Resize($image)
+     {
+         // TODO: temp ass to width below
+        //  list($width, $this->height) = $this->imgInfo;
+        //  echo "<br>" . __FILE__ . " : " . __LINE__ . "<br>";var_dump($this->newWidth);
+        //  echo "<br>" . __FILE__ . " : " . __LINE__ . "<br>";var_dump($this->newHeight);
+        //  echo "<br>" . __FILE__ . " : " . __LINE__ . "<br>";var_dump($this->imgInfo);
+         if($this->cropToFit) {
+           if($this->verbose) {
+               verbose("Resizing, crop to fit.");
+               verbose("Create {$this->newWidth}x{$this->newHeight}");
+               verbose("Crop {$this->cropWidth}x{$this->cropHeight}");
+           }
+           $cropX = round(($this->width - $this->cropWidth) / 2);
+           $cropY = round(($this->height - $this->cropHeight) / 2);
+           $imageResized = imagecreatetruecolor($this->newWidth, $this->newHeight);
+           imagecopyresampled($imageResized, $image, 0, 0, $cropX, $cropY, $this->newWidth, $this->newHeight, $this->cropWidth, $this->cropHeight);
+           $image = $imageResized;
+           $this->width = $this->newWidth;
+           $this->height = $this->newHeight;
+         }
+         else if(!($this->newWidth == $this->width && $this->newHeight == $this->height)) {
+           if($this->verbose) { verbose("Resizing, new height and/or width."); }
+           $imageResized = imagecreatetruecolor($this->newWidth, $this->newHeight);
+           imagecopyresampled($imageResized, $image, 0, 0, 0, 0, $this->newWidth, $this->newHeight, $this->width, $this->height);
+           $image  = $imageResized;
+           $this->width  = $this->newWidth;
+           $this->height = $this->newHeight;
+         }
+         return $image;
+     }
+     /**
+     * Save image to cache
+     * @param
+     * @return
+     */
+      public function CacheSave($image, $file)
+      {
+          switch($this->saveAs) {
+            case 'jpeg':
+            case 'jpg':
+              if($this->verbose) { verbose("Saving image as JPEG to cache using quality = {$this->quality}."); }
+              imagejpeg($image, $file, $this->quality);
+            break;
+
+            case 'png':
+              if($this->verbose) { verbose("Saving image as PNG to cache."); }
+              imagepng($image, $file);
+            break;
+
+            default:
+              errorMessage('No support to save as this file extension.');
+            break;
+          }
+      }
 
       /**
        * Output an image together with last modified header.
@@ -219,8 +281,7 @@ EOD;
        * @param string $file as path to the image.
        * @param boolean $verbose if verbose mode is on or off.
        */
-       // TODO: change $verbose to use member property
-      public function outputFile($file, $verbose) {
+      public function outputFile($file) {
           $info = getimagesize($file);
           !empty($info) or errorMessage("The file doesn't seem to be an image.");
           $mime   = $info['mime'];
@@ -228,25 +289,25 @@ EOD;
           $lastModified = filemtime($file);
           $gmdate = gmdate("D, d M Y H:i:s", $lastModified);
 
-          if($verbose) {
+          if($this->verbose) {
               verbose("Memory peak: " . round(memory_get_peak_usage() /1024/1024) . "M");
               verbose("Memory limit: " . ini_get('memory_limit'));
               verbose("Time is {$gmdate} GMT.");
           }
 
-          if(!$verbose) header('Last-Modified: ' . $gmdate . ' GMT');
+          if(!$this->verbose) header('Last-Modified: ' . $gmdate . ' GMT');
           if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModified){
-              if($verbose) { verbose("Would send header 304 Not Modified, but its verbose mode."); exit; }
+              if($this->verbose) { verbose("Would send header 304 Not Modified, but its verbose mode."); exit; }
               header('HTTP/1.0 304 Not Modified');
           } else {
-              if($verbose) { verbose("Would send header to deliver image with modified time: {$gmdate} GMT, but its verbose mode."); exit; }
+              if($this->verbose) { verbose("Would send header to deliver image with modified time: {$gmdate} GMT, but its verbose mode."); exit; }
               header('Content-type: ' . $mime);
               readfile($file);
           }
           exit;
       }
 
-      public function output($file, $verbose) {
+      public function output($file) {
           //
           // Is there already a valid image in the cache directory, then use it and exit
           //
@@ -257,7 +318,7 @@ EOD;
           // If cached image is valid, output it.
           if(!$this->ignoreCache && is_file($file) && $imageModifiedTime < $cacheModifiedTime) {
             if($this->verbose) { verbose("Cache file is valid, output it."); }
-            $this->outputFile($file, $this->verbose);
+            $this->outputFile($file);
           }
 
           if($this->verbose) { verbose("Cache is not valid, process image and create a cached version of it."); }
@@ -285,26 +346,7 @@ EOD;
           //
           // Resize the image if needed
           //
-          // TODO: temp ass to witdth below
-          list($width, $height) = $this->imgInfo;
-          if($this->cropToFit) {
-            if($this->verbose) { verbose("Resizing, crop to fit."); }
-            $cropX = round(($width - $this->cropWidth) / 2);
-            $cropY = round(($height - $this->cropHeight) / 2);
-            $imageResized = imagecreatetruecolor($this->newWidth, $this->newHeight);
-            imagecopyresampled($imageResized, $image, 0, 0, $cropX, $cropY, $this->newWidth, $this->newHeight, $this->cropWidth, $this->cropHeight);
-            $image = $imageResized;
-            $width = $this->newWidth;
-            $height = $this->newHeight;
-          }
-          else if(!($this->newWidth == $width && $this->newHeight == $height)) {
-            if($this->verbose) { verbose("Resizing, new height and/or width."); }
-            $imageResized = imagecreatetruecolor($this->newWidth, $this->newHeight);
-            imagecopyresampled($imageResized, $image, 0, 0, 0, 0, $this->newWidth, $this->newHeight, $width, $height);
-            $image  = $imageResized;
-            $width  = $this->newWidth;
-            $height = $this->newHeight;
-          }
+          $image = $this->Resize($image);
 
           //
           // Apply filters and postprocessing of image
@@ -315,22 +357,8 @@ EOD;
           //
           // Save the image
           //
-          switch($this->saveAs) {
-            case 'jpeg':
-            case 'jpg':
-              if($this->verbose) { verbose("Saving image as JPEG to cache using quality = {$this->quality}."); }
-              imagejpeg($image, $file, $this->quality);
-            break;
+          $this->CacheSave($image, $file);
 
-            case 'png':
-              if($this->verbose) { verbose("Saving image as PNG to cache."); }
-              imagepng($image, $file);
-            break;
-
-            default:
-              errorMessage('No support to save as this file extension.');
-            break;
-          }
 
           if($this->verbose) {
             clearstatcache();
@@ -343,7 +371,7 @@ EOD;
           //
           // Output the resulting image
           //
-          $this->outputFile($file, $this->verbose);
+          $this->outputFile($file);
 
 
       }
