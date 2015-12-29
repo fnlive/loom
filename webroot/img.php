@@ -81,14 +81,11 @@ is_null($newHeight) or (is_numeric($newHeight) and $newHeight > 0 and $newHeight
 is_null($cropToFit) or ($cropToFit and $newWidth and $newHeight) or errorMessage('Crop to fit needs both width and height to work');
 
 
-
-
 //
 // Get information on the image
 //
 $imgInfo = list($width, $height, $type, $attr) = $myImage->Information($pathToImage);
 // echo __FILE__ . " : " . __LINE__ . "<br>";var_dump($imgInfo);
-
 
 //
 // Calculate new width and height for the image
@@ -100,37 +97,22 @@ $dimensions = list($newWidth, $newHeight) = $myImage->CalcWidthHeight();
 //
 $cacheFileName = $myImage->CacheFileName();
 
-
-
 // If there is no valid cached file, create one, store in cache, and output this.
 //
 // Open up the original image from file
 //
 
-
-
-
 //
 // Resize the image if needed
 //
-
-
 
 //
 // Apply filters and postprocessing of image
 //
 
-
-
-
 //
 // Save the image
 //
-
-
-
-
-
 
 //
 // Output the resulting image
