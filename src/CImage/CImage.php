@@ -26,42 +26,58 @@ class CImage
     //Properties for temporary storage
     private $pathToImage    = null;
     public $fileExtension = null;
-
     private $imgInfo = null;
     public $width = null;
     public $height = null;
     public $cropWidth = null;
     public $cropHeight  = null;
 
-    function __construct()
+    /**
+     * Create image processing object
+     * @param string $params from e.g. url with processing commands and options.
+     * $params = array(
+     *                  'src' -> $SourceImageFile,  // Relative path to file
+     *                 ['verbose' -> $verbose,      // true | false
+     *                  'save-as' -> $SaveAs,       // png | jpg | jpeg
+     *                  'quality' -> $quality,      // 0..100
+     *                  'no-cache' -> $NoCache,     // true | false, true forces cache file generation
+     *                  'width' -> $width,          // width of output file
+     *                  'height' -> $height,        // height of output file
+     *                  'crop-to-fit' -> $CropToFit, // true | false
+     *                  'sharpen' -> $sharpen,]     // true | false
+     *                                                   );
+     */
+    function __construct($params)
     {
-        // ParseQuery could go here instead.
+        $this->StoreParams($params);
+        $this->ValidateParams();
     }
 
     /**
-     * Parse query string and store processing commands
-     * @param string $query from url with processing commands and options.
+     * Store processing commands
+     * @param string $params from e.g. url with processing commands and options.
      * @return resource $image as the processed image.
      */
-    public function ParseQuery($query)
+    private function StoreParams($params)
     {
-        //
-        // Get the incoming arguments
-        //
-        $this->src        = isset($query['src'])     ? $query['src']      : null;
-        $this->verbose    = isset($query['verbose']) ? true              : null;
-        $this->saveAs     = isset($query['save-as']) ? $query['save-as']  : null;
-        $this->quality    = isset($query['quality']) ? $query['quality']  : 60;
-        $this->ignoreCache = isset($query['no-cache']) ? true           : null;
-        $this->newWidth   = isset($query['width'])   ? $query['width']    : null;
-        $this->newHeight  = isset($query['height'])  ? $query['height']   : null;
-        $this->cropToFit  = isset($query['crop-to-fit']) ? true : null;
-        $this->sharpen    = isset($query['sharpen']) ? true : null;
+        $this->src        = isset($params['src'])     ? $params['src']      : null;
+        $this->verbose    = isset($params['verbose']) ? true              : null;
+        $this->saveAs     = isset($params['save-as']) ? $params['save-as']  : null;
+        $this->quality    = isset($params['quality']) ? $params['quality']  : 60;
+        $this->ignoreCache = isset($params['no-cache']) ? true           : null;
+        $this->newWidth   = isset($params['width'])   ? $params['width']    : null;
+        $this->newHeight  = isset($params['height'])  ? $params['height']   : null;
+        $this->cropToFit  = isset($params['crop-to-fit']) ? true : null;
+        $this->sharpen    = isset($params['sharpen']) ? true : null;
 
         $this->pathToImage = realpath(IMG_PATH . $this->src);
-        //
-        // Validate incoming arguments
-        //
+    }
+
+    /**
+     * Validate processing commands
+     */
+     private function ValidateParams()
+    {
         is_dir(IMG_PATH) or errorMessage('The image dir is not a valid directory.');
         is_writable(CACHE_PATH) or errorMessage('The cache dir is not a writable directory.');
         isset($this->src) or errorMessage('Must set src-attribute.');
@@ -72,7 +88,6 @@ class CImage
         is_null($this->newWidth) or (is_numeric($this->newWidth) and $this->newWidth > 0 and $this->newWidth <= self::$maxWidth) or errorMessage('Width out of range');
         is_null($this->newHeight) or (is_numeric($this->newHeight) and $this->newHeight > 0 and $this->newHeight <= self::$maxHeight) or errorMessage('Height out of range');
         is_null($this->cropToFit) or ($this->cropToFit and $this->newWidth and $this->newHeight) or errorMessage('Crop to fit needs both width and height to work');
-
         //
         // Start displaying log if verbose mode & create url to current image
         //
@@ -93,44 +108,35 @@ EOD;
         }
     }
 
+
     /**
      * Get information on the image
+     *
      * @param string path to image
-     * @return
      */
     public function Information()
     {
-        // TODO: is width, height correct here? or fetch from $this->...
         $this->imgInfo = list($width, $height, $type, $attr) = getimagesize($this->pathToImage);
-        // echo "<br>" . __FILE__ . " : " . __LINE__ . "<br>";var_dump($this->imgInfo);
         !empty($this->imgInfo) or errorMessage("The file doesn't seem to be an image.");
         $mime = $this->imgInfo['mime'];
 
         if($this->verbose) {
           $this->imgInfo['filesize'] = $filesize = filesize($this->pathToImage);
-        //   echo "<br>" . __FILE__ . " : " . __LINE__ . "<br>";var_dump($this->imgInfo);
           verbose("Image file: {$this->pathToImage}");
           verbose("Image information: " . print_r($this->imgInfo, true));
           verbose("Image width x height (type): {$width} x {$height} ({$type}).");
           verbose("Image file size: {$filesize} bytes.");
           verbose("Image mime type: {$mime}.");
         }
-        return $this->imgInfo;
     }
 
     /**
-     * Blabla
-     * @param
-     * @return
+     * Calculate new width and height for the image
      */
     public function CalcWidthHeight()
     {
-        //
-        // Calculate new width and height for the image
-        //
         list($this->width, $this->height) = $this->imgInfo;
-        // echo "<br>" . __FILE__ . " : " . __LINE__ . "<br>";var_dump($this->width);
-        // echo "<br>" . __FILE__ . " : " . __LINE__ . "<br>";var_dump($this->height);
+
         $aspectRatio = $this->width / $this->height;
 
         if($this->cropToFit && $this->newWidth && $this->newHeight) {
@@ -160,23 +166,17 @@ EOD;
           $this->newHeight = $this->height;
           if($this->verbose) { verbose("Keeping original width & heigth."); }
         }
-        return array($this->newWidth, $this->newHeight);
     }
 
-    //
-    // Creating a filename for the cache
-    //
     /**
-     * Blabla
-     * @param
-     * @return
+     * Creating filename for the cache
+     *
+     * @return string filename for image cache file.
      */
     public function CacheFileName()
     {
-        # code...
         $parts          = pathinfo($this->pathToImage);
         $this->fileExtension  = $parts['extension'];
-        // echo "<br>" . __FILE__ . " : " . __LINE__ . "<br>";var_dump($this->fileExtension);
         $this->saveAs  = is_null($this->saveAs) ? $this->fileExtension : $this->saveAs;
         $quality_       = is_null($this->quality) ? null : "_q{$this->quality}";
         $cropToFit_     = is_null($this->cropToFit) ? null : "_cf";
@@ -188,6 +188,33 @@ EOD;
         if($this->verbose) { verbose("Cache file is: {$cacheFileName}"); }
         return $cacheFileName;
     }
+
+    /**
+     * Open up the original image from file
+     *
+     * @return resource $image from the source file.
+     */
+     private function PrepareImageForCache()
+     {
+        if($this->verbose) { verbose("File extension is: {$this->fileExtension}"); }
+
+        switch($this->fileExtension) {
+          case 'jpg':
+          case 'jpeg':
+            $image = imagecreatefromjpeg($this->pathToImage);
+            if($this->verbose) { verbose("Opened the image as a JPEG image."); }
+            break;
+
+          case 'png':
+            $image = imagecreatefrompng($this->pathToImage);
+            if($this->verbose) { verbose("Opened the image as a PNG image."); }
+            break;
+
+          default: errorPage('No support for this file extension.');
+        }
+        return $image;
+    }
+
 
     /**
      * Sharpen image as http://php.net/manual/en/ref.image.php#56144
@@ -208,23 +235,13 @@ EOD;
         return $image;
     }
 
-    /**
-     * Blabla
-     * @param
-     * @return
-     */
      /**
      * Rezize image
-     * @param
-     * @return
+     * @param resource $image the image to resize.
+     * @return resource $image as the resized image.
      */
      public function Resize($image)
      {
-         // TODO: temp ass to width below
-        //  list($width, $this->height) = $this->imgInfo;
-        //  echo "<br>" . __FILE__ . " : " . __LINE__ . "<br>";var_dump($this->newWidth);
-        //  echo "<br>" . __FILE__ . " : " . __LINE__ . "<br>";var_dump($this->newHeight);
-        //  echo "<br>" . __FILE__ . " : " . __LINE__ . "<br>";var_dump($this->imgInfo);
          if($this->cropToFit) {
            if($this->verbose) {
                verbose("Resizing, crop to fit.");
@@ -249,10 +266,11 @@ EOD;
          }
          return $image;
      }
+
      /**
      * Save image to cache
-     * @param
-     * @return
+     * @param resource $image of image to save.
+     * @param string $file filename of image to save in cache
      */
       private function CacheSave($image, $file)
       {
@@ -286,7 +304,6 @@ EOD;
        * Output an image together with last modified header.
        *
        * @param string $file as path to the image.
-       * @param boolean $verbose if verbose mode is on or off.
        */
       public function outputFile($file) {
           $info = getimagesize($file);
@@ -318,8 +335,6 @@ EOD;
        * Output an image either by fetching from cache or
        * creating a new image which is stored to cache.
        *
-       * @param string $file as path to the image.
-       * @param boolean $verbose if verbose mode is on or off.
        */
       public function output() {
           //
@@ -355,22 +370,8 @@ EOD;
           //
           // Open up the original image from file
           //
-          if($this->verbose) { verbose("File extension is: {$this->fileExtension}"); }
+          $image = $this->PrepareImageForCache();
 
-          switch($this->fileExtension) {
-            case 'jpg':
-            case 'jpeg':
-              $image = imagecreatefromjpeg($this->pathToImage);
-              if($this->verbose) { verbose("Opened the image as a JPEG image."); }
-              break;
-
-            case 'png':
-              $image = imagecreatefrompng($this->pathToImage);
-              if($this->verbose) { verbose("Opened the image as a PNG image."); }
-              break;
-
-            default: errorPage('No support for this file extension.');
-          }
           //
           // Resize the image if needed
           //
