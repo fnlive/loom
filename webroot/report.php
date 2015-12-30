@@ -100,7 +100,7 @@ $loom['main'] = <<<EOD
 <p>Sidan img.php kändes näst intill omöjlig att få ett helhetsgrepp på. Det var ganska krävande att skapa en CImage klass utifrån img.php. När klassen var färdig kändes det som jag fick grepp på det. Egentligen ett ganska rättframt flöde med validering av in-parametrar och kontroll om bild finns i cachen och då serva den; Om ej i cachen, processa fram bilden och lagra den som fil i cachen. Kan absoulut vara vara nyttigt att dynamiskt kunna processa fram en bild med rätt storlekt, format etc.
 </p>
 <!-- Detta var sista kursmomentet innan projektet, hur ser du på ditt Anax nu, en summering så här långt? -->
-<p>
+<p>Under 2 månaders tid har det gått att utveckla flera olika grundläggande webb-funktioner såsom ett CMS-system med "sidor och blogg", film-databas med sökfunktion, och foto-galleri. Tycker jag fått fram mycket funktionalitet under relativt kort tid. De här funktionerna går att vidareutveckla till nya fuktioner såsom t.ex. ett forum med diskussions-trådar, webb-shop, etc. De kan dessutom samexistera med de andra funktionerna i ramverket med funktionerna isolerade från varandra på ett strukurerat sätt. Så långt tycker jag att jag lärt mig väldigt mycket i dessa kursmoment.
 </p>
 <!-- Finns det något du saknar så här långt, kanske några moduler som du känner som viktiga i ditt Anax? -->
 <p>Det finns många funktioner som man skulle kunna bygga ut mitt Loom/Anax med. En webbshop skulle vara nästa naturliga modul att utveckla. En kombination av funktionerna i filmdatabasen och bloggen med lite nya funktioner som kundvagn skulle kunna bli en bra start.
