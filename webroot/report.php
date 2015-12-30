@@ -90,7 +90,26 @@ $loom['main'] = <<<EOD
 <p>Jag gjorde också extra-uppgifterna slugify, koppla användare till CMS, samt visa vem som författat ett blogg-inlägg. För att kunna skapa eller redigera innehåll i CMS så måste man vara inloggad.
 </p>
 <h2>kmom06</h2>
+<!-- Hade du erfarenheter av bildhantering sedan tidigare? -->
+<p>Tidigare erfarenhet av bildhantering har varit begränsad till redigering med photoshop, irfanview och gimp. Jag har aldrig gjort bildhantering med något programmeringsspråk. Denna uppgift öppnade upp ögonen för ett alternativt sätt att skapa och skicka bilder med rätt storlek från en webbplats. Först verkade det väldigt omständligt och processorkrävande att skapa bilder "on-the-fly". Men med egen cache-hantering blir overhead låg efter att första bilden skapats. I t.ex. WordPress skapas många bilder med olika storlek som lagras på servern oavsett om de används eller ej.
+</p>
+<!-- Hur känns det att jobba i PHP GD? -->
+<p>Det kändes ganska rättframt att jobba med just själva PHP GD. Det var desto mer att hålla reda på vad gällde t.ex. förändring av storlekar på bilder med gammal/ny höjd/bredd, "aspect ratio", crop-storlekar etc.
+</p>
+<!-- Hur känns det att jobba med img.php, ett bra verktyg i din verktygslåda? -->
+<p>Sidan img.php kändes näst intill omöjlig att få ett helhetsgrepp på. Det var ganska krävande att skapa en CImage klass utifrån img.php. När klassen var färdig kändes det som jag fick grepp på det. Egentligen ett ganska rättframt flöde med validering av in-parametrar och kontroll om bild finns i cachen och då serva den; Om ej i cachen, processa fram bilden och lagra den som fil i cachen. Kan absoulut vara vara nyttigt att dynamiskt kunna processa fram en bild med rätt storlekt, format etc.
+</p>
+<!-- Detta var sista kursmomentet innan projektet, hur ser du på ditt Anax nu, en summering så här långt? -->
 <p>
+</p>
+<!-- Finns det något du saknar så här långt, kanske några moduler som du känner som viktiga i ditt Anax? -->
+<p>Det finns många funktioner som man skulle kunna bygga ut mitt Loom/Anax med. En webbshop skulle vara nästa naturliga modul att utveckla. En kombination av funktionerna i filmdatabasen och bloggen med lite nya funktioner som kundvagn skulle kunna bli en bra start.
+</p>
+<p>Om man skulle fortsätta utveckla detta ramverk för användning i olika webb-produkter, behövs det något slags automatiserat enhets-test ramverk. Just nu är det ganska tidskrävande att testa igenom att alla funktioner fortfarande fungerar även om man bara ändrar en mindre detalj i någon modul.
+</p>
+<p>Jag har också konsekvent glömt att uppdatera min sitemap.xml. Denna skulle jag vilja hålla uppdaterad på något automatiskt eller halvautomatiskt sätt via en admin-controller-sida. Finns nog fler saker man vill kunna uppdatera via webb-gränssnitt, t.ex. ladda upp ny favicon, ladda upp bilder, etc. En annan funktion jag gärna skulle vilja ha är en rättstavningsmodul som blog/page-modulerna kan använda sig av. Balansakt mellan hur komplex php-kod för admin-saker man får jämfört med värdet av användarvänlighet.
+</p>
+<p>Finns givetvis många fler funktioner. En modul för att skicka nyhetsbrev till prenumeranter samt registrering och lagring av prenumeranterna. Till en blogg kan man också behöva en modul som skapar ett rss-flöde. Modul för kommentars-system till bloggen. Modul för forum där besökare kan skapa diskussionstrådar inom olika ämnen. etc. etc.
 </p>
 <p>
 </p>
