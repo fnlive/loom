@@ -215,6 +215,18 @@ EOD;
         return $image;
     }
 
+    /**
+     * Create new image and keep transparency
+     *
+     * @param resource $image the image to apply this filter on.
+     * @return resource $image as the processed image.
+     */
+    private function createImageKeepTransparency($width, $height) {
+        $img = imagecreatetruecolor($width, $height);
+        imagealphablending($img, false);
+        imagesavealpha($img, true);
+        return $img;
+    }
 
     /**
      * Sharpen image as http://php.net/manual/en/ref.image.php#56144
@@ -250,7 +262,8 @@ EOD;
            }
            $cropX = round(($this->width - $this->cropWidth) / 2);
            $cropY = round(($this->height - $this->cropHeight) / 2);
-           $imageResized = imagecreatetruecolor($this->newWidth, $this->newHeight);
+           //    $imageResized = imagecreatetruecolor($this->newWidth, $this->newHeight);
+              $imageResized = $this->createImageKeepTransparency($this->newWidth, $this->newHeight);
            imagecopyresampled($imageResized, $image, 0, 0, $cropX, $cropY, $this->newWidth, $this->newHeight, $this->cropWidth, $this->cropHeight);
            $image = $imageResized;
            $this->width = $this->newWidth;
@@ -258,7 +271,8 @@ EOD;
          }
          else if(!($this->newWidth == $this->width && $this->newHeight == $this->height)) {
            if($this->verbose) { verbose("Resizing, new height and/or width."); }
-           $imageResized = imagecreatetruecolor($this->newWidth, $this->newHeight);
+        //    $imageResized = imagecreatetruecolor($this->newWidth, $this->newHeight);
+           $imageResized = $this->createImageKeepTransparency($this->newWidth, $this->newHeight);
            imagecopyresampled($imageResized, $image, 0, 0, 0, 0, $this->newWidth, $this->newHeight, $this->width, $this->height);
            $image  = $imageResized;
            $this->width  = $this->newWidth;
@@ -283,6 +297,9 @@ EOD;
 
             case 'png':
               if($this->verbose) { verbose("Saving image as PNG to cache."); }
+              // Turn off alpha blending and set alpha flag
+              imagealphablending($image, false);
+              imagesavealpha($image, true);
               imagepng($image, $file);
             break;
 
