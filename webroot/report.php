@@ -111,6 +111,10 @@ $loom['main'] = <<<EOD
 </p>
 <p>Finns givetvis många fler funktioner. En modul för att skicka nyhetsbrev till prenumeranter samt registrering och lagring av prenumeranterna. Till en blogg kan man också behöva en modul som skapar ett rss-flöde. Modul för kommentars-system till bloggen. Modul för forum där besökare kan skapa diskussionstrådar inom olika ämnen. etc. etc.
 </p>
+<p>Jag lade också till stöd för transparenta png-bilder. En lätt uppdatering med hjälp av artikeln. Den transparenta loggan för Loom fick en rosa bakgrund på <a href="img-test.php">"img-testsida"</a>. Fick däremot inte filnamn med åäa att fungera då realpath inte verkar gilla dessa. Hann inte gräva vidare i detta.
+</p>
+<p>
+</p>
 <p>
 </p>
 EOD;
