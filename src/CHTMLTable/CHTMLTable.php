@@ -13,11 +13,24 @@ class CHTMLTable
     $this->res = $result;
   }
 
+  /**
+   * Function to create links for sorting
+   *
+   * @param string $column the name of the database column to sort by
+   * @return string with links to order by column.
+   */
+  private function orderby($column) {
+    $nav  = "<a href='" . CMovieNav::getQueryString(array('orderby'=>$column, 'order'=>'asc')) . "'>&darr;</a>";
+    $nav .= "<a href='" . CMovieNav::getQueryString(array('orderby'=>$column, 'order'=>'desc')) . "'>&uarr;</a>";
+    return "<span class='orderby'>" . $nav . "</span>";
+  }
+
+
   function output($rows, $hitsPerPage, $navigatePage)
   {
     // dump($this->res);
     // Put results into a HTML-table
-    $tr = "<tr><th>Rad</th><th>Id " . orderby('id') . "</th><th>Bild</th><th>Titel " . orderby('title') . "</th><th>År " . orderby('year') . "</th><th>Genre</th></tr>";
+    $tr = "<tr><th>Rad</th><th>Id " . $this->orderby('id') . "</th><th>Bild</th><th>Titel " . $this->orderby('title') . "</th><th>År " . $this->orderby('year') . "</th><th>Genre</th></tr>";
     foreach($this->res AS $key => $val) {
         // Sanitize content from database before outputting in html.
         $key = htmlentities($key);
