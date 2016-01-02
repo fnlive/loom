@@ -1,9 +1,6 @@
 <?php
-// Skapa en klass CMovieSearch som döljer koden för att skapa sök-formuläret
-// och för att förbereda den SQL-fråga som ställs mot databasen.
-
 /**
- * Class to generate html for movie search form
+ * Class to search and present result from movie database.
  */
 class CMovieSearch
 {
@@ -78,7 +75,7 @@ class CMovieSearch
         return $genres;
     }
 
-    public function MaxPages()
+    private function MaxPages()
     {
         // Get max pages for current query, for navigation
         $sqlOrig = $this->sqlOrig;
@@ -97,7 +94,7 @@ class CMovieSearch
     }
 
 
-    public function Search()
+    private function Search()
     {
         // Prepare the query based on incoming arguments
         // and store for use later on.
@@ -151,7 +148,12 @@ class CMovieSearch
         return $res;
     }
 
-    public function outputForm()
+    /**
+     * Function output html for movie search form.
+     *
+     * @return string with html output.
+     */
+    private function outputForm()
     {
         $genres = $this->outputGenreLinks($this->genre);
         $out = <<<EOD
@@ -177,15 +179,21 @@ EOD;
         return $out;
     }
 
+    /**
+     * Function output html for movie search form and
+     * movie search results.
+     *
+     * @return string with html output.
+     */
     public function output()
     {
         $html = "";
+        // Get html for search form
         $html .= $this->outputForm();
 
         // Get search result from movie database
         $res = $this->Search();
         list($max, $rows) = $this->MaxPages();
-
 
         // Prepare to put results into rows for a HTML-table.
         $hitsPerPage = CMovieNav::getHitsPerPage(array(2, 4, 8), $this->hits);

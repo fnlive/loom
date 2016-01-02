@@ -167,7 +167,8 @@ if('localhost' == $_SERVER['SERVER_NAME']) {
 // if (0) {
     // echo 'We are localhost...';
     define('DB_PASSWORD', '');
-    $loom['database']['dsn']            = 'mysql:host=localhost;dbname=LoomCms;';
+    $loom['database']['dsn']            = 'mysql:host=localhost;dbname=MovieDb;'; //To get kmom04 working
+    // $loom['database']['dsn']            = 'mysql:host=localhost;dbname=LoomCms;';
     $loom['database']['username']       = 'root';
 } else {
     // echo 'We are on a remote location far, far away...';
