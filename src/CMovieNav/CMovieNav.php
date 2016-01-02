@@ -6,11 +6,6 @@
 class CMovieNav
 {
 
-    function __construct()
-    {
-
-    }
-
     /**
      * Use the current querystring as base, modify it according to $options and return the modified query string.
      *

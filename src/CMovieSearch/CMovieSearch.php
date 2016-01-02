@@ -14,6 +14,7 @@ class CMovieSearch
          */
          private $msdb     = null;
          private $sqlOrig  = null;
+         private $params   = null;
          private $groupby  = null;
          private $where    = null;
          private $title    = null;
@@ -64,7 +65,6 @@ class CMovieSearch
               ON G.id = M2G.idGenre
         ';
         $res = $this->msdb->ExecuteSelectQueryAndFetchAll($sql);
-        // dump($res);
 
         $genres = null;
         foreach($res as $val) {
@@ -90,7 +90,7 @@ class CMovieSearch
             $sqlOrig {$this->where} $this->groupby
           ) AS Movie
         ";
-        $res = $this->msdb->ExecuteSelectQueryAndFetchAll($sql, $this->params);
+        $res = $this->msdb->ExecuteSelectQueryAndFetchAll($sql, $this->params, false);
         $rows = $res[0]->rows;
         $max = ceil($rows / $this->hits);
         return array($max, $rows);
@@ -115,28 +115,28 @@ class CMovieSearch
         $this->groupby  = ' GROUP BY M.id';
         $limit    = null;
         $sort     = " ORDER BY $this->orderby $this->order";
-        $params   = array();
+        $this->params   = array();
 
         // Select by title
         if($this->title) {
           $this->where .= ' AND title LIKE ?';
-          $params[] = $this->title;
+          $this->params[] = $this->title;
         }
 
         // Select by year
         if($this->year1) {
           $this->where .= ' AND year >= ?';
-          $params[] = $this->year1;
+          $this->params[] = $this->year1;
         }
         if($this->year2) {
           $this->where .= ' AND year <= ?';
-          $params[] = $this->year2;
+          $this->params[] = $this->year2;
         }
 
         // Select by genre
         if($this->genre) {
           $this->where .= ' AND G.name = ?';
-          $params[] = $this->genre;
+          $this->params[] = $this->genre;
         }
 
         // Pagination
@@ -147,8 +147,7 @@ class CMovieSearch
         // Complete the sql statement
         $this->where = $this->where ? " WHERE 1 {$this->where}" : null;
         $sql = $this->sqlOrig . $this->where . $this->groupby . $sort . $limit;
-        $res = $this->msdb->ExecuteSelectQueryAndFetchAll($sql, $params);
-        $this->params = $params;
+        $res = $this->msdb->ExecuteSelectQueryAndFetchAll($sql, $this->params, false);
         return $res;
     }
 
@@ -176,5 +175,23 @@ class CMovieSearch
     </form>
 EOD;
         return $out;
+    }
+
+    public function output()
+    {
+        $html = "";
+        $html .= $this->outputForm();
+
+        // Get search result from movie database
+        $res = $this->Search();
+        list($max, $rows) = $this->MaxPages();
+
+
+        // Prepare to put results into rows for a HTML-table.
+        $hitsPerPage = CMovieNav::getHitsPerPage(array(2, 4, 8), $this->hits);
+        $navigatePage = CMovieNav::getPageNavigation($this->hits, $this->page, $max);
+        $html .= CHTMLTable::output($res, $rows, $hitsPerPage, $navigatePage);
+
+        return $html;
     }
 }
