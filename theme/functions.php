@@ -25,9 +25,9 @@ function generate_header() {
   global $loom;
   $navBar = CNavBar::Get($loom['mainnavbar']);
   return <<<EOD
-  <img class='sitelogo' src='img/Loom-icon-transp-x130.png' alt='fnlive Logo'/>
-  <span class='sitetitle'>Loom</span>
-  <span class='siteslogan'>Ett flexibelt ramverk för att bygga webbplatser</span>
+  <img class='sitelogo' src='img/RM-icon-1-x130.png' alt='RM Logo'/>
+  <span class='sitetitle'>Rental Movies</span>
+  <span class='siteslogan'>Filmer som du vill se</span>
   $navBar
 EOD;
 }
@@ -41,7 +41,7 @@ EOD;
 function generate_footer() {
   $liveReload = ($_SERVER['SERVER_NAME']=='localhost') ? '<script src="http://localhost:35729/livereload.js"></script>' : '';
   return <<<EOD
-  <footer><span class='sitefooter'>Copyright (c) Fredrik Nilsson (fn@live.se) | <a href='https://github.com/fnlive/loom'><img src="img/GitHub-Mark-32px.png" alt="GitHub Octocat" />GitHub</a> | <a href='http://www.student.bth.se/phpmyadmin/'>phpMyAdmin</a> | <a href='http://validator.w3.org/unicorn/check?ucn_uri=referer&amp;ucn_task=conformance'>Unicorn</a> | <a href='http://validator.w3.org/check/referer'>Nu</a></span>
+  <footer><span class='sitefooter'>Copyright (c) 2016 Rental Movies | <a href='http://validator.w3.org/unicorn/check?ucn_uri=referer&amp;ucn_task=conformance'>Unicorn</a> | <a href='http://validator.w3.org/check/referer'>Nu</a></span>
   </footer>
   $liveReload
 EOD;

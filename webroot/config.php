@@ -48,7 +48,7 @@ $loom = array();
  *
  */
 $loom['lang']         = 'sv';
-$loom['title_append'] = ' | Loom';
+$loom['title_append'] = ' | Rental Movies';
 
 
 /**
@@ -57,15 +57,6 @@ $loom['title_append'] = ' | Loom';
  */
 $loom['stylesheets'] = array('css/style.css');
 $loom['favicon']    = 'favicon.ico';
-// echo CNavBar::GenerateMenu();
-// $loom['mainnavbar'] = array(
-//     'me' => array('text'=>'Me', 'url'=>'me.php'),
-//     '100' => array('text'=>'100', 'url'=>'dice-100.php'),
-//     'movieDb' => array('text'=>'movieDb', 'url'=>'movie-db.php'),
-//     'report'  => array('text'=>'Redovisning',  'url'=>'report.php'),
-//     'source' => array('text'=>'Källkod', 'url'=>'source.php'),
-//     'login' => array('text'=>'Login', 'url'=>'login.php'),
-// );
 /**
  * Define the menu as an array
  */
