@@ -139,6 +139,32 @@ $loom['mainnavbar']  = array(
   ),
   'blogg' => array('text'=>'Blogg', 'url'=>'post.php', 'title' => 'Bloggen'),
   'galleri' => array('text'=>'Galleri', 'url'=>'gallery.php', 'title' => 'Galleri'),
+  'Movies' => array('text'=>'Filmer', 'url'=>'rm-movies.php', 'title' => 'Filmer',
+  // Here we add the submenu, with some menu items, as part of a existing menu item
+  'submenu' => array(
+
+    'items' => array(
+      // This is a menu item of the submenu
+      'create'  => array(
+        'text'  => 'Skapa ny',
+        'url'   => 'rm-movieadmin.php',
+        'title' => 'Skapa ny',
+      ),
+      // This is a menu item of the submenu
+      'view'  => array(
+        'text'  => 'Visa alla',
+        'url'   => 'rm-movies.php',
+        'title' => 'Visa alla',
+      ),
+      // This is a menu item of the submenu
+      'reset'  => array(
+        'text'  => 'Återställ innehåll',
+        'url'   => 'rm-movieadmin.php?reset-content',
+        'title' => 'Återställ innehåll',
+      ),
+    ),
+  ),
+),
   ),
 
   // This is the callback tracing the current selected menu item base on scriptname

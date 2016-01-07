@@ -12,9 +12,10 @@ class CUser
   /**
    * Properties
    */
-  private $authenticated = false;
+  private static $authenticated = false;
   private $acronym = null;
   private $name = null;
+  // TODO: make static ? Use as singleton?
 
   /**
    * Constructor
@@ -23,12 +24,40 @@ class CUser
   function __construct()
   {
     if (isset($_SESSION['user']->acronym)) {
-      $this->authenticated = true;
+      self::$authenticated = true;
       $this->acronym = $_SESSION['user']->acronym;
       $this->name = $_SESSION['user']->name;
     }
   }
 
+private function ResetDb()
+{
+    // Sql query to Initialize user db to default values.
+    // For now, use to copy to SQL workbench
+    $sqlQuery = <<<EOD
+    DROP TABLE IF EXISTS USER;
+
+    CREATE TABLE USER
+    (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      acronym CHAR(12) UNIQUE NOT NULL,
+      name VARCHAR(80),
+      password CHAR(32),
+      salt INT NOT NULL
+    ) ENGINE INNODB CHARACTER SET utf8;
+
+    INSERT INTO USER (acronym, name, salt) VALUES
+      ('doe', 'John/Jane Doe', unix_timestamp()),
+      ('admin', 'Administrator', unix_timestamp())
+    ;
+
+    UPDATE USER SET password = md5(concat('doe', salt)) WHERE acronym = 'doe';
+    UPDATE USER SET password = md5(concat('admin', salt)) WHERE acronym = 'admin';
+
+    SELECT * FROM USER;
+EOD;
+
+}
   /**
    * Login and authenticaate user
    *
@@ -42,7 +71,7 @@ class CUser
     // If user in database and password matches, set user as authenticated by adding acronym and name to session variable.
     if (isset($res[0])) {
       $_SESSION['user'] = $res[0];
-      $authenticated = true;
+      self::$authenticated = true;
       $this->acronym = $res[0]->acronym;
       $this->name = $res[0]->name;
     }
@@ -83,7 +112,7 @@ EOD;
    */
   public function LogoutAndOutputHTML()
   {
-    if ($this->authenticated) {
+    if (self::$authenticated) {
       $output = "<p>{$this->name}, du är nu utloggad.</p>";
     }
     else {
@@ -116,7 +145,7 @@ EOD;
       $_SESSION['user']->name = null;
       $_SESSION['user']->acronym = null;
     }
-    $this->authenticated = false;
+    self::$authenticated = false;
     $this->acronym = null;
     $this->name = null;
   }
@@ -125,11 +154,11 @@ EOD;
    * Check if user is authenticated
    *
    */
-  public function IsAuthenticated()
+  public static function IsAuthenticated()
   {
     // Check if user is authenticated.
     // Return true if authenticated.
-    return $this->authenticated;
+    return self::$authenticated;
   }
 
   /**

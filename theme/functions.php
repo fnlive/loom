@@ -24,10 +24,12 @@ function get_title($title) {
 function generate_header() {
   global $loom;
   $navBar = CNavBar::Get($loom['mainnavbar']);
+  $searchForm = CRMMovieSimpleSearch::outputForm();
   return <<<EOD
   <img class='sitelogo' src='img/RM-icon-1-x130.png' alt='RM Logo'/>
   <span class='sitetitle'>Rental Movies</span>
   <span class='siteslogan'>Filmer som du vill se</span>
+  $searchForm
   $navBar
 EOD;
 }
