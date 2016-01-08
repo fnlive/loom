@@ -58,7 +58,7 @@ class CRMHTMLTable
         <td>{$val->year}</td><td>{$val->genre}</td></tr>
 EOD;
     }
-
+// TODO: fixa länkar på genres som visas i restulttabell.
     $table = <<<EOD
   <div class='dbtable'>
     <div class='rows'>{$rows} träffar. {$hitsPerPage}</div>

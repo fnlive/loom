@@ -38,7 +38,7 @@ CREATE TABLE rm_movies
     trailer VARCHAR(100) DEFAULT NULL
 ) ENGINE INNODB CHARACTER SET utf8
 EOD;
-            $res = $this->contentDb->ExecuteQuery($query, array(), true);
+            $res = $this->contentDb->ExecuteQuery($query, array(), false);
             // Add default content after creation of table
             $query = <<<EOD
 INSERT INTO rm_movies (updated, title, director, year, plot, image, price, imdb, trailer) VALUES
@@ -49,9 +49,26 @@ INSERT INTO rm_movies (updated, title, director, year, plot, image, price, imdb,
   (NOW(), 'From Dusk Till Dawn', 'Robert Rodriguez', 1996, 'Two criminals and their hostages unknowingly seek temporary refuge in an establishment populated by vampires, with chaotic results.', 'from-dusk-till-dawn.jpg', 24, 'tt0116367', '-bBay_1dKK8')
 ;
 EOD;
-            $this->contentDb->ExecuteQuery($query, array(), true);
+            $this->contentDb->ExecuteQuery($query, array(), false);
             echo "Done creating Movies. ";
+
+            // Create some extra movies
+            $query = <<<EOD
+            INSERT INTO rm_movies (updated, title, director, year, image, price, imdb, trailer, plot) VALUES
+              (NOW(), 'Mary Poppins', 'Robert Stevenson', 1964, 'mary-poppins.jpg', 35, 'tt0058331', 'fuWf9fP-A-U', 'A magic nanny comes to work for a cold bankers unhappy family.' ),
+              (NOW(), 'Tonari no Totoro', 'Hayao Miyazaki', 1988, 'Tonari-no-Totoro.jpg', 35, 'tt0096283', '92a7Hj0ijLs', 'When two girls move to the country to be near their ailing mother, they have adventures with the wonderous forest spirits who live nearby.' ),
+              (NOW(), 'Der Himmel über Berlin', 'Wim Wenders', 1988, 'himmel-uber-berlin.jpg', 45, 'tt0093191', '0htOcy1QUkk', 'An angel tires of overseeing human activity and wishes to become human when he falls in love with a mortal.' ),
+              (NOW(), 'Blood Simple', 'Joel Coen, Ethan Coen', 1984, 'blood-simple.jpg', 39, 'tt0086979', 'YArfyHgKuzE', 'A rich but jealous man hires a private investigator to kill his cheating wife and her new man. But, when blood is involved, nothing is simple.' ),
+              (NOW(), 'The Secret Life of Walter Mitty', 'Ben Stiller', 2013, 'the-secret-life-of-walter-mitty.jpg', 35, 'tt0359950', 'QD6cy4PBQPI', 'When his job along with that of his co-worker are threatened, Walter takes action in the real world embarking on a global journey that turns into an adventure more extraordinary than anything he could have ever imagined.' ),
+              (NOW(), 'Cera una volta il West', 'Sergio Leone', 1964, 'once-upon-a-time-in-the-west.jpg', 35, 'tt0064116', 'LTcTVeShSV8', 'Epic story of a mysterious stranger with a harmonica who joins forces with a notorious desperado to protect a beautiful widow from a ruthless assassin working for the railroad.' ),
+              (NOW(), 'Iron Man', 'Jon Favreau', 2008, 'iron-man.jpg', 35, 'tt0371746', '8hYlB38asDY', 'After being held captive in an Afghan cave, an industrialist creates a unique weaponized suit of armor to fight evil.' )
+            ;
+EOD;
+            $this->contentDb->ExecuteQuery($query, array(), false);
+            echo "Done creating extra movies. ";
         }
+
+        // Check if genre table exists
         $query = "SELECT id FROM rm_genre";
         $tableExists = $this->contentDb->ExecuteQuery($query, array(), false);
         if (!$tableExists) {
@@ -62,17 +79,17 @@ CREATE TABLE rm_genre
     name CHAR(20) NOT NULL -- crime, svenskt, college, drama, etc
 ) ENGINE INNODB CHARACTER SET utf8;
 EOD;
-            $res = $this->contentDb->ExecuteQuery($query, array(), true);
+            $res = $this->contentDb->ExecuteQuery($query, array(), false);
             // Add default content after creation of table
             $query = <<<EOD
 INSERT INTO rm_genre (name) VALUES
   ('comedy'), ('romance'), ('college'),
   ('crime'), ('drama'), ('thriller'),
   ('animation'), ('adventure'), ('family'),
-  ('svenskt'), ('action'), ('horror')
+  ('svenskt'), ('action'), ('horror'), ('western')
 ;
 EOD;
-            $this->contentDb->ExecuteQuery($query, array(), true);
+            $this->contentDb->ExecuteQuery($query, array(), false);
             echo "Done creating genre db. ";
         }
 
@@ -89,29 +106,41 @@ CREATE TABLE rm_movie2genre
   PRIMARY KEY (idMovie, idGenre)
 ) ENGINE INNODB;
 EOD;
-            $res = $this->contentDb->ExecuteQuery($query, array(), true);
+            $res = $this->contentDb->ExecuteQuery($query, array(), false);
             // Add default content after creation of table
             $query = <<<EOD
 INSERT INTO rm_movie2genre (idMovie, idGenre) VALUES
-  (1, 1),
-  (1, 5),
-  (1, 6),
-  (2, 1),
-  (2, 2),
-  (2, 3),
-  (3, 7),
-  (3, 8),
-  (3, 9),
-  (4, 11),
-  (4, 1),
-  (4, 10),
-  (4, 9),
-  (5, 11),
-  (5, 4),
-  (5, 12)
+(1, 1),
+(1, 5),
+(1, 6),
+(2, 1),
+(2, 2),
+(2, 3),
+(3, 7),
+(3, 8),
+(3, 9),
+(4, 1),
+(4, 9),
+(4, 10),
+(4, 11),
+(5, 4),
+(5, 11),
+(5, 12),
+(6, 1),
+(6, 9),
+(7, 7),
+(7, 9),
+(8, 5),
+(9, 4),
+(9, 6),
+(10, 1),
+(10, 5),
+(10, 8),
+(11, 13),
+(12, 8)
 ;
 EOD;
-            $this->contentDb->ExecuteQuery($query, array(), true);
+            $this->contentDb->ExecuteQuery($query, array(), false);
             echo "Done creating movie2genre db. ";
         }
     }
@@ -119,7 +148,7 @@ EOD;
     public function Reset()
     {
         $query = "DROP TABLE rm_movie2genre; DROP TABLE rm_genre; DROP TABLE rm_movies; ";
-        $res = $this->contentDb->ExecuteQuery($query, array(), true);
+        $res = $this->contentDb->ExecuteQuery($query, array(), false);
         $this->InitDb();
         $out = "";
         if ($res) {
@@ -306,7 +335,7 @@ EOD;
         INSERT INTO rm_movies (updated, title, director, length, year, plot, image, price, imdb, trailer) VALUES
           (NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?);
 EOD;
-        $this->contentDb->ExecuteQuery($query, $content, true);
+        $this->contentDb->ExecuteQuery($query, $content, false);
 
         // Insert genres
         $id = $this->contentDb->LastInsertId();
