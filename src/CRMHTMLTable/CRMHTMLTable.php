@@ -20,7 +20,7 @@ class CRMHTMLTable
   }
 
 
-  public static function output($res, $rows, $hitsPerPage, $navigatePage)
+  public static function output($res, $rows, $hitsPerPage, $navigatePage, $genresAllMovies)
   {
     // Put results into a HTML-table
     $tr = "<tr><th>Bild</th><th>Titel " . CRMHTMLTable::orderby('title') . "</th><th>År " . CRMHTMLTable::orderby('year') . "</th><th>Genre</th></tr>";
@@ -38,12 +38,13 @@ class CRMHTMLTable
             $editLink = "";
         }
         // Sanitize content from database before outputting in html.
-        $key = htmlentities($key);
         $val->id = htmlentities($val->id);
         $val->image = htmlentities($val->image);
         $val->title = htmlentities($val->title);
         $val->year = htmlentities($val->year);
-        $val->genre = htmlentities($val->genre);
+        // $val->genre = htmlentities($val->genre);
+        $genres = htmlentities($genresAllMovies[$val->id]);
+        $genreLinks = CRMMovie::GenreLinks($genres);
         $tr .= <<<EOD
         <tr>
         <td>
@@ -55,10 +56,10 @@ class CRMHTMLTable
         <a href="rm-movie.php?id={$val->id}">{$val->title}</a>
         <p>$editLink</p>
         </td>
-        <td>{$val->year}</td><td>{$val->genre}</td></tr>
+        <td>{$val->year}</td>
+        <td>{$genreLinks}</td></tr>
 EOD;
     }
-// TODO: fixa länkar på genres som visas i restulttabell.
     $table = <<<EOD
   <div class='dbtable'>
     <div class='rows'>{$rows} träffar. {$hitsPerPage}</div>

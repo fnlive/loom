@@ -55,6 +55,31 @@ class CRMMovieSearch
             // Not necessary to validate title and genre. Only if they are to be output to screen run through htmlentities().
     	}
 
+        private function getMovieGenreLinks($id)
+        {
+            $sql = '
+                SELECT G.*, GROUP_CONCAT(G.name) AS genre
+                FROM rm_movies AS M
+                 LEFT OUTER JOIN rm_movie2genre AS M2G
+                   ON M.id = M2G.idMovie
+                 INNER JOIN rm_genre AS G
+                   ON M2G.idGenre = G.id
+                WHERE M.id = ?;
+            ';
+            $res = $this->msdb->ExecuteSelectQueryAndFetchAll($sql, array($id), false);
+            return $res[0]->genre;
+        }
+
+        public function getAllMovieGenreLinks($movies)
+        {
+            $allMovieGenres = array();
+            foreach ($movies as $movie) {
+                $genres = $this->getMovieGenreLinks($movie->id);
+                $allMovieGenres[$movie->id] =  $genres;
+            }
+            return $allMovieGenres;
+        }
+
     private function outputGenreLinks($genre)
     {
         // Get all genres that are active
@@ -203,8 +228,11 @@ EOD;
         }
 
         // Get search result from movie database
-        $res = $this->Search();
-        // echo __FILE__ . " : " . __LINE__ . "<br>";dump($res);
+        $movies = $this->Search();
+        // echo __FILE__ . " : " . __LINE__ . "<br>";dump($movies);
+
+        $genres = $this->getAllMovieGenreLinks($movies);
+
         list($max, $rows) = $this->MaxPages();
 
         // Prepare to put results into rows for a HTML-table.
@@ -212,7 +240,7 @@ EOD;
         $hitsPerPage = CMovieNav::getHitsPerPage(array(2, 4, 8), $this->hits);
         $navigatePage = CMovieNav::getPageNavigation($this->hits, $this->page, $max);
         // Get movie search result.
-        $html .= CRMHTMLTable::output($res, $rows, $hitsPerPage, $navigatePage);
+        $html .= CRMHTMLTable::output($movies, $rows, $hitsPerPage, $navigatePage, $genres);
 
         return $html;
     }

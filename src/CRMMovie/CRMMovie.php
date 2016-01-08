@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class for presenting a specific movie
+ * Class for presenting a single movie
  */
 class CRMMovie
 {
@@ -37,7 +37,7 @@ class CRMMovie
         return $this->Exists() ? htmlentities($this->res->title) : "Film 404";
     }
 
-    public function GenreLinks($genreList)
+    public static function GenreLinks($genreList)
     {
         $genres = explode(",", $genreList);
         $firstBar = false;
@@ -62,7 +62,7 @@ class CRMMovie
         $director = htmlentities($this->res->director);
         $imdb = htmlentities($this->res->imdb);
         $trailer = htmlentities($this->res->trailer);
-        $genreLinks = $this->GenreLinks($this->res->genre);
+        $genreLinks = CRMMovie::GenreLinks($this->res->genre);
         $updated = date("y-m-d H:i", strtotime($this->res->updated));
         $user = new CUser();
         if ($user->IsAuthenticated()) {
