@@ -26,6 +26,7 @@ $out .= "<div class=\"clear-both\"></div>";
 
 // Visa de tre senaste blogginläggen.
 $out .= "<br><h2>Nyheter</h2>";
+$out .= CBlog::GetLatest($db, 3);
 
 // Visa en översikt av de kategorier som finns för filmerna.
 // Visa bilder på mest populära film och senast hyrda film (okey att hårdkoda).

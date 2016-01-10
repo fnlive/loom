@@ -70,6 +70,20 @@ EOD;
         return $out;
     }
 
+    public static function GetLatest($db, $numPosts)
+    {
+        $content = new CContent($db);
+
+        $posts = $content->GetPosts('', $numPosts);
+
+        $out = "";
+        foreach ($posts as $post) {
+            $out .= self::outputSinglePost($post, true);
+        }
+        return $out;
+
+    }
+
     public static function GetByCategory($category, $db)
     {
         $content = new CContent($db);

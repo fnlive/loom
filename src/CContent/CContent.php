@@ -449,9 +449,10 @@ EOD;
      * @param string $url of page
      * @return array of arrays with content of posts
      */
-    public function GetPosts($slug='')
+    public function GetPosts($slug='', $numReturnRows=null)
     {
         $slugSql = $slug ? 'slug = ?' : '1';
+        $sqlNumReturnRows = $numReturnRows ? "LIMIT $numReturnRows" : '';
         $sql = "
         SELECT *
         FROM rm_content
@@ -461,9 +462,10 @@ EOD;
           published <= NOW() AND
           (deleted > NOW() OR deleted IS NULL)
         ORDER BY updated DESC
+        $sqlNumReturnRows
         ;
         ";
-        $res = $this->contentDb->ExecuteSelectQueryAndFetchAll($sql, array($slug));
+        $res = $this->contentDb->ExecuteSelectQueryAndFetchAll($sql, array($slug), true);
         if (empty($res)) {
             header("Location: 404.php");
         }
