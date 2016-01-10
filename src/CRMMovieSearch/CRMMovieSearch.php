@@ -55,7 +55,7 @@ class CRMMovieSearch
             // Not necessary to validate title and genre. Only if they are to be output to screen run through htmlentities().
     	}
 
-        private function getMovieGenreLinks($id)
+        private function getMovieGenres($id)
         {
             $sql = '
                 SELECT G.*, GROUP_CONCAT(G.name) AS genre
@@ -74,7 +74,7 @@ class CRMMovieSearch
         {
             $allMovieGenres = array();
             foreach ($movies as $movie) {
-                $genres = $this->getMovieGenreLinks($movie->id);
+                $genres = $this->getMovieGenres($movie->id);
                 $allMovieGenres[$movie->id] =  $genres;
             }
             return $allMovieGenres;

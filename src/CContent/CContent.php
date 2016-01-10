@@ -13,12 +13,7 @@ class CContent
         $this->InitDb();
     }
 
-    /**
-     * Example
-     *
-     * @param string
-     * @return array
-     */
+
      /**
       * Initialize database if table Content is not present. Add default data.
       *
@@ -27,14 +22,11 @@ class CContent
     {
         // Check if Db holds correct tables, else crete them
         $params = array( );
-        $query = "SELECT * FROM Content";
+        $query = "SELECT * FROM rm_content";
         $tableExists = $this->contentDb->ExecuteQuery($query, $params, false);
         if (!$tableExists) {
-            // Alternative syntax that could work instead of SELECT * ...?
-            // CREATE TABLE IF NOT EXISTS Content
-            // But how then when to create default content.
             $query = <<<EOD
-    CREATE TABLE Content
+    CREATE TABLE rm_content
     (
       id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
       slug CHAR(80) UNIQUE,
@@ -49,28 +41,31 @@ class CContent
       created DATETIME,
       updated DATETIME,
       deleted DATETIME,
-      author TEXT
-
+      author TEXT,
+      category VARCHAR(80)
     ) ENGINE INNODB CHARACTER SET utf8
 EOD;
             $res = $this->contentDb->ExecuteQuery($query, array(), false);
-
+            echo "Created content table.<br>";
             // Add default content after creation of table
             $query = <<<EOD
-            INSERT INTO Content (slug, url, TYPE, title, DATA, FILTER, published, created, author) VALUES
-              ('hem', 'hem', 'page', 'Hem', "Detta är min hemsida. Den är skriven i [url=http://en.wikipedia.org/wiki/BBCode]bbcode[/url] vilket innebär att man kan formattera texten till [b]bold[/b] och [i]kursiv stil[/i] samt hantera länkar.\n\nDessutom finns ett filter 'nl2br' som lägger in <br>-element istället för \\n, det är smidigt, man kan skriva texten precis som man tänker sig att den skall visas, med radbrytningar.", 'bbcode,nl2br', NOW(), NOW(), 'admin'),
-              ('om', 'om', 'page', 'Om', "Detta är en sida om mig och min webbplats. Den är skriven i [Markdown](http://en.wikipedia.org/wiki/Markdown). Markdown innebär att du får bra kontroll över innehållet i din sida, du kan formattera och sätta rubriker, men du behöver inte bry dig om HTML.\n\nRubrik nivå 2\n-------------\n\nDu skriver enkla styrtecken för att formattera texten som **fetstil** och *kursiv*. Det finns ett speciellt sätt att länka, skapa tabeller och så vidare.\n\n###Rubrik nivå 3\n\nNär man skriver i markdown så blir det läsbart även som textfil och det är lite av tanken med markdown.", 'markdown', NOW(), NOW(), 'admin'),
-              ('blogpost-1', NULL, 'post', 'Välkommen till min blogg!', "Detta är en bloggpost.\n\nNär det finns länkar till andra webbplatser så kommer de länkarna att bli klickbara.\n\nhttp://dbwebb.se är ett exempel på en länk som blir klickbar.", 'link,nl2br', NOW(), NOW(), 'doe'),
-              ('blogpost-2', NULL, 'post', 'Nu har sommaren kommit', "Detta är en bloggpost som berättar att sommaren har kommit, ett budskap som kräver en bloggpost.", 'nl2br', NOW(), NOW(), 'admin'),
-              ('blogpost-3', NULL, 'post', 'Nu har hösten kommit', "Detta är en bloggpost som berättar att sommaren har kommit, ett budskap som kräver en bloggpost", 'nl2br', NOW(), NOW(), 'doe')
+            INSERT INTO rm_content (slug, url, TYPE, title, DATA, FILTER, published, created, author, category) VALUES
+              ('hem', 'hem', 'page', 'Hem', "Detta är min hemsida. Den är skriven i [url=http://en.wikipedia.org/wiki/BBCode]bbcode[/url] vilket innebär att man kan formattera texten till [b]bold[/b] och [i]kursiv stil[/i] samt hantera länkar.\n\nDessutom finns ett filter 'nl2br' som lägger in <br>-element istället för \\n, det är smidigt, man kan skriva texten precis som man tänker sig att den skall visas, med radbrytningar.", 'bbcode,nl2br', NOW(), NOW(), 'admin', 'Nyheter'),
+              ('om', 'om', 'page', 'Om', "Detta är en sida om mig och min webbplats. Den är skriven i [Markdown](http://en.wikipedia.org/wiki/Markdown). Markdown innebär att du får bra kontroll över innehållet i din sida, du kan formattera och sätta rubriker, men du behöver inte bry dig om HTML.\n\nRubrik nivå 2\n-------------\n\nDu skriver enkla styrtecken för att formattera texten som **fetstil** och *kursiv*. Det finns ett speciellt sätt att länka, skapa tabeller och så vidare.\n\n###Rubrik nivå 3\n\nNär man skriver i markdown så blir det läsbart även som textfil och det är lite av tanken med markdown.", 'markdown', NOW(), NOW(), 'admin', 'Recensioner'),
+              ('blogpost-1', NULL, 'post', 'Välkommen till min blogg!', "Detta är en bloggpost.\n\nNär det finns länkar till andra webbplatser så kommer de länkarna att bli klickbara.\n\nhttp://dbwebb.se är ett exempel på en länk som blir klickbar.", 'link,nl2br', NOW(), NOW(), 'doe', 'Nyheter'),
+              ('blogpost-2', NULL, 'post', 'Nu har sommaren kommit', "Detta är en bloggpost som berättar att sommaren har kommit, ett budskap som kräver en bloggpost.", 'nl2br', NOW(), NOW(), 'admin', 'Recensioner'),
+              ('blogpost-3', NULL, 'post', 'Nu har hösten kommit', "Detta är en bloggpost som berättar att sommaren har kommit, ett budskap som kräver en bloggpost", 'nl2br', NOW(), NOW(), 'doe', 'Nyheter')
 EOD;
             $this->contentDb->ExecuteQuery($query, array(), false);
+            echo "Created default content.<br>";
         }
     }
 
     public function Reset()
     {
-        $query = "DROP TABLE Content";
+        $query = "
+            DROP TABLE rm_content;
+        ";
         $res = $this->contentDb->ExecuteQuery($query, array(), false);
         $this->InitDb();
     }
@@ -121,6 +116,7 @@ EOD;
     </p>
     <p><label>Filter:<br/><input type='text' name='filter' value='{$filter}'/></label></p>
     <p><label>Författare:<br/><input type='text' name='author' value='{$author}'/></label></p>
+    <p><label>Kategori:<br/><input type='text' name='category' value=''/></label></p>
     <p><label>Publiseringsdatum:<br/><input type='text' name='published' value='{$published}'/></label></p>
     <p class=buttons>
         <input type='submit' name='save' value='Spara'/>
@@ -147,7 +143,7 @@ EOD;
         }
         $sql = '
           SELECT *
-          FROM Content WHERE id = ?;
+          FROM rm_content WHERE id = ?;
         ';
         $res = $this->contentDb->ExecuteSelectQueryAndFetchAll($sql, array($id), false);
         $type = $res[0]->TYPE;
@@ -157,6 +153,7 @@ EOD;
         $data = $res[0]->DATA;
         $filter = $res[0]->FILTER;
         $author = $res[0]->author;
+        $category = $res[0]->category;
         $published = $res[0]->published;
         if ("page"==$type) {
             $pageChecked = 'checked="checked"';
@@ -180,6 +177,7 @@ EOD;
     </p>
     <p><label>Filter:<br/><input type='text' name='filter' value='{$filter}'/></label></p>
     <p><label>Författare:<br/><input type='text' name='author' value='{$author}'/></label></p>
+    <p><label>Kategori:<br/><input type='text' name='category' value='{$category}'/></label></p>
     <p><label>Publiseringsdatum:<br/><input type='text' name='published' value='{$published}'/></label></p>
     <p class=buttons>
         <input type='submit' name='update' value='Uppdatera'/>
@@ -199,18 +197,21 @@ EOD;
      */
     private function Sanitize($post)
     {
-        $post['title'] = isset($post['title']) ? strip_tags($post['title']) : "NULL";
-        $post['slug'] = isset($post['slug']) ? strip_tags($post['slug']) : "NULL";
-        $post['slug'] = empty($post['slug']) ? null : $post['slug'];
-        $post['url'] = isset($post['url']) ? strip_tags($post['url']) : "NULL";
-        $post['url'] = empty($post['url']) ? null : $post['url'];
-        $post['data'] = isset($post['data']) ? strip_tags($post['data']) : "NULL";
-        $post['type'] = isset($post['type']) ? strip_tags($post['type']) : "NULL";
-        $post['filter'] = isset($post['filter']) ? strip_tags($post['filter']) : "NULL";
-        $post['published'] = isset($post['published']) ? strip_tags($post['published']) : "NULL";
-        $post['author'] = isset($post['author']) ? strip_tags($post['author']) : "NULL";
+        //Do not sanitize title and data. Allow html tags in them.
+        // Instead, remove vulnarable code with htmlentities before display.
+        // $post['title'] = isset($post['title']) ? strip_tags($post['title']) : "NULL";
+        $post['title'] = isset($post['title']) ? $post['title'] : null;
+        $post['slug'] = isset($post['slug']) ? strip_tags($post['slug']) : null;
+        // $post['slug'] = empty($post['slug']) ? null : $post['slug'];
+        $post['url'] = isset($post['url']) ? strip_tags($post['url']) : null;
+        // $post['url'] = empty($post['url']) ? null : $post['url'];
+        // $post['data'] = isset($post['data']) ? strip_tags($post['data']) : null;
+        $post['data'] = isset($post['data']) ? $post['data'] : null;
+        $post['type'] = isset($post['type']) ? strip_tags($post['type']) : null;
+        $post['filter'] = isset($post['filter']) ? strip_tags($post['filter']) : null;
+        $post['published'] = isset($post['published']) ? strip_tags($post['published']) : null;
+        $post['author'] = isset($post['author']) ? strip_tags($post['author']) : null;
         return $post;
-        // return array($slug, $url, $type, $title, $data, $filter, $published, $author);
     }
 
     /**
@@ -244,11 +245,12 @@ EOD;
         }
         // Sanitize data
         $post = $this->Sanitize($post);
-        $content = array($post['slug'], $post['url'], $post['type'], $post['title'], $post['data'], $post['filter'], $post['published'], $post['author']);
+        // Prepare array for storage in database
+        $content = array($post['slug'], $post['url'], $post['type'], $post['title'], $post['data'], $post['filter'], $post['published'], $post['author'], $post['category']);
         //Save content to db
         $query = <<<EOD
-        INSERT INTO Content (slug, url, TYPE, title, DATA, FILTER, published, author, created) VALUES
-          (?, ?, ?, ?, ?, ?, ?, ?, NOW())
+        INSERT INTO rm_content (slug, url, TYPE, title, DATA, FILTER, published, author, category, created) VALUES
+          (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
 EOD;
         $this->contentDb->ExecuteQuery($query, $content, false);
 
@@ -270,10 +272,11 @@ EOD;
         is_numeric($id) or die('Check: Id must be numeric.');
         // Sanitize $content
         $content = $this->Sanitize($content);
-        $content = array($content['slug'], $content['url'], $content['type'], $content['title'], $content['data'], $content['filter'], $content['published'], $content['author']);        // Add $id to end of $content
+        $content = array($content['slug'], $content['url'], $content['type'], $content['title'], $content['data'], $content['filter'], $content['published'], $content['author'], $content['category']);
+        // Add $id to end of $content
         $content[] = $id;
         $query = <<<EOD
-        UPDATE Content SET
+        UPDATE rm_content SET
             slug = ?,
             url = ?,
             TYPE = ?,
@@ -282,13 +285,14 @@ EOD;
             FILTER = ?,
             published = ?,
             author = ?,
+            category = ?,
             updated = NOW()
         WHERE
             id = ?
 EOD;
         $this->contentDb->ExecuteQuery($query, $content, false);
-        // Add error handling?
-        header("Location: edit.php?id=$id");
+        // TODO: Add error handling?
+        // header("Location: edit.php?id=$id");
     }
 
     /**
@@ -307,7 +311,7 @@ EOD;
             return $out;
         }
         $query = <<<EOD
-        UPDATE Content SET
+        UPDATE rm_content SET
             updated = NOW(),
             deleted = NOW()
         WHERE
@@ -324,6 +328,8 @@ EOD;
         return $out;
     }
 
+// TODO: Undelete funktion?
+
     /**
      * Generate html for page to administrate content
      *
@@ -336,20 +342,20 @@ EOD;
         switch ($show) {
             case 'published':
                 $out .= "<h2>Publicerade</h2>";
-                $sql = 'SELECT * FROM Content WHERE published < NOW() AND (deleted > NOW() OR deleted IS NULL)';
+                $sql = 'SELECT * FROM rm_content WHERE published < NOW() AND (deleted > NOW() OR deleted IS NULL)';
                 break;
             case 'draft':
             $out .= "<h2>Utkast</h2>";
-                $sql = 'SELECT * FROM Content WHERE published > NOW() AND (deleted > NOW() OR deleted IS NULL)';
+                $sql = 'SELECT * FROM rm_content WHERE published > NOW() AND (deleted > NOW() OR deleted IS NULL)';
                 break;
             case 'deleted':
             $out .= "<h2>Papperskorgen</h2>";
-                $sql = 'SELECT * FROM Content WHERE  deleted < NOW()';
+                $sql = 'SELECT * FROM rm_content WHERE  deleted < NOW()';
                 break;
             case 'all':
             default:
             $out .= "<h2>Allt innehåll</h2>";
-                $sql = 'SELECT * FROM Content';
+                $sql = 'SELECT * FROM rm_content';
                 break;
         }
         $res = $this->contentDb->ExecuteSelectQueryAndFetchAll($sql, array(), false);
@@ -360,6 +366,7 @@ EOD;
                 <th>Typ</th>
                 <th>Slug</th>
                 <th>Status</th>
+                <th>Kat</th>
                 <th>Författare</th>
                 <th>Publicerad</th>
             </tr>
@@ -369,6 +376,7 @@ EOD;
         foreach($res as $val) {
             $url = $this->getUrl($val);
             $title = htmlentities($val->title);
+            $category = htmlentities($val->category);
             $pubTime = strtotime($val->published);
             $pubDate = date("y-m-d", strtotime($val->published));
             $delTime = strtotime($val->deleted);
@@ -394,6 +402,7 @@ EOD;
                 <td>{$val->TYPE}</td>
                 <td>{$val->slug}</td>
                 <td>$status</td>
+                <td>$category</td>
                 <td>$val->author</td>
                 <td>{$pubDate}</td>
             </tr>
@@ -416,7 +425,7 @@ EOD;
     {
         $sql = '
             SELECT *
-            FROM Content
+            FROM rm_content
             WHERE
             type = \'page\' AND
             url = ? AND
@@ -441,7 +450,7 @@ EOD;
         $slugSql = $slug ? 'slug = ?' : '1';
         $sql = "
         SELECT *
-        FROM Content
+        FROM rm_content
         WHERE
           type = 'post' AND
           $slugSql AND
@@ -457,6 +466,33 @@ EOD;
         return $res;
     }
 
+        /**
+         * Get Post content
+         *
+         * @param string $url of page
+         * @return array of arrays with content of posts matching category
+         */
+        public function GetPostsByCategory($category='')
+        {
+            $catSql = $category ? 'category = ?' : '1';
+            $sql = "
+            SELECT *
+            FROM rm_content
+            WHERE
+              type = 'post' AND
+              $catSql AND
+              published <= NOW() AND
+              (deleted > NOW() OR deleted IS NULL)
+            ORDER BY updated DESC
+            ;
+            ";
+            $res = $this->contentDb->ExecuteSelectQueryAndFetchAll($sql, array($category));
+            if (empty($res)) {
+                header("Location: 404.php");
+            }
+            return $res;
+        }
+
     /**
      * Get content item
      *
@@ -467,7 +503,7 @@ EOD;
     {
         $sql = '
           SELECT *
-          FROM Content WHERE id = ?;
+          FROM rm_content WHERE id = ?;
         ';
         $res = $this->contentDb->ExecuteSelectQueryAndFetchAll($sql, array($id));
         if (empty($res)) {
