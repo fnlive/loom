@@ -25,10 +25,14 @@ $out .= $movieSearch->outputSearchResults();
 $out .= "<div class=\"clear-both\"></div>";
 
 // Visa de tre senaste blogginläggen.
-$out .= "<br><h2>Nyheter</h2>";
+$out .= "<h2>Nyheter</h2>";
 $out .= CBlog::GetLatest($db, 3);
 
 // Visa en översikt av de kategorier som finns för filmerna.
+$out .= "<h2>Filmgenrer</h2>";
+$movieSearch = new CRMMovieSearch($db, array());
+$out .= $movieSearch->outputGenreLinks();
+
 // Visa bilder på mest populära film och senast hyrda film (okey att hårdkoda).
 // Lägg till övrig information efter eget tycke för att göra en presentabel första sida.
 

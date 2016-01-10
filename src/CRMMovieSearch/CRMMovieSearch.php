@@ -80,7 +80,7 @@ class CRMMovieSearch
             return $allMovieGenres;
         }
 
-    private function outputGenreLinks($genre)
+    public function outputGenreLinks($genre='')
     {
         // Get all genres that are active
         $sql = '

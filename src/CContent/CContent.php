@@ -465,7 +465,7 @@ EOD;
         $sqlNumReturnRows
         ;
         ";
-        $res = $this->contentDb->ExecuteSelectQueryAndFetchAll($sql, array($slug), true);
+        $res = $this->contentDb->ExecuteSelectQueryAndFetchAll($sql, array($slug), false);
         if (empty($res)) {
             header("Location: 404.php");
         }
