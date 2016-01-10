@@ -37,3 +37,20 @@
 .single-movie-genres {
     clear: both;
 }
+
+.movie-card {
+    float: left;
+    padding: 10px;
+    margin: 10px;
+    background-color: lightgray;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.movie-title {
+    max-width: 120px;
+    min-height: 2.8em;
+}
+
+.clear-both {
+    clear: both;
+}

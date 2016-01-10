@@ -50,7 +50,7 @@ class CRMMovieSearch
             is_numeric($this->page) or die('Check: Page must be numeric.');
             is_numeric($this->year1) || !isset($year1)  or die('Check: Year must be numeric or not set.');
             is_numeric($this->year2) || !isset($year2)  or die('Check: Year must be numeric or not set.');
-            in_array($this->orderby, array('id', 'title', 'year')) or die('Check: Not valid column.');
+            in_array($this->orderby, array('id', 'title', 'year', 'updated')) or die('Check: Not valid column.');
             in_array($this->order, array('asc', 'desc')) or die('Check: Not valid sort order.');
             // Not necessary to validate title and genre. Only if they are to be output to screen run through htmlentities().
     	}
@@ -212,6 +212,14 @@ class CRMMovieSearch
 EOD;
         return $out;
     }
+
+    public function outputSearchResults()
+    {
+        // Get search result from movie database
+        $movies = $this->Search();
+        $html = CRMMovieView::output($movies);
+
+        return $html;    }
 
     /**
      * Function output html for movie search form and

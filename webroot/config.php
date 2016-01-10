@@ -66,6 +66,11 @@ $loom['mainnavbar']  = array(
 
   // Here comes the menu strcture
   'items' => array(
+      'first-page'  => array(
+        'text'  =>'Hem',
+        'url'   =>'rm-home.php',
+        'title' => 'Hem'
+      ),
     // This is a menu item
     'home'  => array(
       'text'  =>'Me',
