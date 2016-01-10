@@ -146,6 +146,10 @@ EOD;
           FROM rm_content WHERE id = ?;
         ';
         $res = $this->contentDb->ExecuteSelectQueryAndFetchAll($sql, array($id), false);
+        if (empty($res)) {
+            $out = "Innehåll med <strong>id $id</strong> finns inte. Vill du skapa en ny sida eller blogg post?";
+            return $out;
+        }
         $type = $res[0]->TYPE;
         $slug = $res[0]->slug;
         $url = $res[0]->url;
