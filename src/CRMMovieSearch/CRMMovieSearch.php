@@ -28,7 +28,7 @@ class CRMMovieSearch
           * Constructor
           *
           */
-        function __construct($db, $searchParams)
+        function __construct($db, $searchParams=array())
         {
             $this->msdb = $db;
             // Check if Movie db tables exists, else create with default content.

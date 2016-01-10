@@ -10,6 +10,7 @@ include(__DIR__.'/config.php');
 
 // Add style for movie_db
 $loom['stylesheets'][] = 'css/rm-movie.css';
+$loom['stylesheets'][] = 'css/loom-cms.css';
 
 // Connect to a MySQL database using PHP PDO
 $db = new CDatabase($loom['database']);
@@ -30,10 +31,12 @@ $out .= CBlog::GetLatest($db, 3);
 
 // Visa en översikt av de kategorier som finns för filmerna.
 $out .= "<h2>Filmgenrer</h2>";
-$movieSearch = new CRMMovieSearch($db, array());
+$movieSearch = new CRMMovieSearch($db);
 $out .= $movieSearch->outputGenreLinks();
 
 // Visa bilder på mest populära film och senast hyrda film (okey att hårdkoda).
+$out .= "<h2>Mest populära och hyrda filmer</h2>";
+
 // Lägg till övrig information efter eget tycke för att göra en presentabel första sida.
 
 // Do it and store it all in variables in the Loom container.
