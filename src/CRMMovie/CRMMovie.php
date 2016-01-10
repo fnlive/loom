@@ -50,6 +50,11 @@ class CRMMovie
         return $out;
     }
 
+    public function outputMovieCard()
+    {
+        return CRMMovieView::output(array($this->res));
+    }
+
     public function output()
     {
         if (!$this->Exists()) {
