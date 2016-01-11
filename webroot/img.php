@@ -19,7 +19,7 @@ define('IMG_PATH', __DIR__ . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR);
 define('CACHE_PATH', __DIR__ . '/cache/');
 
 
-
+// TODO: Flytta till class ...
 /**
  * Display error message.
  *
@@ -31,7 +31,7 @@ function errorMessage($message) {
 }
 
 
-
+// TODO: Flytta till class
 /**
  * Display log message.
  *
@@ -40,6 +40,8 @@ function errorMessage($message) {
 function verbose($message) {
   echo "<p>" . htmlentities($message) . "</p>";
 }
+// TODO: Lämna in kmom06 efter flytt av ovan två funktioner.
+// TODO: Fixa till även i kmom06-repo.
 
 $myImage = new CImage($_GET);
 

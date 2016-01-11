@@ -35,9 +35,8 @@ $movieSearch = new CRMMovieSearch($db);
 $out .= $movieSearch->outputGenreLinks();
 
 // Visa bilder på mest populära film och senast hyrda film (okey att hårdkoda).
+// TODO: dela i två...
 $out .= "<h2>Mest populära och hyrda filmer</h2>";
-// fix funtion to show single movie cards, wrap in div, refactor out presentation in CRMMovieSearch
-// reuse/refactor out function CRMMovieView::output($movies) call this from new class.
 $movies = new CRMMovie($db, 8);
 $out .= $movies->outputMovieCard();
 $movies = new CRMMovie($db, 3);

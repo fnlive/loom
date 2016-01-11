@@ -113,11 +113,45 @@ $loom['main'] = <<<EOD
 </p>
 <p>Jag lade också till stöd för transparenta png-bilder. En lätt uppdatering med hjälp av artikeln. Den transparenta loggan för Loom fick en rosa bakgrund på <a href="img-test.php">"img-testsida"</a>. Fick däremot inte filnamn med åäa att fungera då realpath inte verkar gilla dessa. Hann inte gräva vidare i detta.
 </p>
+<h2>kmom07/10</h2>
+<!-- 1. På din redovisningssida, skriv följande: -->
+
+<!-- 1.1. Länka till din projektsida för RM. -->
+<p>
+</p>
+
+<!-- 1.2. För varje krav du implementerat, dvs 1-6, skriver du ett textstycke om ca 5-10 meningar där du beskriver vad du gjort och hur du tänkt. Poängsättningen tar sin start i din text så se till att skriva väl för att undvika poängavdrag. Missar du att skriva/dokumentera din lösning så blir det 0 poäng. Du kan inte komplettera en inlämning. -->
+<!-- Krav 1: Struktur och innehåll -->
+<p>
+</p>
+<!-- Krav 2: Sida - Filmer -->
+<p>
+</p>
+<!-- Krav 3: Sida - Nyheter -->
+<p>
+</p>
+<!-- Krav 4: Första sidan -->
+<p>
+</p>
+<!-- Krav 5, 6: Extra funktioner (optionell) -->
 <p>
 </p>
 <p>
 </p>
+
+<!-- 1.3. Skriv ett allmänt stycke om hur projektet gick att genomföra. Problem/lösningar/strul/enkelt/svårt/snabbt/lång tid, etc. Var projektet lätt eller svårt? Tog det lång tid? Vad var svårt och vad gick lätt? Var det ett bra och rimligt projekt för denna kursen? -->
+<p>
+</p>
+
+<!-- 1.4. Avsluta med ett sista stycke med dina tankar om kursen och vad du anser om materialet och handledningen (ca 5-10 meningar). Ge feedback till lärarna och förslå eventuella förbättringsförslag till kommande kurstillfällen. Är du nöjd/missnöjd? Kommer du att rekommendera kursen till dina vänner/kollegor? På en skala 1-10, vilket betyg ger du kursen? -->
+<p>
+</p>
+
+<!-- 2. Ta en kopia av texten på din redovisningssida och kopiera in den på Its/redovisningen. Glöm inte länka till din me-sida och projektet. -->
+
+<!-- 3. Ta en kopia av texten från din redovisningssida och gör ett inlägg i kursforumet och berätta att du är klar. -->
 EOD;
 
 // Finally, leave it all to the rendering phase of Loom.
 include(LOOM_THEME_PATH);
+?>
