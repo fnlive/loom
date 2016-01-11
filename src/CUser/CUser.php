@@ -119,6 +119,7 @@ EOD;
       $output = "<p>Du är INTE inloggad.</p>";
     }
     $this->Logout();
+    // TODO: refactor away all html output since we are redirecting to status.php to show login-status.
     return $output;
   }
 
@@ -148,6 +149,7 @@ EOD;
     self::$authenticated = false;
     $this->acronym = null;
     $this->name = null;
+    header('Location: status.php');
   }
 
   /**

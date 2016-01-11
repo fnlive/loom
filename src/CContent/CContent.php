@@ -50,13 +50,21 @@ EOD;
             // Add default content after creation of table
             $query = <<<EOD
             INSERT INTO rm_content (slug, url, TYPE, title, DATA, FILTER, published, created, author, category) VALUES
-            ('', '', 'post', 'Tävla, kasta tärning och vinn en film', 'Skriv en texten här...', 'markdown', NOW(), NOW(), 'admin', 'Nyheter'),
-            ('', '', 'post', 'Nya filmer under december', 'Skriv en texten här...', 'markdown', NOW(), NOW(), 'admin', 'Nyheter'),
-            ('', '', 'post', 'Klassisk western', 'Skriv en texten här...', 'markdown', NOW(), NOW(), 'admin', 'Recension'),
-            ('', '', 'post', 'Rentals Movies startar filmuthyrning på nätet', 'Skriv en texten här...', 'markdown', NOW(), NOW(), 'admin', 'Nyheter'),
-            ('', '', 'post', 'Recension av veckans skräckis', 'Skriv en texten här...', 'markdown', NOW(), NOW(), 'admin', 'Nyheter'),
-            ('', '', 'post', 'Tävla, kasta tärning och vinn en film', 'Skriv en texten här...', 'markdown', NOW(), NOW(), 'admin', 'Nyheter'),
-            ('', '', 'post', 'Tävla, kasta tärning och vinn en film', 'Skriv en texten här...', 'markdown', NOW(), NOW(), 'admin', 'Nyheter'),
+            (NULL, 'om-oss', 'page', 'Om oss', '
+Vi är Rental Movies
+===================
+Välkommen till Rental Movies, din filmleverantör på nätet med det allra bästa, största och senaste filmutbudet.
+
+Vi arbetar både med de stora filmdistributörerna som [Warner Bros.](http://www.warnerbros.com/), [Walt Disney](https://thewaltdisneycompany.com/), [Sony Pictures](http://www.sonypictures.com/), [20th Century Fox](http://www.foxmovies.com/), [Paramount Pictures](http://www.paramount.com/) såväl som de mindre distributörerna ... .
+
+            Skriv en texten här...', 'markdown', NOW(), NOW(), 'admin', ''),
+            ('tavla-kasta-tarning-vinn-en-film', NULL, 'post', 'Tävla, kasta tärning och vinn en film', 'Skriv en texten här...', 'markdown', NOW(), NOW(), 'admin', 'Nyheter'),
+            ('nya-filmer-december', NULL, 'post', 'Nya filmer under december', 'Skriv en texten här...', 'markdown', NOW(), NOW(), 'admin', 'Nyheter'),
+            ('klassisk-western', NULL, 'post', 'Klassisk western', 'Skriv en texten här...', 'markdown', NOW(), NOW(), 'admin', 'Recension'),
+            ('rental-movies-startar', NULL, 'post', 'Rental Movies startar filmuthyrning på nätet', 'Skriv en texten här...', 'markdown', NOW(), NOW(), 'admin', 'Nyheter'),
+            ('recension-av-veckans-skrackis', NULL, 'post', 'Recension av veckans skräckis', 'Skriv en texten här...', 'markdown', NOW(), NOW(), 'admin', 'Nyheter'),
+            ('tavla-2', NULL, 'post', 'Tävla, kasta tärning och vinn en film', 'Skriv en texten här...', 'markdown', NOW(), NOW(), 'admin', 'Nyheter'),
+            ('tavla-3', NULL, 'post', 'Tävla, kasta tärning och vinn en film', 'Skriv en texten här...', 'markdown', NOW(), NOW(), 'admin', 'Nyheter'),
               ('hem', 'hem', 'page', 'Hem', "Detta är min hemsida. Den är skriven i [url=http://en.wikipedia.org/wiki/BBCode]bbcode[/url] vilket innebär att man kan formattera texten till [b]bold[/b] och [i]kursiv stil[/i] samt hantera länkar.\n\nDessutom finns ett filter 'nl2br' som lägger in <br>-element istället för \\n, det är smidigt, man kan skriva texten precis som man tänker sig att den skall visas, med radbrytningar.", 'bbcode,nl2br', NOW(), NOW(), 'admin', 'Nyheter'),
               ('om', 'om', 'page', 'Om', "Detta är en sida om mig och min webbplats. Den är skriven i [Markdown](http://en.wikipedia.org/wiki/Markdown). Markdown innebär att du får bra kontroll över innehållet i din sida, du kan formattera och sätta rubriker, men du behöver inte bry dig om HTML.\n\nRubrik nivå 2\n-------------\n\nDu skriver enkla styrtecken för att formattera texten som **fetstil** och *kursiv*. Det finns ett speciellt sätt att länka, skapa tabeller och så vidare.\n\n###Rubrik nivå 3\n\nNär man skriver i markdown så blir det läsbart även som textfil och det är lite av tanken med markdown.", 'markdown', NOW(), NOW(), 'admin', 'Recensioner'),
               ('blogpost-1', NULL, 'post', 'Välkommen till min blogg!', "Detta är en bloggpost.\n\nNär det finns länkar till andra webbplatser så kommer de länkarna att bli klickbara.\n\nhttp://dbwebb.se är ett exempel på en länk som blir klickbar.", 'link,nl2br', NOW(), NOW(), 'doe', 'Nyheter'),

@@ -37,6 +37,12 @@ session_start();
 
 
 /**
+ * Create user. After this we can check if user is authenticated or not.
+ *
+ */
+$user = new CUser();
+
+ /**
  * Create the Loom variable.
  *
  */
@@ -64,122 +70,107 @@ $loom['mainnavbar']  = array(
   // Use for styling the menu
   'class' => 'navbar',
 
-  // Here comes the menu strcture
-  'items' => array(
-      'first-page'  => array(
+    // Here comes the menu
+    'items' => array(
+        'first-page'  => array(
         'text'  =>'Hem',
         'url'   =>'rm-home.php',
         'title' => 'Hem'
-      ),
-    // This is a menu item
-    'home'  => array(
-      'text'  =>'Me',
-      'url'   =>'me.php',
-      'title' => 'Me'
-    ),
-        '100' => array('text'=>'100', 'url'=>'dice-100.php',
-        'title' => '100'),
-        'movieDb' => array('text'=>'movieDb', 'url'=>'movie-db.php',
-        'title' => 'movieDb'),
-        'report'  => array('text'=>'Redovisning',  'url'=>'report.php',
-        'title' => 'Redovisning'),
-        'source' => array('text'=>'Källkod', 'url'=>'source.php',
-        'title' => 'Källkod'),
-    // This is a menu item
-    'user'  => array(
-      'text'  =>'User',
-      'url'   =>'login.php',
-      'title' => 'Login',
-
-      // Here we add the submenu, with some menu items, as part of a existing menu item
-      'submenu' => array(
-
-        'items' => array(
-          // This is a menu item of the submenu
-          'login'  => array(
-            'text'  => 'Login',
-            'url'   => 'login.php',
-            'title' => 'Login',
-          ),
-          // This is a menu item of the submenu
-          'logout'  => array(
-            'text'  => 'Logout',
-            'url'   => 'logout.php',
-            'title' => 'Logout',
-            'class' => 'italic'
-          ),
-          'status'  => array(
-            'text'  => 'Status',
-            'url'   => 'status.php',
-            'title' => 'Logout',
-          ),
         ),
+        'movies' => array('text'=>'Filmer', 'url'=>'rm-movies.php', 'title' => 'Filmer'),
+        'news' => array('text'=>'Nyheter', 'url'=>'post.php', 'title' => 'Nyheter'),
+        'about' => array('text'=>'Om oss', 'url'=>'page.php?url=om-oss', 'title' => 'Om oss'),
+        'game-1' => array('text'=>'Tävla', 'url'=>'dice-100.php', 'title' => 'Tävla'),
+        'user' => array(), // Reserve position for user menu
+        'source' => array('text'=>'Källkod', 'url'=>'source.php', 'title' => 'Källkod'),
       ),
-    ),
-    'cmsAdmin' => array('text'=>'Admin', 'url'=>'view.php', 'title' => 'CmsAdmin',
-    // Here we add the submenu, with some menu items, as part of a existing menu item
-    'submenu' => array(
+      // This is the callback tracing the current selected menu item base on scriptname
+      'callback' => function($url) {
+        if(basename($_SERVER['SCRIPT_FILENAME']) == $url) {
+          return true;
+        }
+      }
+);
 
+// Add "admin-items" to menu if user is authenticated with correct privilege
+if (CUser::IsAuthenticated()) {
+    $loom['mainnavbar']['items']['news']['submenu'] = array(
+          'items' => array(
+            // This is a menu item of the submenu
+            'create'  => array(
+              'text'  => 'Skapa ny',
+              'url'   => 'create.php',
+              'title' => 'Skapa ny',
+            ),
+            // This is a menu item of the submenu
+            'view'  => array(
+              'text'  => 'Visa alla',
+              'url'   => 'view.php',
+              'title' => 'Visa alla',
+            ),
+            // This is a menu item of the submenu
+            'reset'  => array(
+              'text'  => 'Återställ innehåll',
+              'url'   => 'view.php?reset-content',
+              'title' => 'Återställ innehåll',
+            ),
+          ),
+    );
+
+    $loom['mainnavbar']['items']['movies']['submenu'] = array(
       'items' => array(
         // This is a menu item of the submenu
         'create'  => array(
           'text'  => 'Skapa ny',
-          'url'   => 'create.php',
+          'url'   => 'rm-movieadmin.php',
           'title' => 'Skapa ny',
         ),
         // This is a menu item of the submenu
         'view'  => array(
           'text'  => 'Visa alla',
-          'url'   => 'view.php',
+          'url'   => 'rm-movies.php',
           'title' => 'Visa alla',
         ),
         // This is a menu item of the submenu
         'reset'  => array(
           'text'  => 'Återställ innehåll',
-          'url'   => 'view.php?reset-content',
+          'url'   => 'rm-movieadmin.php?reset-content',
           'title' => 'Återställ innehåll',
         ),
       ),
-    ),
-  ),
-  'blogg' => array('text'=>'Blogg', 'url'=>'post.php', 'title' => 'Bloggen'),
-  'galleri' => array('text'=>'Galleri', 'url'=>'gallery.php', 'title' => 'Galleri'),
-  'Movies' => array('text'=>'Filmer', 'url'=>'rm-movies.php', 'title' => 'Filmer',
-  // Here we add the submenu, with some menu items, as part of a existing menu item
-  'submenu' => array(
+  );
 
-    'items' => array(
-      // This is a menu item of the submenu
-      'create'  => array(
-        'text'  => 'Skapa ny',
-        'url'   => 'rm-movieadmin.php',
-        'title' => 'Skapa ny',
-      ),
-      // This is a menu item of the submenu
-      'view'  => array(
-        'text'  => 'Visa alla',
-        'url'   => 'rm-movies.php',
-        'title' => 'Visa alla',
-      ),
-      // This is a menu item of the submenu
-      'reset'  => array(
-        'text'  => 'Återställ innehåll',
-        'url'   => 'rm-movieadmin.php?reset-content',
-        'title' => 'Återställ innehåll',
-      ),
-    ),
-  ),
-),
-  ),
-
-  // This is the callback tracing the current selected menu item base on scriptname
-  'callback' => function($url) {
-    if(basename($_SERVER['SCRIPT_FILENAME']) == $url) {
-      return true;
-    }
-  }
-);
-
+    $loom['mainnavbar']['items']['user'] = array(
+        'text'  =>'Logout',
+        'url'   =>'logout.php',
+        'title' => 'Logout',
+        'submenu' => array(
+          'items' => array(
+            'status'  => array(
+              'text'  => 'Status',
+              'url'   => 'status.php',
+              'title' => 'Logout',
+            ),
+          ),
+        ),
+  ); //end user menu
+} else {
+    // Add menu items for users not authenticated
+    $loom['mainnavbar']['items']['user'] = array(
+        'text'  =>'Login',
+        'url'   =>'login.php',
+        'title' => 'Login',
+        'submenu' => array(
+          'items' => array(
+            'status'  => array(
+              'text'  => 'Status',
+              'url'   => 'status.php',
+              'title' => 'Logout',
+            ),
+          ),
+        ),
+  ); //end user menu
+}
 
 /**
 * Settings for the database.
