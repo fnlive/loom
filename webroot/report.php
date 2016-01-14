@@ -117,34 +117,63 @@ $loom['main'] = <<<EOD
 <!-- 1. På din redovisningssida, skriv följande: -->
 
 <!-- 1.1. Länka till din projektsida för RM. -->
-<p>
+<p>Länk till RM ...
 </p>
 
 <!-- 1.2. För varje krav du implementerat, dvs 1-6, skriver du ett textstycke om ca 5-10 meningar där du beskriver vad du gjort och hur du tänkt. Poängsättningen tar sin start i din text så se till att skriva väl för att undvika poängavdrag. Missar du att skriva/dokumentera din lösning så blir det 0 poäng. Du kan inte komplettera en inlämning. -->
 <!-- Krav 1: Struktur och innehåll -->
-<p>
+<h3></h3>
+<p>Detta krav implementerade jag i två steg. I det första steget utgick jag från mitt Loom-ramverk från kmom06 och gjorde jag en vädligt enkel logga med huvudtitel och slogan samt en enkel footer. För att kuknna göra resten behövde jag först göra färdigt Film-sidan och cms-delen för sidor och blog-posts som även ingick i krav 2 3, och 4. Efter att dessa var klara var det enkelt uppdatera menyn för att visa rätt sidor.
 </p>
+<p>Menyn är uppbyggd dynamiskt och visar olika val beroende på om användaren är autentiserad eller ej. Om användaren är autentiserad så dyker extra sub-menuval upp under "Filmer" och "Nyheter". Det finns också ett användare-menyval som ändrar mellan "Login" och "Logout" beroende på om användaren är autentiserad eller ej. Meny-funktionen är väldigt smidig att arbeta med och det är enkelt att dynamiskt lägga till eller dra ifrån meny-val.
+</p>
+<p>Sidan om företaget valde jag att göra med hjälp av page-funktionen i Loom CMS och är skriven i Markdown.
+</p>
+<p>Första sidan skapas av en page-controller och strukturen går därmed inte att ändra på. Däremot ändras senaste filmer och blogg-inlägg när dessa uppdateras.
+</p>
+
 <!-- Krav 2: Sida - Filmer -->
-<p>
+<h3>Krav 2: Sida - Filmer</h3>
+<p>Jag utgick från film-funktionen från kmom04. Filmerna lagras i en ny tabell för att inte påverka kmom04. Jag har lagt till funktion för att skapa ny film, uppdatera en film, samt återställa filmdatabasen med default-innehåll. Jag använder img.php för att serva nedskalade bilder, s.k. thumbnails, på film-posters. Det finns också tillagt till uppdateringsdatum för varje film som ny kolumn. Genom detta går det då att söka fram ett varierbart antal filmer sorterade med uppdateringsdatum. Detta används på första sidan för att kunna visa de tre senaste filmerna. Tabellen innehåller också två kolumner med id-nummer för filmen kopplat till motsvarande film på imdb samt trailer på youtube. Med id't går det att skapa url till imdb och youtube.
+</p>
+<p>För att administrera filmer (skapa, film, uppdatera, återställa filmdatabas) skapade jag en ny klass CCRMMovieAdmin. Klassen används från page-controllern rm-movieadmin.php. Klassen används även för att generera html hyper-länkar för att redigera eller radera en film.
+</p>
+<p>Uppdatering av filmgenre krävde lite efterforskning. Jag försökte först få till en sql-query som kunde både uppdatera både film- och film-till-genre-tabellen samtidigt. Detta verkade dock inte möjligt att åstadkomma när det fanns en-till-många relationer mellan tabellerna. Istället måste film-till-genre-mappningen för en film raderas först, för att sedan lägga till ny uppdaterad mappning i ett andra steg.
+</p>
+<p>Filmkort ... Nya klasser??
 </p>
 <!-- Krav 3: Sida - Nyheter -->
-<p>
+<h3></h3>
+<p>Ny tabell, kategori på varje blogg-inlägg, extract, num of posts, TrimText to make extract,  ...
+Här utgick jag också från blogg-delen från övning kmom05. Den stora utökningen var att lägga till kategori på blogg-inläggen. Då det bara behövdes en kategori per inlägg var det relativt lätt att lägga till. För filmgenrer blir det mer komplext med en-till-många mappning mellan film-genrer.
 </p>
 <!-- Krav 4: Första sidan -->
+<h3>Krav 4: Första sidan</h3>
+<p>Första sidan fick bli en ny page controller. En tanke var att använda page.php och lagra sid-innehåll i databasen Detta hade då krävt stöd av någon slags kortkommandon som identifieras i textfilter-funktionen och då kan köra någon utpekad php-funktion som genererar html. Istället fick det bli php rätt upp och ner i controllern.
+</p>
+<p>För vart och ett av kraven i första sidan har det krävts mindre utökningar och ändringar av t.ex. CBlog och film-db-klasserna.
+</p>
 <p>
 </p>
 <!-- Krav 5, 6: Extra funktioner (optionell) -->
+<h3></h3>
 <p>
 </p>
 <p>
 </p>
 
 <!-- 1.3. Skriv ett allmänt stycke om hur projektet gick att genomföra. Problem/lösningar/strul/enkelt/svårt/snabbt/lång tid, etc. Var projektet lätt eller svårt? Tog det lång tid? Vad var svårt och vad gick lätt? Var det ett bra och rimligt projekt för denna kursen? -->
-<p>
+<h3>Allmänt om hur projektet gick</h3>
+<p>För alla krav och och moment i projektet har det gått att utgå ifrån vad som byggts upp under inlämningsuppgifterna. Varje krav har i regel krävt något tilläg eller modifiering av befintlig kodbas, men de har varit relativt rakt på sak. Mina klasser för sökning och visning av filmer har ställt till mest problem vid utökning och modifiering av funktion. De varit lite dåligt organiserade med otydlig uppdelning av vad varje klass skall kunna. Jag har lagt in för mycket funktion i vissa klasser, t.ex. klassen CRMMovieSearch borde kanske delas upp i några mindre och mer väl sammanhållna klasser. Här hade jag velat lägga mer tid på att omstrukturera koden.
+</p>
+<p>Att få till bra och fungerande sql-satser har tagit en del tid. I regel har jag använt "MySQL Workbench" först för att testa ut satserna för att sedan lägga in dem i php-koden. Det är smidigt att ha "MySQL Workbench" uppe parallellt med att man kodar och testar uppdatering av databas för att snabbt se vad som lagrades i databasen. Med sql-script på fil är det väldigt lätt att ha sparade sql-satser för att se innehåll eller droppa tabeller, etc, utöver att testa ut nya komplexa sql-satser.
+</p>
+<p>För mig har det varit ett rimligt projekt som varit lagom utmanande.
 </p>
 
 <!-- 1.4. Avsluta med ett sista stycke med dina tankar om kursen och vad du anser om materialet och handledningen (ca 5-10 meningar). Ge feedback till lärarna och förslå eventuella förbättringsförslag till kommande kurstillfällen. Är du nöjd/missnöjd? Kommer du att rekommendera kursen till dina vänner/kollegor? På en skala 1-10, vilket betyg ger du kursen? -->
-<p>
+<h3>Tankar om kursen</h3>
+<p>Denna kursen har utvecklat mina php och sql färdigheter väldigt mycket. Jag har också stärkt färdigheterna i debugging och i versionshantering med git. Kursupplägget med mycket inlämningsuppgifter har hjälpt till stort. Det jag tycker saknas något är teori och övning på bra objektorienterad kod. Vilket tänk skall man ha när man väljer vad en klass skall ha för  ansvar och hur stor det skall vara. Jag kan dock se att t.ex. mina klasser för filmhantering borde ha lagts upp annorlunda och att de inte höll så bra för att byggas vidare på utifrån den nya kraven i projektet. Men det kanske behöver komma i ett nästa steg. Överlag är jag väldigt nöjd med denna kurs och skulle vilja ge den en 9'a på en skala 1-10.
 </p>
 
 <!-- 2. Ta en kopia av texten på din redovisningssida och kopiera in den på Its/redovisningen. Glöm inte länka till din me-sida och projektet. -->
@@ -154,4 +183,3 @@ EOD;
 
 // Finally, leave it all to the rendering phase of Loom.
 include(LOOM_THEME_PATH);
-?>

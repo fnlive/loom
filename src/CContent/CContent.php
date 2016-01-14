@@ -55,16 +55,44 @@ Vi är Rental Movies
 ===================
 Välkommen till Rental Movies, din filmleverantör på nätet med det allra bästa, största och senaste filmutbudet.
 
-Vi arbetar både med de stora filmdistributörerna som [Warner Bros.](http://www.warnerbros.com/), [Walt Disney](https://thewaltdisneycompany.com/), [Sony Pictures](http://www.sonypictures.com/), [20th Century Fox](http://www.foxmovies.com/), [Paramount Pictures](http://www.paramount.com/) såväl som de mindre distributörerna ... .
+Vi arbetar både med de stora filmdistributörerna som [Warner Bros.](http://www.warnerbros.com/), [Walt Disney](https://thewaltdisneycompany.com/), [Sony Pictures](http://www.sonypictures.com/), [20th Century Fox](http://www.foxmovies.com/), [Paramount Pictures](http://www.paramount.com/) såväl som mindre indie-distributörer.
 
-            Skriv en texten här...', 'markdown', NOW(), NOW(), 'admin', ''),
-            ('tavla-kasta-tarning-vinn-en-film', NULL, 'post', 'Tävla, kasta tärning och vinn en film', 'Skriv en texten här...', 'markdown', NOW(), NOW(), 'admin', 'Nyheter'),
-            ('nya-filmer-december', NULL, 'post', 'Nya filmer under december', 'Skriv en texten här...', 'markdown', NOW(), NOW(), 'admin', 'Nyheter'),
+Vi gillar film och det märks i vårt kvalitativa utbud. Titta gärna runt bland våra [filmer](rm-movies.php) och se en film redan ikväll. Vi bjuder på första filmen.
+
+Titta gärna in på våra [Nyheter](post.php) för att se vad som händer hos oss. Vi har alltid något nytt intressant på gång.
+
+![RM Rental Movies](img.php?src=rm-movie-theatre-screen.png&width=650)
+
+', 'markdown', NOW(), NOW(), 'admin', ''),
+
+            ('tavla-kasta-tarning-vinn-en-film', NULL, 'post', 'Tävla och vinn en film', '
+Var med i vår tävling och vinn en film. Pröva vårt [tärningsspel](dice-100.php). Kasta tärning och kom först till 100. Passa på att utmana dina kompisar så kan de också vinna en film.
+', 'markdown', NOW(), NOW(), 'admin', 'Nyheter'),
+
+            ('nya-filmer-december', NULL, 'post', 'Nya filmer under december', '
+Under december har vi fått in ett antal nyheter i vårt film-sortiment. T.ex. så kan du se den fint animerade japanska filmen [Min granne Totoro](rm-movie.php?id=7). Detta är en fantastisk film att njuta av tillsammans med familjen under jul-helgen.
+
+![Min Granne Totoro](img.php?src=rm_movies/Tonari-no-Totoro.jpg&width=100)
+
+Är du mer road av skräck rekommenderar vi [From Dusk Till Dawn](rm-movie.php?id=5) med bl.a. George Clooney, Quentin Tarantino och Harvey Keitel i huvudrollerna.
+
+![From Dusk Till Dawn](img.php?src=rm_movies/from-dusk-till-dawn.jpg&width=100)
+', 'markdown', NOW(), NOW(), 'admin', 'Nyheter'),
+
             ('klassisk-western', NULL, 'post', 'Klassisk western', 'Skriv en texten här...', 'markdown', NOW(), NOW(), 'admin', 'Recension'),
-            ('rental-movies-startar', NULL, 'post', 'Rental Movies startar filmuthyrning på nätet', 'Skriv en texten här...', 'markdown', NOW(), NOW(), 'admin', 'Nyheter'),
+
             ('recension-av-veckans-skrackis', NULL, 'post', 'Recension av veckans skräckis', 'Skriv en texten här...', 'markdown', NOW(), NOW(), 'admin', 'Nyheter'),
+
             ('tavla-2', NULL, 'post', 'Tävla, kasta tärning och vinn en film', 'Skriv en texten här...', 'markdown', NOW(), NOW(), 'admin', 'Nyheter'),
+
             ('tavla-3', NULL, 'post', 'Tävla, kasta tärning och vinn en film', 'Skriv en texten här...', 'markdown', NOW(), NOW(), 'admin', 'Nyheter'),
+
+            ('rental-movies-startar', NULL, 'post', 'Rental Movies startar filmuthyrning på nätet', '
+Nu startar Rental Movies, din bästa filmleverantör på nätet. Här hittar du kvalitetsfilmer både från de stora filmdistributörerna såväl från de mindre indie-filmarna.
+
+Vi som jobbar här älskar film och det märks i vårt utbud. Bläddra igenom bland våra [filmer](rm-movies.php) så ser du vad vi menar. Skulle det vara något som du saknar så säg till. Skicka ett mail till [Rental Movies](mailto:gunnar@rentalmovies.se).
+', 'markdown', NOW(), NOW(), 'admin', 'Nyheter'),
+
               ('hem', 'hem', 'page', 'Hem', "Detta är min hemsida. Den är skriven i [url=http://en.wikipedia.org/wiki/BBCode]bbcode[/url] vilket innebär att man kan formattera texten till [b]bold[/b] och [i]kursiv stil[/i] samt hantera länkar.\n\nDessutom finns ett filter 'nl2br' som lägger in <br>-element istället för \\n, det är smidigt, man kan skriva texten precis som man tänker sig att den skall visas, med radbrytningar.", 'bbcode,nl2br', NOW(), NOW(), 'admin', 'Nyheter'),
               ('om', 'om', 'page', 'Om', "Detta är en sida om mig och min webbplats. Den är skriven i [Markdown](http://en.wikipedia.org/wiki/Markdown). Markdown innebär att du får bra kontroll över innehållet i din sida, du kan formattera och sätta rubriker, men du behöver inte bry dig om HTML.\n\nRubrik nivå 2\n-------------\n\nDu skriver enkla styrtecken för att formattera texten som **fetstil** och *kursiv*. Det finns ett speciellt sätt att länka, skapa tabeller och så vidare.\n\n###Rubrik nivå 3\n\nNär man skriver i markdown så blir det läsbart även som textfil och det är lite av tanken med markdown.", 'markdown', NOW(), NOW(), 'admin', 'Recensioner'),
               ('blogpost-1', NULL, 'post', 'Välkommen till min blogg!', "Detta är en bloggpost.\n\nNär det finns länkar till andra webbplatser så kommer de länkarna att bli klickbara.\n\nhttp://dbwebb.se är ett exempel på en länk som blir klickbar.", 'link,nl2br', NOW(), NOW(), 'doe', 'Nyheter'),

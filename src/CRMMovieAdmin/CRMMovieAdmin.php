@@ -60,6 +60,7 @@ EOD;
               (NOW(), 'Der Himmel über Berlin', 'Wim Wenders', 1988, 'himmel-uber-berlin.jpg', 45, 'tt0093191', '0htOcy1QUkk', 'An angel tires of overseeing human activity and wishes to become human when he falls in love with a mortal.' ),
               (NOW(), 'Blood Simple', 'Joel Coen, Ethan Coen', 1984, 'blood-simple.jpg', 39, 'tt0086979', 'YArfyHgKuzE', 'A rich but jealous man hires a private investigator to kill his cheating wife and her new man. But, when blood is involved, nothing is simple.' ),
               (NOW(), 'The Secret Life of Walter Mitty', 'Ben Stiller', 2013, 'the-secret-life-of-walter-mitty.jpg', 35, 'tt0359950', 'QD6cy4PBQPI', 'When his job along with that of his co-worker are threatened, Walter takes action in the real world embarking on a global journey that turns into an adventure more extraordinary than anything he could have ever imagined.' ),
+              (NOW(), 'Papusza', 'Joanna Kos-Krauze, Krzysztof Krauze', 2015, 'Papusza.jpg', 45, 'tt2719094', 'TLzwF6qDUow', 'The rise and fall of the most distinguished Polish-Gypsy poetess Bronislawa Wajs, widely known as Papusza, and her relationship with her discoverer, writer Jerzy Ficowski.' ),
               (NOW(), 'Cera una volta il West', 'Sergio Leone', 1964, 'once-upon-a-time-in-the-west.jpg', 35, 'tt0064116', 'LTcTVeShSV8', 'Epic story of a mysterious stranger with a harmonica who joins forces with a notorious desperado to protect a beautiful widow from a ruthless assassin working for the railroad.' ),
               (NOW(), 'Iron Man', 'Jon Favreau', 2008, 'iron-man.jpg', 35, 'tt0371746', '8hYlB38asDY', 'After being held captive in an Afghan cave, an industrialist creates a unique weaponized suit of armor to fight evil.' )
             ;
@@ -136,8 +137,8 @@ INSERT INTO rm_movie2genre (idMovie, idGenre) VALUES
 (10, 1),
 (10, 5),
 (10, 8),
-(11, 13),
-(12, 8)
+(11, 5),
+(12, 13)
 ;
 EOD;
             $this->contentDb->ExecuteQuery($query, array(), false);

@@ -28,7 +28,7 @@ class CBlog
         $data = $filter->doFilter(htmlentities($post->DATA, null, 'UTF-8'), $post->FILTER);
         if (true == $abstract) {
             $data = self::TrimText($data, self::EXTRACT_LENGTH);
-            $data .= "<a href=\"?slug={$slug}\"><br>Läs mer</a>";
+            $data .= "<a href=\"post.php?slug={$slug}\"><br>Läs mer</a>";
         }
         $user = new CUser();
         if ($user->IsAuthenticated()) {
@@ -44,10 +44,10 @@ class CBlog
         <section>
           <article>
             <header>
-                <h2><a href="?slug={$slug}">{$title}</a></h2>
+                <h2><a href="post.php?slug={$slug}">{$title}</a></h2>
+                <div class="post-data">$data</div>
             </header>
             <footer>
-                <div class="post-data">$data</div>
                 <div class="post-meta">$meta</div>
             </footer>
             </article>

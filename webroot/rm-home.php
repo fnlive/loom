@@ -35,14 +35,18 @@ $movieSearch = new CRMMovieSearch($db);
 $out .= $movieSearch->outputGenreLinks();
 
 // Visa bilder på mest populära film och senast hyrda film (okey att hårdkoda).
-// TODO: dela i två...
-$out .= "<h2>Mest populära och hyrda filmer</h2>";
+// TODO: flytta ut till ny klass. t.ex. CRMMovieView::output($movie) CRMMovieView::output(CRMMovie::MostPopular())
+$out .= "<div class=\"clear-both\"></div>";
+$out .= "<div style=\"float: left; margin: 20px;\">";
+$out .= "<h2>Mest populära film</h2>";
 $movies = new CRMMovie($db, 8);
 $out .= $movies->outputMovieCard();
+$out .= "</div>";
+$out .= "<div style=\"float: left; margin: 20px;\">";
+$out .= "<h2>Senast hyrda film</h2>";
 $movies = new CRMMovie($db, 3);
 $out .= $movies->outputMovieCard();
-$movies = new CRMMovie($db, 5);
-$out .= $movies->outputMovieCard();
+$out .= "</div>";
 // Lägg till övrig information efter eget tycke för att göra en presentabel första sida.
 
 // Do it and store it all in variables in the Loom container.
