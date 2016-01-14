@@ -14,6 +14,7 @@ class C100Game
     private $lastRoll = 0;
     private $htmlMsg = "";
     private static $winScore = 100;
+    public static $instructions = "<p>Samla ihop poäng för att komma först till 100. I varje omgång kastar du  tärning tills du väljer att stanna och säkra potten eller tills det dyker upp en 1:a och du förlorar alla poäng som samlats in i rundan. Slå tärningen för att starta spelet.</p>";
 
     /**
      * Constructor
@@ -156,9 +157,10 @@ EOD;
         // Gather the complete html output for game.
         $htmlControls = $this->controlsHtml();
         $htmlScore = $this->scoreBoardHtml();
+        $inst = self::$instructions;
         return <<<EOD
         <h1 id="hundred">Tärningsspelet 100</h1>
-        <p>Samla ihop poäng för att komma först till 100. I varje omgång kastar du  tärning tills du väljer att stanna och säkra potten eller tills det dyker upp en 1:a och du förlorar alla poäng som samlats in i rundan. Slå tärningen för att starta spelet.</p>
+        $inst
         $htmlControls
         $htmlScore
 EOD;

@@ -69,52 +69,12 @@
   border: 0 solid red;
 }
 
-body {
-  background:
-    linear-gradient(27deg, #151515 5px, transparent 5px) 0 5px,
-    linear-gradient(207deg, #151515 5px, transparent 5px) 10px 0,
-    linear-gradient(27deg, #222 5px, transparent 5px) 0 10px,
-    linear-gradient(207deg, #222 5px, transparent 5px) 10px 5px,
-    linear-gradient(90deg, #1b1b1b 10px, transparent 10px),
-    linear-gradient(#1d1d1d 25%, #1a1a1a 25%, #1a1a1a 50%, transparent 50%, transparent 75%, #242424 75%, #242424);
-  background-color: #131313;
-  background-size: 20px 20px;
-}
   .clearfix {
   clear: both;
 }
 
-#main, #header, #footer {
-  border: 5px solid #666;
+#main {
+  /*border: 5px solid #666;*/
   background-color: #444;
   color: #eee;
-}
-.sitefooter {
-  color: #eee;
-}
-.sitefooter a {
-  color: #bbf;
-}
-.sitefooter a:hover {
-  font-weight: bolder;
-}
-/**
- * Layout for header, diff from style.css
- */
-.siteslogan {
-  color: #ddd;
-}
-.navbar {
-  background-color:#ccc;
-}
-.navbar a {
-  background-color:#888;
-  color:#fff;
-}
-.navbar a:hover {
-  background-color:#666;
-}
-.navbar a.selected {
-  background-color:#444;
-  color:#eee;
 }
