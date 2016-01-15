@@ -146,6 +146,59 @@ EOD;
         }
     }
 
+    public function UploadImageFile($value='')
+    {
+        $success = false;   // Set to true and return if success, else return false.
+        // echo __FILE__ . " : " . __LINE__ . "<br>";dump('File uploading...');
+        $target_dir = "img/rm_movies/";
+        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+        // echo __FILE__ . " : " . __LINE__ . "<br>";dump($target_file);
+        // TODO: Verbose echo below is not seen due to redirection, but keep if debug need.
+        $uploadOk = 1;
+        $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+        // Check if image file is a actual image or fake image
+        if(isset($_POST["doFileupload"])) {
+            $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+            if($check !== false) {
+                echo "File is an image - " . $check["mime"] . ".";
+                $uploadOk = 1;
+            } else {
+                echo "File is not an image.";
+                $uploadOk = 0;
+            }
+        }
+        // Check if file already exists
+        if (file_exists($target_file)) {
+            echo "Sorry, file already exists.";
+            $uploadOk = 0;
+        }
+        // Check file size
+       if ($_FILES["fileToUpload"]["size"] > 500000) {
+           echo "Sorry, your file is too large.";
+           $uploadOk = 0;
+           // TODO: check against size in $_POST
+       }
+       // Allow certain file formats
+        if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+        && $imageFileType != "gif" ) {
+            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+            $uploadOk = 0;
+        }
+        // Check if $uploadOk is set to 0 by an error
+        if ($uploadOk == 0) {
+            echo "Sorry, your file was not uploaded.";
+        // if everything is ok, try to upload file
+        } else {
+            if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+                $success = true;
+            } else {
+                echo "Sorry, there was an error uploading your file.";
+            }
+        }
+    }
+
+
     public function Reset()
     {
         $query = "DROP TABLE rm_movie2genre; DROP TABLE rm_genre; DROP TABLE rm_movies; ";
@@ -250,18 +303,27 @@ EOD;
         $trailer = isset($res[0]->trailer) ? $res[0]->trailer : null;
         // TODO: Genre select list?
         // Make Title and genre mandatory. Genre needed to filter out search result.
+        // <p><label>Titel:<br/><input type='text' name='title' value='$title' required/></label></p>
+        // <p><label>Genre:<br/><input type='text' name='genre' value='$genre' required/></label></p>
+        // <legend>File upload</legend>
+
         $out .= <<<EOD
-<form method=post>
+<form enctype="multipart/form-data" method=post>
     <fieldset>
     <legend>$legend</legend>
     <input type=hidden name=id value='{$id}'/>
-    <p><label>Titel:<br/><input type='text' name='title' value='$title' required/></label></p>
+    <p><label>Titel:<br/><input type='text' name='title' value='$title' /></label></p>
     <p><label>Regisör:<br/><input type='text' name='director' value='$director'/></label></p>
     <p><label>Speltid:<br/><input type='text' name='length' value='$length'/></label></p>
     <p><label>År:<br/><input type='text' name='year' value='$year'/></label></p>
     <p><label>Plot:<br/><textarea name='plot'>{$plot}</textarea></label></p>
-    <p><label>Genre:<br/><input type='text' name='genre' value='$genre' required/></label></p>
-    <p><label>Bild todo upload?:<br/><input type='text' name='image' value='{$image}'/></label></p>
+    <p><label>Genre:<br/><input type='text' name='genre' value='$genre' /></label></p>
+    <p><label>Bild:<br/><input type='text' name='image' value='{$image}'/></label></p>
+    <p><label>Eller välj bild att ladda upp:
+    <input type="hidden" name="MAX_FILE_SIZE" value="100000">
+    <input type="file" name="fileToUpload" id="fileToUpload">
+    <input type="submit" value="Upload" name="doFileupload">
+    </label></p>
     <p><label>Pris:<br/><input type='text' name='price' value='{$price}'/></label></p>
     <p><label>IMDb id:<br/><input type='text' name='imdb' value='{$imdb}'/></label></p>
     <p><label>Youtube id. trailer:<br/><input type='text' name='trailer' value='{$trailer}'/></label></p>

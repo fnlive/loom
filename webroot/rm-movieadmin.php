@@ -28,6 +28,14 @@ if (isset($_POST['create'])) {
     // User has pressed update button, so update corresponding row in database.
     // Update content and then redirect with header... in CCreate:method
     $movies->Update($_POST);
+} elseif (isset($_POST['doFileupload'])) {
+    if ('Upload' == $_POST['doFileupload']) {
+        $movies->UploadImageFile();
+        // Since we tried to upload image file, save name to it in db
+        $_POST['image'] = $_FILES["fileToUpload"]["name"];
+        $movies->Create($_POST);
+
+    }
 }
 
 
