@@ -100,7 +100,7 @@ class CRMMovieSearch
             $genres .= "<a href='" . CMovieNav::getQueryString(array('genre' => $val->name)) . "'>{$val->name}</a> ";
           }
         }
-        return $genres;
+        return '<div class="genre-links">' . $genres . '</div>';
     }
 
     private function MaxPages()
@@ -252,4 +252,32 @@ EOD;
 
         return $html;
     }
+
+        /**
+         * Function output html for movie search form and
+         * movie search results.
+         *
+         * @return string with html output.
+         */
+        public function outputUserView()
+        {
+            $html = "";
+            // Get search result from movie database
+            $movies = $this->Search();
+            // echo __FILE__ . " : " . __LINE__ . "<br>";dump($movies);
+
+            list($max, $rows) = $this->MaxPages();
+
+            // Prepare to output results.
+            $html .= $this->outputGenreLinks($this->genre);
+            // Get number of hits and option to change hits per page
+            $html .= $hitsPerPage = CMovieNav::getHitsPerPage(array(3, 6, 9), $this->hits);
+            $html .= $navigatePage = CMovieNav::getPageNavigation($this->hits, $this->page, $max);
+            $html .= $resultOrder = '<div class="search-order">Sortera efter | Titel ' . CRMHTMLTable::orderby('title') . " | År " . CRMHTMLTable::orderby('year') . "</div>";
+            // Get movie search result.
+            $html .= CRMMovieView::output($movies);
+
+            return $html;
+        }
+
 }

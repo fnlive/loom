@@ -13,7 +13,7 @@ class CRMHTMLTable
    * @param string $column the name of the database column to sort by
    * @return string with links to order by column.
    */
-  private static function orderby($column) {
+  public static function orderby($column) {
     $nav  = "<a href='" . CMovieNav::getQueryString(array('orderby'=>$column, 'order'=>'asc')) . "'>&darr;</a>";
     $nav .= "<a href='" . CMovieNav::getQueryString(array('orderby'=>$column, 'order'=>'desc')) . "'>&uarr;</a>";
     return "<span class='orderby'>" . $nav . "</span>";

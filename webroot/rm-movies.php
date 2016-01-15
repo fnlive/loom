@@ -9,7 +9,9 @@ include(__DIR__.'/config.php');
 // Do it and store it all in variables in the Loom container.
 
 // Add style for movie_db
-$loom['stylesheets'][] = 'css/movie.css';
+$loom['stylesheets'][] = 'css/rm-movie.css';
+$loom['stylesheets'][] = 'css/loom-cms.css';
+$loom['stylesheets'][] = 'css/movie.css'; // TODO: Remove?
 
 $loom['title'] = "movieDb";
 
@@ -25,7 +27,7 @@ if (isset($_POST['title'])) {
     $movieSearch = new CRMMovieSearch($db, $_GET);
     // Get html-output for movie search form and
     // movie search results.
-    $out = $movieSearch->output();
+    $out = $movieSearch->outputUserView();
 }
 
 // Do it and store it all in variables in the Loom container.

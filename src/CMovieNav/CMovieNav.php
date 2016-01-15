@@ -43,7 +43,7 @@ class CMovieNav
           $nav .= "<a href='" . CMovieNav::getQueryString(array('hits' => $val)) . "'>$val</a> ";
         }
       }
-      return $nav;
+      return '<div class="movie-hits"> ' . $nav . '</div>';
     }
 
 
@@ -72,7 +72,7 @@ class CMovieNav
 
       $nav .= ($page < $max) ? "<a href='" . CMovieNav::getQueryString(array('page' => ($page < $max ? $page + 1 : $max) )) . "'>&gt;</a> " : '&gt; ';
       $nav .= ($page != $max) ? "<a href='" . CMovieNav::getQueryString(array('page' => $max)) . "'>&gt;&gt;</a> " : '&gt;&gt; ';
-      return $nav;
+      return '<div class="movie-page-nav"> ' . $nav . '</div>';
     }
 
 
