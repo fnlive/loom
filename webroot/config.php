@@ -98,15 +98,15 @@ if (CUser::IsAuthenticated()) {
           'items' => array(
             // This is a menu item of the submenu
             'create'  => array(
-              'text'  => 'Skapa ny',
+              'text'  => 'Skapa Nyhet',
               'url'   => 'create.php',
-              'title' => 'Skapa ny',
+              'title' => 'Skapa nyhet',
             ),
             // This is a menu item of the submenu
             'view'  => array(
-              'text'  => 'Visa alla',
+              'text'  => 'Administrera och visa Nyheter',
               'url'   => 'view.php',
-              'title' => 'Visa alla',
+              'title' => 'Administrera och visa Nyheter',
             ),
             // This is a menu item of the submenu
             'reset'  => array(
@@ -121,15 +121,15 @@ if (CUser::IsAuthenticated()) {
       'items' => array(
         // This is a menu item of the submenu
         'create'  => array(
-          'text'  => 'Skapa ny',
+          'text'  => 'Skapa ny Film',
           'url'   => 'rm-movieadmin.php',
-          'title' => 'Skapa ny',
+          'title' => 'Skapa ny Film',
         ),
         // This is a menu item of the submenu
-        'view'  => array(
-          'text'  => 'Visa alla',
-          'url'   => 'rm-movies.php',
-          'title' => 'Visa alla',
+        'adm-view'  => array(
+          'text'  => 'Administrera och visa Filmer',
+          'url'   => 'rm-movieadminview.php',
+          'title' => 'Administrera och visa Filmer',
         ),
         // This is a menu item of the submenu
         'reset'  => array(

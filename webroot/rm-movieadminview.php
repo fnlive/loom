@@ -1,6 +1,8 @@
 <?php
 /**
  * This is a Loom pagecontroller.
+ * Show search form and overview of movies
+ * together with administration links like edit, delete, ...
  *
  */
 // Include the essential config-file which also creates the $loom variable with its defaults.
@@ -29,7 +31,7 @@ if (isset($_POST['title'])) {
 }
 
 // Do it and store it all in variables in the Loom container.
-$loom['title'] = "Filmer";
+$loom['title'] = "Filmer - Administration";
 $loom['main'] = <<<EOD
 <h1>{$loom['title']}</h1>
 $out

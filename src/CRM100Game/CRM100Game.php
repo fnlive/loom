@@ -24,6 +24,7 @@ class CRM100Game extends C100Game
         if ($this->win()) {
             $out .= "<h2>Grattis, du vann en film</h2>";
             $db = new CDatabase($this->database);
+            // TODO: randomise movie id. First get number of movies from db. 
             $movies = new CRMMovie($db, 3);
             $out .= $movies->outputMovieCard();
         } else {
