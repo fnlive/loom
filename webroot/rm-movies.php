@@ -11,7 +11,6 @@ include(__DIR__.'/config.php');
 // Add style for movie_db
 $loom['stylesheets'][] = 'css/rm-movie.css';
 $loom['stylesheets'][] = 'css/loom-cms.css';
-$loom['stylesheets'][] = 'css/movie.css'; // TODO: Remove?
 
 $loom['title'] = "movieDb";
 
