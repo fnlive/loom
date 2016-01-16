@@ -198,7 +198,7 @@ class CRMMovieSearch
       <input type=hidden name=hits value='{$this->hits}'/>
       <input type=hidden name=page value='1'/>
       <p><label>Titel (delsträng, använd % som *): <input type='search' name='title' value='{$this->title}'/></label></p>
-      <p><label>Välj genre:</label> {$genres}</p>
+      <label>Välj genre:</label> {$genres}
       <p><label>Skapad mellan åren:
           <input type='text' name='year1' value='{$this->year1}'/></label>
           -

@@ -11,7 +11,8 @@ class CBlog
     public static function TrimText($text, $wordLimit)
     {
         if (str_word_count($text, 0) > $wordLimit) {
-            $words = str_word_count($text, 2, 'åäö&;');
+            $words = str_word_count($text, 2, '<>=?"åäö&;');
+            // TODO: We might cut a <a...> in the middle still.
             $pos = array_keys($words);
             $text = substr($text, 0, $pos[$wordLimit]) . "&hellip;";
         }
@@ -41,7 +42,6 @@ class CBlog
         $categoryLink = "<a href=\"post.php?category=$category\">$category</a>";
         $meta = "Publicerat: {$pubDate} | " . "Författare: {$author} | " . "Kategori: {$categoryLink}" . $editLink;
         $out = <<<EOD
-        <section>
           <article>
             <header>
                 <h2><a href="post.php?slug={$slug}">{$title}</a></h2>
@@ -51,7 +51,6 @@ class CBlog
                 <div class="post-meta">$meta</div>
             </footer>
             </article>
-          </section>
 EOD;
         return $out;
     }
