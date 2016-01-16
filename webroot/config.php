@@ -79,6 +79,7 @@ $loom['mainnavbar']  = array(
         ),
         'movies' => array('text'=>'Filmer', 'url'=>'rm-movies.php', 'title' => 'Filmer'),
         'news' => array('text'=>'Nyheter', 'url'=>'post.php', 'title' => 'Nyheter'),
+        'calendar' => array('text'=>'Kalender', 'url'=>'rm-calendar.php', 'title' => 'Filmkalender'),
         'about' => array('text'=>'Om oss', 'url'=>'page.php?url=om-oss', 'title' => 'Om oss'),
         'game-1' => array('text'=>'Tävla', 'url'=>'dice-100.php', 'title' => 'Tävla'),
         'user' => array(), // Reserve position for user menu
