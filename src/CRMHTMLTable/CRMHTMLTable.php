@@ -29,9 +29,7 @@ class CRMHTMLTable
     $width = 100;
     foreach($res AS $key => $val) {
         // only show edit/delete link when authenticated.
-        $user = new CUser();
-        // TODO: IsAuthenticated as static function?
-        if ($user->IsAuthenticated()) {
+        if (CUser::IsAuthenticated()) {
             $editLink = CRMMovieAdmin::GetEditLink($val->id);
             $editLink .= " | " . CRMMovieAdmin::GetDeleteLink($val->id);
         } else {

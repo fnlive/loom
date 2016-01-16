@@ -259,8 +259,7 @@ EOD;
     public function getEditContentForm($id)
     {
         $out = "";
-        $user = new CUser();
-        if (!$user->IsAuthenticated()) {
+        if (!CUser::IsAuthenticated()) {
         // if (false) {
             $out = "Du måste logga in för att redigera innehåll";
             $out .= $user->LoginForm();
@@ -301,23 +300,18 @@ EOD;
         $price = isset($res[0]->price) ? $res[0]->price : null;
         $imdb = isset($res[0]->imdb) ? $res[0]->imdb : null;
         $trailer = isset($res[0]->trailer) ? $res[0]->trailer : null;
-        // TODO: Genre select list?
         // Make Title and genre mandatory. Genre needed to filter out search result.
-        // <p><label>Titel:<br/><input type='text' name='title' value='$title' required/></label></p>
-        // <p><label>Genre:<br/><input type='text' name='genre' value='$genre' required/></label></p>
-        // <legend>File upload</legend>
-
         $out .= <<<EOD
 <form enctype="multipart/form-data" method=post>
     <fieldset>
     <legend>$legend</legend>
     <input type=hidden name=id value='{$id}'/>
-    <p><label>Titel:<br/><input type='text' name='title' value='$title' /></label></p>
+    <p><label>Titel:<br/><input type='text' name='title' value='$title' required/></label></p>
     <p><label>Regisör:<br/><input type='text' name='director' value='$director'/></label></p>
     <p><label>Speltid:<br/><input type='text' name='length' value='$length'/></label></p>
     <p><label>År:<br/><input type='text' name='year' value='$year'/></label></p>
     <p><label>Plot:<br/><textarea name='plot'>{$plot}</textarea></label></p>
-    <p><label>Genre:<br/><input type='text' name='genre' value='$genre' /></label></p>
+    <p><label>Genre:<br/><input type='text' name='genre' value='$genre' required/></label></p>
     <p><label>Bild:<br/><input type='text' name='image' value='{$image}'/></label></p>
     <p><label>Eller välj bild att ladda upp:
     <input type="hidden" name="MAX_FILE_SIZE" value="100000">

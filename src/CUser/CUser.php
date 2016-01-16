@@ -13,9 +13,8 @@ class CUser
    * Properties
    */
   private static $authenticated = false;
-  private $acronym = null;
-  private $name = null;
-  // TODO: make static ? Use as singleton?
+  private static $acronym = null;
+  private static $name = null;
 
   /**
    * Constructor
@@ -25,8 +24,8 @@ class CUser
   {
     if (isset($_SESSION['user']->acronym)) {
       self::$authenticated = true;
-      $this->acronym = $_SESSION['user']->acronym;
-      $this->name = $_SESSION['user']->name;
+      self::$acronym = $_SESSION['user']->acronym;
+      self::$name = $_SESSION['user']->name;
     }
   }
 
@@ -72,8 +71,8 @@ EOD;
     if (isset($res[0])) {
       $_SESSION['user'] = $res[0];
       self::$authenticated = true;
-      $this->acronym = $res[0]->acronym;
-      $this->name = $res[0]->name;
+      self::$acronym = $res[0]->acronym;
+      self::$name = $res[0]->name;
     }
     header('Location: login.php');
   }
@@ -83,12 +82,14 @@ EOD;
    * Display if user is logged in or not,
    *
    */
-  public function LoginForm()
+  public static function LoginForm()
   {
       $out = "";
       // Check if user is authenticated.
-      if($this->IsAuthenticated()) {
-          $out .= "<p>Du är inloggad som: {$this->acronym} ({$this->name})</p>";
+      if(self::IsAuthenticated()) {
+          $acro = self::$acronym;
+          $name = self::$name;
+          $out .= "<p>Du är inloggad som: {$acro} ({$name})</p>";
       }  else {
           $out = <<<EOD
   <form method=post>
@@ -113,7 +114,7 @@ EOD;
   public function LogoutAndOutputHTML()
   {
     if (self::$authenticated) {
-      $output = "<p>{$this->name}, du är nu utloggad.</p>";
+      $output = "<p>{self::$name}, du är nu utloggad.</p>";
     }
     else {
       $output = "<p>Du är INTE inloggad.</p>";
@@ -147,8 +148,8 @@ EOD;
       $_SESSION['user']->acronym = null;
     }
     self::$authenticated = false;
-    $this->acronym = null;
-    $this->name = null;
+    self::$acronym = null;
+    self::$name = null;
     header('Location: status.php');
   }
 
@@ -167,13 +168,13 @@ EOD;
    * Get functions
    *
    */
-  public function GetAcronym()
+  public static function GetAcronym()
   {
-    return $this->acronym;
+    return self::$acronym;
   }
-  public function GetName()
+  public static function GetName()
   {
-    return $this->name;
+    return self::$name;
   }
 
 }

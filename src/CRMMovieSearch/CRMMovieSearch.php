@@ -37,7 +37,7 @@ class CRMMovieSearch
             // Get parameters
             $this->title    = isset($searchParams['title']) ? $searchParams['title'] : null;
             $this->genre    = isset($searchParams['genre']) ? $searchParams['genre'] : null;
-            $this->hits     = isset($searchParams['hits'])  ? $searchParams['hits']  : 8;
+            $this->hits     = isset($searchParams['hits'])  ? $searchParams['hits']  : 6;
             $this->page     = isset($searchParams['page'])  ? $searchParams['page']  : 1;
             $this->year1    = isset($searchParams['year1']) && !empty($searchParams['year1']) ? $searchParams['year1'] : null;
             $this->year2    = isset($searchParams['year2']) && !empty($searchParams['year2']) ? $searchParams['year2'] : null;

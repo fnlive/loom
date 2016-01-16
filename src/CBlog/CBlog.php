@@ -31,8 +31,7 @@ class CBlog
             $data = self::TrimText($data, self::EXTRACT_LENGTH);
             $data .= "<a href=\"post.php?slug={$slug}\"><br>Läs mer</a>";
         }
-        $user = new CUser();
-        if ($user->IsAuthenticated()) {
+        if (CUser::IsAuthenticated()) {
             $editLink = " | <a href=\"edit.php?id={$post->id}\">Redigera</a>";
         } else {
             $editLink = "";

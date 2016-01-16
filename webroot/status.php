@@ -13,9 +13,11 @@ $output = "";
 
 $user = new CUser();
 
-if ($user->IsAuthenticated()) {
-  $output .= "<p>Du är inloggad som: {$user->GetName()} ({$user->GetAcronym()}).</p>";
-  $output .= '<p><a href="logout.php">Logga ut</a></p>';
+if (CUser::IsAuthenticated()) {
+    $acro = CUser::GetAcronym();
+    $name = CUser::GetName();
+    $output .= "<p>Du är inloggad som: {$name} ({$acro}).</p>";
+    $output .= '<p><a href="logout.php">Logga ut</a></p>';
 }
 else {
     $output = "<p>Du är inte inloggad.</p>";

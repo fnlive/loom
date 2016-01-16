@@ -69,8 +69,7 @@ class CRMMovie
         $trailer = htmlentities($this->res->trailer);
         $genreLinks = CRMMovie::GenreLinks($this->res->genre);
         $updated = date("y-m-d H:i", strtotime($this->res->updated));
-        $user = new CUser();
-        if ($user->IsAuthenticated()) {
+        if (CUser::IsAuthenticated()) {
             $editLink = CRMMovieAdmin::GetEditLink($this->res->id);
             $editLink .= " | " . CRMMovieAdmin::GetDeleteLink($this->res->id);
         } else {

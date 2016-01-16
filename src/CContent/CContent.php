@@ -134,17 +134,16 @@ EOD;
      */
     public function getCreateContentForm()
     {
-        $user = new CUser();
-        if (!$user->IsAuthenticated()) {
+        if (!CUser::IsAuthenticated()) {
             $out = "Du måste logga in för att skapa innehåll";
-            $out .= $user->LoginForm();
+            $out .= CUser::LoginForm();
             return $out;
         }
         $data = "";
         // Set markdown as default filter
         $filter = "markdown";
         $published = date("y-m-d H:i");
-        $author = $user->GetAcronym();
+        $author = CUser::GetAcronym();
         $out = <<<EOD
 <form method=post>
     <fieldset>
@@ -178,10 +177,9 @@ EOD;
      */
     public function getEditContentForm($id)
     {
-        $user = new CUser();
-        if (!$user->IsAuthenticated()) {
+        if (!CUser::IsAuthenticated()) {
             $out = "Du måste logga in för att redigera innehåll";
-            $out .= $user->LoginForm();
+            $out .= CUser::LoginForm();
             return $out;
         }
         $sql = '
@@ -338,8 +336,7 @@ EOD;
             id = ?
 EOD;
         $this->contentDb->ExecuteQuery($query, $content, false);
-        // TODO: Add error handling?
-        // header("Location: edit.php?id=$id");
+        header("Location: edit.php?id=$id");
     }
 
     /**
@@ -351,10 +348,9 @@ EOD;
     public function Delete($id)
     {
         $out = "";
-        $user = new CUser();
-        if (!$user->IsAuthenticated()) {
+        if (!CUser::IsAuthenticated()) {
             $out .= "Du måste logga in för att redigera innehåll";
-            $out .= $user->LoginForm();
+            $out .= CUser::LoginForm();
             return $out;
         }
         $query = <<<EOD
