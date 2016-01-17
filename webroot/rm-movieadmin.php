@@ -19,7 +19,7 @@ $movies = new CRMMovieAdmin($db);
 
 // If user pressed login button, try authenticate user.
 CUser::ProcessLogin($db);
-echo __FILE__ . " : " . __LINE__ . "<br>";dump($_POST);
+// echo __FILE__ . " : " . __LINE__ . "<br>";dump($_POST);
 if (isset($_POST['create'])) {
     // User has pressed create button, so save new movie in database.
     // Save content and then redirect with header... in CCreate:method

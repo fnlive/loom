@@ -399,7 +399,7 @@ EOD;
         $id = $this->contentDb->LastInsertId();
         $this->Addgenres($id, $post['genre']);
         // Send user to edit page if user wants to update item
-        // header("Location: rm-movieadmin.php?id=$id");
+        header("Location: rm-movieadmin.php?id=$id");
 
     }
 
@@ -444,7 +444,7 @@ EOD;
             // Add error handling?
 
             // After creation of new movie, send user to single movie presentation.
-            // header("Location: rm-movie.php?id=$id");
+            header("Location: rm-movie.php?id=$id");
         }
 
 
