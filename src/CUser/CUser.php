@@ -114,7 +114,8 @@ EOD;
   public function LogoutAndOutputHTML()
   {
     if (self::$authenticated) {
-      $output = "<p>{self::$name}, du är nu utloggad.</p>";
+        $name = self::$name;
+      $output = "<p>{$name}, du är nu utloggad.</p>";
     }
     else {
       $output = "<p>Du är INTE inloggad.</p>";

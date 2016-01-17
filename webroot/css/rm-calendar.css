@@ -1,16 +1,9 @@
 table, th, td {
-    /*border: 1px solid black;*/
-    /*border-collapse: collapse;*/
-    /*background-color: lightgray;*/
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
-}
-#main {
-    /*display: inline;*/
-    /*background-color: #fff;*/
 }
 
 th {
-/* TODO: Alignment left på veckodagar. */
+    text-align: left;
 }
 
 .calendar {
@@ -25,7 +18,7 @@ th {
 }
 .day {
     /*font-size: 1.0em;*/
-    height: 3em;
+    height: 2.5em;
     padding: 5px;
     vertical-align: top;
     width: 14%;

@@ -67,6 +67,7 @@ class CRMCalendar
                 // %e does not work on windows, use %d instead
                 $dateText = utf8_encode(strftime("%A %#d %B", strtotime($date->format('Y-m-d'))));
                 // $dateText = $date->format('D d M');
+                $dateText = $date->format('d M');
                 $redDay = (7==$d) ? "red-day" : "";
                 $classToday = ($date == $today) ? "today" : "";
                 $classThisMonth = ($date < $firstDayInMonth || $date > $lastDayInMonth) ? "class-outside-month" : "class-inside-month";

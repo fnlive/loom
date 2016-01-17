@@ -39,6 +39,9 @@ if (isset($_POST['create'])) {
         // or go back to original form, but insert entered values we had in $_POST
         // or check value on $_POST['update'] to decide if call ->Update instead,
         // but then we need to modify $_POST['update'] dep on if we come from create or update form.
+        //
+        // Or best solution, enter hidden input-value which tells if we are
+        // comming from create or update form.
         $movies->Create($_POST);
 
     }
