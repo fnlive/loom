@@ -245,7 +245,7 @@ EOD;
 
         // Prepare to put results into rows for a HTML-table.
         // Get number of hits and option to change hits per page
-        $hitsPerPage = CMovieNav::getHitsPerPage(array(2, 4, 8), $this->hits);
+        $hitsPerPage = CMovieNav::getHitsPerPage(array(3, 6, 9), $this->hits);
         $navigatePage = CMovieNav::getPageNavigation($this->hits, $this->page, $max);
         // Get movie search result.
         $html .= CRMHTMLTable::output($movies, $rows, $hitsPerPage, $navigatePage, $genres);

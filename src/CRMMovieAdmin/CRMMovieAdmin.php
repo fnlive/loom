@@ -5,6 +5,7 @@
 class CRMMovieAdmin
 {
     private $contentDb;
+    const MAX_FILE_SIZE = 500000;
 
     function __construct($db)
     {
@@ -148,19 +149,20 @@ EOD;
 
     public function UploadImageFile($value='')
     {
-        $success = false;   // Set to true and return if success, else return false.
+        $success = false;   // Set to true if success, else return false.
         // echo __FILE__ . " : " . __LINE__ . "<br>";dump('File uploading...');
         $target_dir = "img/rm_movies/";
         $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
         // echo __FILE__ . " : " . __LINE__ . "<br>";dump($target_file);
-        // TODO: Verbose echo below is not seen due to redirection, but keep if debug need.
+        // Verbose echo below is not seen due to redirection, but keep if debug need.
         $uploadOk = 1;
         $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
         // Check if image file is a actual image or fake image
         if(isset($_POST["doFileupload"])) {
+            // echo __FILE__ . " : " . __LINE__ . "<br>";dump($_FILES);
             $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
             if($check !== false) {
-                echo "File is an image - " . $check["mime"] . ".";
+                // echo "File is an image - " . $check["mime"] . ".";
                 $uploadOk = 1;
             } else {
                 echo "File is not an image.";
@@ -173,10 +175,9 @@ EOD;
             $uploadOk = 0;
         }
         // Check file size
-       if ($_FILES["fileToUpload"]["size"] > 500000) {
+       if ($_FILES["fileToUpload"]["size"] > self::MAX_FILE_SIZE) {
            echo "Sorry, your file is too large.";
            $uploadOk = 0;
-           // TODO: check against size in $_POST
        }
        // Allow certain file formats
         if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
@@ -190,7 +191,7 @@ EOD;
         // if everything is ok, try to upload file
         } else {
             if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-                echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+                // echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
                 $success = true;
             } else {
                 echo "Sorry, there was an error uploading your file.";
@@ -262,7 +263,7 @@ EOD;
         if (!CUser::IsAuthenticated()) {
         // if (false) {
             $out = "Du måste logga in för att redigera innehåll";
-            $out .= $user->LoginForm();
+            $out .= CUser::LoginForm();
             return $out;
         }
         if ($id == null) {
@@ -398,7 +399,7 @@ EOD;
         $id = $this->contentDb->LastInsertId();
         $this->Addgenres($id, $post['genre']);
         // Send user to edit page if user wants to update item
-        header("Location: rm-movieadmin.php?id=$id");
+        // header("Location: rm-movieadmin.php?id=$id");
 
     }
 
@@ -443,7 +444,7 @@ EOD;
             // Add error handling?
 
             // After creation of new movie, send user to single movie presentation.
-            header("Location: rm-movie.php?id=$id");
+            // header("Location: rm-movie.php?id=$id");
         }
 
 

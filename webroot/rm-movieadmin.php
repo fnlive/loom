@@ -19,7 +19,7 @@ $movies = new CRMMovieAdmin($db);
 
 // If user pressed login button, try authenticate user.
 CUser::ProcessLogin($db);
-
+echo __FILE__ . " : " . __LINE__ . "<br>";dump($_POST);
 if (isset($_POST['create'])) {
     // User has pressed create button, so save new movie in database.
     // Save content and then redirect with header... in CCreate:method
@@ -33,6 +33,10 @@ if (isset($_POST['create'])) {
         $movies->UploadImageFile();
         // Since we tried to upload image file, save name to it in db
         $_POST['image'] = $_FILES["fileToUpload"]["name"];
+        // TODO:  We should first see if movie exist in db, if so call ->Update() instead
+        // or go back to original form, but insert entered values we had in $_POST
+        // or check value on $_POST['update'] to decide if call ->Update instead,
+        // but then we need to modify $_POST['update'] dep on if we come from create or update form.
         $movies->Create($_POST);
 
     }
