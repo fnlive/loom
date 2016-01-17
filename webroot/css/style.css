@@ -21,7 +21,7 @@ body {
 #wrapper {
   /*background-color: white;*/
   margin: 0 auto;
-  max-width: 1300px;
+  max-width: 900px;
   /*padding: 10px;*/
 }
 
@@ -41,6 +41,7 @@ body {
 }
 
 #header img {
+    opacity: 0.6;
     margin-left: 20px;
     margin-bottom: 10px;
 }
