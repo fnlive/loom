@@ -63,7 +63,7 @@ EOD;
         foreach ($posts as $post) {
             $out .= self::outputSinglePost($post, true);
         }
-        $out .= '<p><a href="post.php">Visa alla inlägg</a></p>';
+        $out .= '<p><a href="post.php">Visa alla nyheter</a></p>';
 
         return $out;
     }
@@ -113,7 +113,7 @@ EOD;
             }
 
         }
-        $out .= '<p><a href="post.php">Visa alla inlägg</a></p>';
+        $out .= '<p><a href="post.php">Visa alla nyheter</a></p>';
         return $out;
     }
 }

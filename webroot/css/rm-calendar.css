@@ -4,17 +4,42 @@ table, th, td {
     /*background-color: lightgray;*/
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
 }
+#main {
+    /*display: inline;*/
+    /*background-color: #fff;*/
+}
 
+th {
+/* TODO: Alignment left på veckodagar. */
+}
+
+.calendar {
+    float: right;
+    width: 70%;
+    /*width: 200px;*/
+    background-color: #fff;
+    border: 1px solid #e1e1df;
+    margin-left: 0 20px;
+    margin-bottom: 35px;
+    /*position: relative;*/
+    padding: 10px 20px; /*??*/
+    height: 360px;
+}
 .day {
     /*font-size: 1.0em;*/
-    height: 100px;
+    height: 3em;
     padding: 5px;
     vertical-align: top;
     width: 14%;
 }
+.movie-of-month .movie-card {
+    height: 360px;
+    margin: 0;
+    padding: 20px 20px 0 20px;
+}
 
 .red-day {
-    background-color: pink;
+    background-color: #F1E3E3;
 }
 
 .month-nav {
@@ -31,15 +56,17 @@ table, th, td {
 }
 .month-year {
     text-align: center;
-    font-size: 2.5em;
+    font-size: 2.0em;
+    padding-bottom: 5px;
 }
 .today {
     font-weight: bolder;
-    background-color: lightgreen;
+    background-color: #CAE7EF;
 }
 .class-outside-month {
     color: gray;
+    background-color: #f2f2f2;
 }
 .week {
-
+    padding: 0 5px;
 }

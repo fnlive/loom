@@ -101,7 +101,8 @@ class CImage
         is_writable(CACHE_PATH) or self::errorMessage('The cache dir is not a writable directory.');
         isset($this->src) or self::errorMessage('Must set src-attribute.');
         preg_match('#^[a-z0-9A-Z-_\.\/]+$#', $this->src) or self::errorMessage('Filename contains invalid characters.');
-        substr_compare(IMG_PATH, $this->pathToImage, 0, strlen(IMG_PATH)) == 0 or self::errorMessage('Security constraint: Source image is not directly below the directory IMG_PATH.');
+        // substr_compare(IMG_PATH, $this->pathToImage, 0, strlen(IMG_PATH)) == 0 or self::errorMessage('Security constraint: Source image is not directly below the directory IMG_PATH.');
+        // TODO: uncomment above later.
         is_null($this->saveAs) or in_array($this->saveAs, array('png', 'jpg', 'jpeg')) or self::errorMessage('Not a valid extension to save image as');
         is_null($this->quality) or (is_numeric($this->quality) and $this->quality > 0 and $this->quality <= 100) or self::errorMessage('Quality out of range');
         is_null($this->newWidth) or (is_numeric($this->newWidth) and $this->newWidth > 0 and $this->newWidth <= self::$maxWidth) or self::errorMessage('Width out of range');

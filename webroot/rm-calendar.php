@@ -28,9 +28,9 @@ $out .= CRMCalendar::output($db, $date);
 
 // Do it and store it all in variables in the Loom container.
 $loom['main'] = <<<EOD
-<h1>{$loom['title']}</h1>
 $out
 EOD;
+// <h1>{$loom['title']}</h1>
 
 // Finally, leave it all to the rendering phase of Loom.
 include(LOOM_THEME_PATH);

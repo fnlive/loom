@@ -1,6 +1,8 @@
 <?php
 /**
- * This is a Loom pagecontroller.
+ * Manage display of form for creation and update of movies,
+ * together with processing of submitted forms.
+ * Also hande file upload from submitted form.
  *
  */
 // Include the essential config-file which also creates the $loom variable with its defaults.

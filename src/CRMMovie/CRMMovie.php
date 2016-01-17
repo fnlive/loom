@@ -77,9 +77,9 @@ class CRMMovie
         }
 
         $out = <<<EOD
-<div class="single-movie-image">
+<div class="single-movie-card">
+  <h1>$title</h1>
   <img src='img.php?src=$path/{$this->res->image}&width=$width&sharpen' alt='{$title}' />
-</div>
 <p>{$plot}</p>
 <p><strong>Director:</strong> {$director}</p>
 <p><strong>Pris:</strong> {$this->res->price} SEK</p>
@@ -96,6 +96,7 @@ class CRMMovie
 <div class="single-movie-genres">$genreLinks</div>
 <div class="single-movie-edit"><p>$editLink</p></div>
 <div class="single-movie-updated"><p>Uppdaterad: $updated</p></div>
+</div>
 EOD;
         return $out;
     }

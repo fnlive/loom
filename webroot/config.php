@@ -54,7 +54,7 @@ $loom = array();
  *
  */
 $loom['lang']         = 'sv';
-$loom['title_append'] = ' | Rental Movies';
+$loom['title_append'] = ' | Film.du';
 
 
 /**
@@ -78,12 +78,12 @@ $loom['mainnavbar']  = array(
         'title' => 'Hem'
         ),
         'movies' => array('text'=>'Filmer', 'url'=>'rm-movies.php', 'title' => 'Filmer'),
-        'news' => array('text'=>'Nyheter', 'url'=>'post.php', 'title' => 'Nyheter'),
-        'calendar' => array('text'=>'Kalender', 'url'=>'rm-calendar.php', 'title' => 'Filmkalender'),
-        'about' => array('text'=>'Om oss', 'url'=>'page.php?url=om-oss', 'title' => 'Om oss'),
+        'calendar' => array('text'=>'Månadens film', 'url'=>'rm-calendar.php', 'title' => 'Filmkalender'),
+        'news' => array('text'=>'Blogg', 'url'=>'post.php', 'title' => 'Nyheter'),
         'game-1' => array('text'=>'Tävla', 'url'=>'dice-100.php', 'title' => 'Tävla'),
+        'about' => array('text'=>'Om oss', 'url'=>'page.php?url=om-oss', 'title' => 'Om oss'),
         'user' => array(), // Reserve position for user menu
-        'source' => array('text'=>'Källkod', 'url'=>'source.php', 'title' => 'Källkod'),
+        // 'source' => array('text'=>'Källkod', 'url'=>'source.php', 'title' => 'Källkod'),
       ),
       // This is the callback tracing the current selected menu item base on scriptname
       'callback' => function($url) {
@@ -99,7 +99,7 @@ if (CUser::IsAuthenticated()) {
           'items' => array(
             // This is a menu item of the submenu
             'create'  => array(
-              'text'  => 'Skapa Nyhet',
+              'text'  => 'Skapa nytt blogginlägg',
               'url'   => 'create.php',
               'title' => 'Skapa nyhet',
             ),
@@ -142,7 +142,7 @@ if (CUser::IsAuthenticated()) {
   );
 
     $loom['mainnavbar']['items']['user'] = array(
-        'text'  =>'Logout',
+        'text'  =>'Logga ut',
         'url'   =>'logout.php',
         'title' => 'Logout',
         'submenu' => array(
@@ -158,7 +158,7 @@ if (CUser::IsAuthenticated()) {
 } else {
     // Add menu items for users not authenticated
     $loom['mainnavbar']['items']['user'] = array(
-        'text'  =>'Login',
+        'text'  =>'Logga in',
         'url'   =>'login.php',
         'title' => 'Login',
         'submenu' => array(

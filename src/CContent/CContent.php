@@ -51,9 +51,9 @@ EOD;
             $query = <<<EOD
             INSERT INTO rm_content (slug, url, TYPE, title, DATA, FILTER, published, created, author, category) VALUES
             (NULL, 'om-oss', 'page', 'Om oss', '
-Vi är Rental Movies
+Vi är film.du
 ===================
-Välkommen till Rental Movies, din filmleverantör på nätet med det allra bästa, största och senaste filmutbudet.
+Välkommen till film.du, din filmleverantör på nätet med det allra bästa, största och senaste filmutbudet.
 
 Vi arbetar både med de stora filmdistributörerna som [Warner Bros.](http://www.warnerbros.com/), [Walt Disney](https://thewaltdisneycompany.com/), [Sony Pictures](http://www.sonypictures.com/), [20th Century Fox](http://www.foxmovies.com/), [Paramount Pictures](http://www.paramount.com/) såväl som mindre indie-distributörer.
 
@@ -61,7 +61,7 @@ Vi gillar film och det märks i vårt kvalitativa utbud. Titta gärna runt bland
 
 Titta gärna in på våra [Nyheter](post.php) för att se vad som händer hos oss. Vi har alltid något nytt intressant på gång.
 
-![RM Rental Movies](img.php?src=rm-movie-theatre-screen.png&width=650)
+![film.du](img.php?src=rm-movie-theatre-screen.png&width=650)
 
 ', 'markdown', NOW(), NOW(), 'admin', ''),
 
@@ -87,10 +87,10 @@ Under december har vi fått in ett antal nyheter i vårt film-sortiment. T.ex. s
 
             ('tavla-3', NULL, 'post', 'Tävla, kasta tärning och vinn en film', 'Skriv en texten här...', 'markdown', NOW(), NOW(), 'admin', 'Nyheter'),
 
-            ('rental-movies-startar', NULL, 'post', 'Rental Movies startar filmuthyrning på nätet', '
-Nu startar Rental Movies, din bästa filmleverantör på nätet. Här hittar du kvalitetsfilmer både från de stora filmdistributörerna såväl från de mindre indie-filmarna.
+            ('rental-movies-startar', NULL, 'post', 'film.du startar filmuthyrning på nätet', '
+Nu startar film.du, din bästa filmleverantör på nätet. Här hittar du kvalitetsfilmer både från de stora filmdistributörerna såväl från de mindre indie-filmarna.
 
-Vi som jobbar här älskar film och det märks i vårt utbud. Bläddra igenom bland våra [filmer](rm-movies.php) så ser du vad vi menar. Skulle det vara något som du saknar så säg till. Skicka ett mail till [Rental Movies](mailto:gunnar@rentalmovies.se).
+Vi som jobbar här älskar film och det märks i vårt utbud. Bläddra igenom bland våra [filmer](rm-movies.php) så ser du vad vi menar. Skulle det vara något som du saknar så säg till. Skicka ett mail till [film.du](mailto:gunnar@film.du).
 ', 'markdown', NOW(), NOW(), 'admin', 'Nyheter'),
 
               ('hem', 'hem', 'page', 'Hem', "Detta är min hemsida. Den är skriven i [url=http://en.wikipedia.org/wiki/BBCode]bbcode[/url] vilket innebär att man kan formattera texten till [b]bold[/b] och [i]kursiv stil[/i] samt hantera länkar.\n\nDessutom finns ett filter 'nl2br' som lägger in <br>-element istället för \\n, det är smidigt, man kan skriva texten precis som man tänker sig att den skall visas, med radbrytningar.", 'bbcode,nl2br', NOW(), NOW(), 'admin', 'Nyheter'),

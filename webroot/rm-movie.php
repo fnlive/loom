@@ -1,6 +1,6 @@
 <?php
 /**
- * This is a Loom pagecontroller.
+ * Display single movie.
  *
  */
 // Include the essential config-file which also creates the $loom variable with its defaults.
@@ -22,10 +22,7 @@ $out = $movie->output();
 
 
 // Do it and store it all in variables in the Loom container.
-$loom['main'] = <<<EOD
-<h1>{$loom['title']}</h1>
-$out
-EOD;
+$loom['main'] = $out;
 
 // Finally, leave it all to the rendering phase of Loom.
 include(LOOM_THEME_PATH);

@@ -61,7 +61,7 @@ class CRMCalendar
             $table .= "<tr>";
             // $w = strftime("%W", strtotime($date->format('Y-m-d'))); // Non-iso weeks. Don't use.
             $w = ltrim($date->format('W'), 0);
-            $table .= "<td class='week'>Vecka<br>$w</td>";
+            $table .= "<td class='week'>V.$w</td>";
             for ($d=1; $d < 8; $d++) {
                 // $dateText = utf8_encode(strftime("%A %e %B", strtotime($date->format('Y-m-d'))));
                 // %e does not work on windows, use %d instead
@@ -78,12 +78,11 @@ class CRMCalendar
         $table .= "</table></div>";
 
         // Create html for movie of the month-year
-        $out = "<div style=\"float: left; margin: 20px;\">";
-        // $out .= "<h2>Mest populära film</h2>";
+        $out = "<div class='movie-of-month'>";
         $movies = new CRMMovie($db, $month);
         $out .= $movies->outputMovieCard();
         $out .= "</div>";
-        $out .= "<div class=\"clear-both\"></div>";
+        // $out .= "<div class=\"clear-both\"></div>";
 
 
         return $out . "<div class='calendar'>" . $calenderNavigation . $table . "</div>";

@@ -94,7 +94,7 @@ class CRMMovieSearch
         $genres = null;
         foreach($res as $val) {
           if($val->name == $genre) {
-            $genres .= "$val->name ";
+            $genres .= "<span class='selected-genre' >$val->name </span>";
           }
           else {
             $genres .= "<a href='" . CMovieNav::getQueryString(array('genre' => $val->name)) . "'>{$val->name}</a> ";
@@ -270,13 +270,16 @@ EOD;
 
             // Prepare to output results.
             $html .= $this->outputGenreLinks($this->genre);
+            // Build Movie dispaly bar
             // Get number of hits and option to change hits per page
-            $html .= $hitsPerPage = CMovieNav::getHitsPerPage(array(3, 6, 9), $this->hits);
-            $html .= $navigatePage = CMovieNav::getPageNavigation($this->hits, $this->page, $max);
-            $html .= $resultOrder = '<div class="search-order">Sortera efter | Titel ' . CRMHTMLTable::orderby('title') . " | År " . CRMHTMLTable::orderby('year') . "</div>";
+            $mbar = "<div class='movie-nav-bar' >";
+            $mbar .= $hitsPerPage = CMovieNav::getHitsPerPage(array(3, 6, 9), $this->hits);
+            $mbar .= $navigatePage = CMovieNav::getPageNavigation($this->hits, $this->page, $max);
+            $mbar .= $resultOrder = '<div class="search-order">Sortera efter | Titel ' . CRMHTMLTable::orderby('title') . " | År " . CRMHTMLTable::orderby('year') . "</div>";
+            $mbar .= "</div>";
             // Get movie search result.
-            $html .= CRMMovieView::output($movies);
-
+            $html .= $mbar . CRMMovieView::output($movies);
+// echo __FILE__ . " : " . __LINE__ . "<br>";dump($html);
             return $html;
         }
 

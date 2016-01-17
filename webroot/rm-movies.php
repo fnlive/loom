@@ -1,6 +1,6 @@
 <?php
 /**
- * This is a Loom pagecontroller.
+ * Display movies and genres from db. Paginate output.
  *
  */
 // Include the essential config-file which also creates the $loom variable with its defaults.
@@ -21,7 +21,12 @@ if (isset($_POST['title'])) {
     // User is searchin movies through search form
     $movieSearch = new CRMMovieSearch($db, $_POST);
     $out = $movieSearch->output();
-} else {
+} elseif (isset($_POST['title-simple'])) {
+    // User is searchin movies through simple search form
+    $_POST['title'] = $_POST['title-simple'];
+    $movieSearch = new CRMMovieSearch($db, $_POST);
+    $out = $movieSearch->outputUserView();
+}else {
     // User is searchin movies via url query
     $movieSearch = new CRMMovieSearch($db, $_GET);
     // Get html-output for movie search form and
@@ -32,9 +37,9 @@ if (isset($_POST['title'])) {
 // Do it and store it all in variables in the Loom container.
 $loom['title'] = "Filmer";
 $loom['main'] = <<<EOD
-<h1>{$loom['title']}</h1>
 $out
 EOD;
+// <h1>{$loom['title']}</h1>
 
 // Finally, leave it all to the rendering phase of Loom.
 include(LOOM_THEME_PATH);

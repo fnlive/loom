@@ -19,30 +19,31 @@ $loom['title'] = "Hem";
 $out = "";
 
 // Visa de tre nyaste filmerna (senast uppdaterade filmerna).
-$out .= "<h2>Senaste filmer</h2>";
+$out .= "<h2>Nya filmer</h2>";
 $searchParams = array('orderby' => 'updated', 'order' => 'desc', 'hits' => 3);
 $movieSearch = new CRMMovieSearch($db, $searchParams);
 $out .= $movieSearch->outputSearchResults();
 $out .= "<div class=\"clear-both\"></div>";
 
 // Visa de tre senaste blogginläggen.
-$out .= "<h2>Nyheter</h2>";
+$out .= "<h2>Blogg</h2>";
 $out .= CBlog::GetLatest($db, 3);
 
 // Visa en översikt av de kategorier som finns för filmerna.
-$out .= "<h2>Filmgenrer</h2>";
+$out .= "<div ><h2>Filmgenrer</h2>";
 $movieSearch = new CRMMovieSearch($db);
 $out .= $movieSearch->outputGenreLinks();
+$out .= "</div>";
 
 // Visa bilder på mest populära film och senast hyrda film (okey att hårdkoda).
 // TODO: flytta ut till ny klass. t.ex. CRMMovieView::output($movie) CRMMovieView::output(CRMMovie::MostPopular())
-$out .= "<div class=\"clear-both\"></div>";
-$out .= "<div style=\"float: left; margin: 20px;\">";
+$out .= "<div class='clear-both'></div>";
+$out .= "<div class='front-item'>";
 $out .= "<h2>Mest populära film</h2>";
 $movies = new CRMMovie($db, 8);
 $out .= $movies->outputMovieCard();
 $out .= "</div>";
-$out .= "<div style=\"float: left; margin: 20px;\">";
+$out .= "<div class='front-item'>";
 $out .= "<h2>Senast hyrda film</h2>";
 $movies = new CRMMovie($db, 3);
 $out .= $movies->outputMovieCard();
@@ -51,7 +52,7 @@ $out .= "</div>";
 
 // Do it and store it all in variables in the Loom container.
 $loom['main'] = <<<EOD
-<h1>{$loom['title']}</h1>
+<h1 class="no-show">{$loom['title']}</h1>
 $out
 EOD;
 

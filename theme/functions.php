@@ -26,9 +26,9 @@ function generate_header() {
   $navBar = CNavBar::Get($loom['mainnavbar']);
   $searchForm = CRMMovieSimpleSearch::outputForm();
   return <<<EOD
-  <img class='sitelogo' src='img/RM-icon-1-x130.png' alt='RM Logo'/>
-  <span class='sitetitle'>Rental Movies</span>
-  <span class='siteslogan'>Filmer som du vill se</span>
+  <img class='sitelogo' src='img/stock-footage-film-rolling-out-of-a-film-reel.jpg' alt='RM Logo'/>
+  <span class='sitetitle'>film.du</span>
+  <span class='siteslogan'>filmer du vill se nu</span>
   $searchForm
   $navBar
 EOD;
@@ -43,7 +43,7 @@ EOD;
 function generate_footer() {
   $liveReload = ($_SERVER['SERVER_NAME']=='localhost') ? '<script src="http://localhost:35729/livereload.js"></script>' : '';
   return <<<EOD
-  <footer><span class='sitefooter'>Copyright (c) 2016 Rental Movies | <a href='http://validator.w3.org/unicorn/check?ucn_uri=referer&amp;ucn_task=conformance'>Unicorn</a> | <a href='http://validator.w3.org/check/referer'>Nu</a></span>
+  <footer><span class='sitefooter'>Copyright (c) 2016 film.du | <a href='http://validator.w3.org/unicorn/check?ucn_uri=referer&amp;ucn_task=conformance'>Unicorn</a> | <a href='http://validator.w3.org/check/referer'>Nu</a></span>
   </footer>
   $liveReload
 EOD;
