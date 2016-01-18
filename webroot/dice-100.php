@@ -14,7 +14,10 @@ $loom['stylesheets'][] = 'css/dice-100.css';
 $loom['title'] = "100";
 
 // Play to 100 game
-$game = new C100Game();
+// $game = new C100Game();
+$game = new CRM100Game();
+// Set database properties 
+$game->SetMovieDb($loom['database']);
 
 // Gather the complete html output for page.
 $loom['main'] = $game->play();

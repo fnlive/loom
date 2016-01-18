@@ -3,17 +3,27 @@
     src: url(digital-7.ttf);
 }
 
+.game-board {
+    background-color: #fff;
+    border: 1px solid #e1e1df;
+    margin-bottom: 10px;
+    position: relative;
+    /*text-align: center;*/
+    /*z-index: 1;*/
+    padding: 20px;
+    /*overflow: auto;*/
+}
 .scoreboard {
   display: inline-block;
   float: right;
 }
 .score {
-  background-color: #222;
+  background-color: #eee;
   display: inline;
   float: left;
   margin: 1em;
-  border: 5px solid white;
-  border-radius: 10px;
+  border: 1px solid #999;
+  /*border-radius: 10px;*/
   min-width: 8em;
 }
 .score-point, .score-cap {
@@ -21,7 +31,7 @@
 }
 .score-cap {
   font-size: 1.2em;
-  border-bottom: 5px solid white;
+  border-bottom: 1px solid #999;
 }
 .score-point {
   color: orange;
@@ -69,52 +79,6 @@
   border: 0 solid red;
 }
 
-body {
-  background:
-    linear-gradient(27deg, #151515 5px, transparent 5px) 0 5px,
-    linear-gradient(207deg, #151515 5px, transparent 5px) 10px 0,
-    linear-gradient(27deg, #222 5px, transparent 5px) 0 10px,
-    linear-gradient(207deg, #222 5px, transparent 5px) 10px 5px,
-    linear-gradient(90deg, #1b1b1b 10px, transparent 10px),
-    linear-gradient(#1d1d1d 25%, #1a1a1a 25%, #1a1a1a 50%, transparent 50%, transparent 75%, #242424 75%, #242424);
-  background-color: #131313;
-  background-size: 20px 20px;
-}
   .clearfix {
   clear: both;
-}
-
-#main, #header, #footer {
-  border: 5px solid #666;
-  background-color: #444;
-  color: #eee;
-}
-.sitefooter {
-  color: #eee;
-}
-.sitefooter a {
-  color: #bbf;
-}
-.sitefooter a:hover {
-  font-weight: bolder;
-}
-/**
- * Layout for header, diff from style.css
- */
-.siteslogan {
-  color: #ddd;
-}
-.navbar {
-  background-color:#ccc;
-}
-.navbar a {
-  background-color:#888;
-  color:#fff;
-}
-.navbar a:hover {
-  background-color:#666;
-}
-.navbar a.selected {
-  background-color:#444;
-  color:#eee;
 }

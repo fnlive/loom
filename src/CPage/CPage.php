@@ -21,10 +21,7 @@ class CPage
 
         $out = <<<EOD
         <article class="page">
-            <header>
-                <h1>{$title}</h1>
-            </header>
-            {$data}
+            <div class="page-data">{$data}</div>
             <footer class="page-meta">{$meta}</footer>
         </article>
 EOD;

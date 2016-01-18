@@ -12,9 +12,9 @@ class CUser
   /**
    * Properties
    */
-  private $authenticated = false;
-  private $acronym = null;
-  private $name = null;
+  private static $authenticated = false;
+  private static $acronym = null;
+  private static $name = null;
 
   /**
    * Constructor
@@ -23,12 +23,40 @@ class CUser
   function __construct()
   {
     if (isset($_SESSION['user']->acronym)) {
-      $this->authenticated = true;
-      $this->acronym = $_SESSION['user']->acronym;
-      $this->name = $_SESSION['user']->name;
+      self::$authenticated = true;
+      self::$acronym = $_SESSION['user']->acronym;
+      self::$name = $_SESSION['user']->name;
     }
   }
 
+private function ResetDb()
+{
+    // Sql query to Initialize user db to default values.
+    // For now, use to copy to SQL workbench
+    $sqlQuery = <<<EOD
+    DROP TABLE IF EXISTS USER;
+
+    CREATE TABLE USER
+    (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      acronym CHAR(12) UNIQUE NOT NULL,
+      name VARCHAR(80),
+      password CHAR(32),
+      salt INT NOT NULL
+    ) ENGINE INNODB CHARACTER SET utf8;
+
+    INSERT INTO USER (acronym, name, salt) VALUES
+      ('doe', 'John/Jane Doe', unix_timestamp()),
+      ('admin', 'Administrator', unix_timestamp())
+    ;
+
+    UPDATE USER SET password = md5(concat('doe', salt)) WHERE acronym = 'doe';
+    UPDATE USER SET password = md5(concat('admin', salt)) WHERE acronym = 'admin';
+
+    SELECT * FROM USER;
+EOD;
+
+}
   /**
    * Login and authenticaate user
    *
@@ -42,9 +70,9 @@ class CUser
     // If user in database and password matches, set user as authenticated by adding acronym and name to session variable.
     if (isset($res[0])) {
       $_SESSION['user'] = $res[0];
-      $authenticated = true;
-      $this->acronym = $res[0]->acronym;
-      $this->name = $res[0]->name;
+      self::$authenticated = true;
+      self::$acronym = $res[0]->acronym;
+      self::$name = $res[0]->name;
     }
     header('Location: login.php');
   }
@@ -54,12 +82,14 @@ class CUser
    * Display if user is logged in or not,
    *
    */
-  public function LoginForm()
+  public static function LoginForm()
   {
       $out = "";
       // Check if user is authenticated.
-      if($this->IsAuthenticated()) {
-          $out .= "<p>Du är inloggad som: {$this->acronym} ({$this->name})</p>";
+      if(self::IsAuthenticated()) {
+          $acro = self::$acronym;
+          $name = self::$name;
+          $out .= "<p>Du är inloggad som: {$acro} ({$name})</p>";
       }  else {
           $out = <<<EOD
   <form method=post>
@@ -83,13 +113,15 @@ EOD;
    */
   public function LogoutAndOutputHTML()
   {
-    if ($this->authenticated) {
-      $output = "<p>{$this->name}, du är nu utloggad.</p>";
+    if (self::$authenticated) {
+        $name = self::$name;
+      $output = "<p>{$name}, du är nu utloggad.</p>";
     }
     else {
       $output = "<p>Du är INTE inloggad.</p>";
     }
     $this->Logout();
+    // TODO: refactor away all html output since we are redirecting to status.php to show login-status.
     return $output;
   }
 
@@ -116,33 +148,34 @@ EOD;
       $_SESSION['user']->name = null;
       $_SESSION['user']->acronym = null;
     }
-    $this->authenticated = false;
-    $this->acronym = null;
-    $this->name = null;
+    self::$authenticated = false;
+    self::$acronym = null;
+    self::$name = null;
+    header('Location: status.php');
   }
 
   /**
    * Check if user is authenticated
    *
    */
-  public function IsAuthenticated()
+  public static function IsAuthenticated()
   {
     // Check if user is authenticated.
     // Return true if authenticated.
-    return $this->authenticated;
+    return self::$authenticated;
   }
 
   /**
    * Get functions
    *
    */
-  public function GetAcronym()
+  public static function GetAcronym()
   {
-    return $this->acronym;
+    return self::$acronym;
   }
-  public function GetName()
+  public static function GetName()
   {
-    return $this->name;
+    return self::$name;
   }
 
 }

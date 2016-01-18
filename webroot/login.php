@@ -22,7 +22,7 @@ if (isset($_POST['submit'])) {
 
 // Get login form
 $output .= $user->LoginForm();
-if ($user->IsAuthenticated()) {
+if (CUser::IsAuthenticated()) {
   $output .= '<p><a href="logout.php">Logga ut</a></p>';
 }
 $output .= '<p><a href="status.php">Status</a></p>';

@@ -1,0 +1,112 @@
+/**
+ * CSS for movies
+ */
+
+ /*
+  * Movie administration styling
+  */
+.orderby a {
+  text-decoration: none;
+  color: black;
+}
+
+.dbtable table {
+  width: 100%;
+}
+
+.dbtable .rows {
+  text-align: right;
+}
+
+.dbtable .pages {
+  text-align: center;
+}
+
+/*
+ * Movie Navigation
+ */
+.genre-links {
+     background-color: #fff;
+     border: 1px solid #e1e1df;
+     padding: 10px 30px;
+     /*margin: 0 30px;*/
+     font-size: 1.5em;
+}
+.movie-nav-bar {
+     background-color: #fff;
+     border: 1px solid #e1e1df;
+     font-size: 1.1em;
+     margin: 10px 0;
+     padding: 10px;
+}
+.movie-hits, .movie-page-nav, .search-order {
+    display: inline;
+    padding: 0 20px 0 20px;
+}
+.genre-links *:first-child {
+    border-left: 1px solid #ededed;
+}
+.genre-links a, .genre-links .selected-genre {
+    text-transform: uppercase;
+    font-size: 12px;
+    padding: 4px 15px;
+    border-right: 1px solid #ededed;
+    letter-spacing: 1px;
+    line-height: 14px;
+    max-width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+h1 {
+    /*display: none;*/
+}
+
+/*
+ * Multi Movie display styling
+ */
+
+
+/*
+ * Single movie styling used from rm-movie.php
+ */
+.single-movie-card {
+    background-color: #fff;
+    border: 1px solid #e1e1df;
+    /*font-size: 1.1em;*/
+    margin-bottom: 20px;
+    padding: 10px 20px;
+}
+.single-movie-card p {
+    width: 400px;
+}
+.single-movie-card img {
+    float: left;
+    margin-right: 1em;
+}
+.single-movie-imdb, .single-movie-trailer {
+    float: left;
+}
+
+.single-movie-genres {
+    clear: both;
+}
+
+.movie-card {
+    background-color: #fff;
+    border: 1px solid #e1e1df;
+    /*min-height: 300px;
+    min-width: 150px;*/
+    float: left;
+    padding: 10px;
+    margin: 10px 20px 10px 0 ;
+}
+
+.movie-title {
+    max-width: 120px;
+    min-height: 2.8em;
+}
+
+.clear-both {
+    clear: both;
+}

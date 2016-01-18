@@ -19,49 +19,8 @@ define('IMG_PATH', __DIR__ . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR);
 define('CACHE_PATH', __DIR__ . '/cache/');
 
 
-
-/**
- * Display error message.
- *
- * @param string $message the error message to display.
- */
-function errorMessage($message) {
-  header("Status: 404 Not Found");
-  die('img.php says 404 - ' . htmlentities($message));
-}
-
-
-
-/**
- * Display log message.
- *
- * @param string $message the log message to display.
- */
-function verbose($message) {
-  echo "<p>" . htmlentities($message) . "</p>";
-}
-
 $myImage = new CImage($_GET);
 
-// Get the incoming arguments
-//
-// Validate incoming arguments
-//
-// Get information on the image
-//
-// Calculate new width and height for the image
-//
-// Creating a filename for the cache
-// If there is no valid cached file, create one, store in cache, and output this.
-//
-// Open up the original image from file
-//
-// Resize the image if needed
-//
-// Apply filters and postprocessing of image
-//
-// Save the image
-//
 // Output the resulting image
 //
 $myImage->output();
